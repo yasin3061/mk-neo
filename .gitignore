@@ -6,3 +6,6 @@ node_modules/
 *.log
 .DS_Store
 Thumbs.db
+
+# the sign-in file: written on the server from LOGIN_USER and LOGIN_PASSWORD, never committed
+server/users.json

@@ -357,6 +357,12 @@ each inside try/catch; then the shell; then `MK.router.start`. The shell also wi
 and never touches the hash) and publishes `--gutter-w`, the width of the content column's scrollbar gutter, which `css/base.css` uses to
 give the top bar and the filter row the same measure as the page (24px gutters; past 1440px the same centred column).
 
+**Sign-in.** Served by `tools/serve.js` the app sits behind a sign-in (README, "The sign-in"): the server answers nothing of the app
+without a session cookie and shows `login/login.html` instead. The shell only reflects that: at boot it asks `GET /auth/session`
+(over http or https only; opened as a file there is no server to ask) and, when the answer names a user, "More options" gains
+**Sign out**, which posts an empty form to `/logout`. Nothing in the app checks a password and nothing in the browser can read the
+cookie; a page author has nothing to do for it.
+
 ## 6. Simulated latency - `MK.latency` (`js/core/latency.js`)
 
 Nothing in the preview is fetched: every figure is computed in the browser before a screen is drawn. `MK.latency` makes the

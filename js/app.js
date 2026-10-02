@@ -105,7 +105,9 @@
       ui.menu(moreBtn, [
         MK.latency ? { label: (on ? 'Turn off' : 'Turn on') + ' simulated loading', sub: on ? 'Screens and charts appear at once' : 'Loaders while screens and charts fetch their data', icon: 'clock',
           onSelect: function () { MK.latency.setEnabled(!on); ui.toast(on ? 'Simulated loading is off: screens appear at once' : 'Simulated loading is on'); } } : null,
-        { label: 'Reset demo data', sub: 'Restore the original workflow state', icon: 'refresh', danger: true, onSelect: function () { resetDemo(); } }
+        { label: 'Reset demo data', sub: 'Restore the original workflow state', icon: 'refresh', danger: true, onSelect: function () { resetDemo(); } },
+        auth.user ? { separator: true } : null,
+        auth.user ? { label: 'Sign out', sub: auth.user, icon: 'lock', onSelect: function () { signOut(); } } : null
       ].filter(Boolean), { align: 'right', width: 280 });
     });
 
@@ -150,8 +152,31 @@
     root.addEventListener('resize', measure); /* browser zoom changes the scrollbar's CSS width and fires resize */
   }
 
+  /*
+   * Served behind a sign-in (tools/serve.js)? Then the server knows who is signed in, and the menu offers the way out.
+   * Opened as a file there is no server and no session, and neither is asked for.
+   */
+  var auth = { user: null };
+  function checkSession() {
+    if (!/^https?:$/.test(root.location.protocol) || typeof root.fetch !== 'function') return;
+    root.fetch('/auth/session', { credentials: 'same-origin', cache: 'no-store' })
+      .then(function (r) { return r.status === 200 ? r.json() : null; })
+      .then(function (j) { if (j && j.user) auth.user = String(j.user); })
+      .catch(function () { /* no session to report: the menu simply has no sign-out */ });
+  }
+  /* a sign-out is a POST, like every action that changes something on a server */
+  function signOut() {
+    var form = doc.createElement('form');
+    form.method = 'post';
+    form.action = '/logout';
+    form.hidden = true;
+    doc.body.appendChild(form);
+    form.submit();
+  }
+
   function boot() {
     var problems = prepareData();
+    checkSession();
 
     var nav = buildSidebar(doc.getElementById('mk-sidebar'));
     var setPage = buildTopbar(doc.getElementById('mk-topbar'));

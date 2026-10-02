@@ -1,0 +1,87 @@
+/*
+ * The sign-in screen (login/login.html). It is served before a session exists, so it cannot use the app's
+ * stylesheets, which sit behind the sign-in: the handful of tokens it needs are repeated here with the values of
+ * css/tokens.css, so the door and the room behind it look like one place. Light theme only, like the app.
+ */
+:root {
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --surface-2: #f3f2ee;
+  --ring: rgba(11, 11, 11, 0.10);
+  --ring-strong: rgba(11, 11, 11, 0.18);
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #898781;
+  --accent: #8a2f14;
+  --accent-hover: #6f2510;
+  --accent-soft: #f6e9e3;
+  --accent-ink: #ffffff;
+  --critical-ink: #a32222;
+  --critical-soft: #f9e3e3;
+  --good-ink: #006300;
+  --good-soft: #e6f5e6;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--page); color: var(--ink); font-family: var(--font); font-size: 14px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+
+.lg-wrap { min-height: 100%; display: grid; place-items: center; padding: 24px 16px; }
+.lg-card {
+  width: 100%; max-width: 380px; padding: 32px 28px 24px;
+  border-radius: var(--radius); background: var(--surface);
+  box-shadow: 0 0 0 1px var(--ring), 0 12px 32px -18px rgba(11, 11, 11, 0.28);
+}
+
+.lg-brand { margin-bottom: 22px; }
+.lg-brand__name { margin: 0; font-size: 26px; font-weight: 650; letter-spacing: -0.02em; line-height: 1.15; }
+.lg-brand__by { margin: 4px 0 0; color: var(--ink-2); font-size: 14px; }
+
+.lg-msg { margin: 0 0 16px; padding: 9px 12px; border-radius: var(--radius-sm); font-size: 13px; line-height: 1.4; }
+.lg-msg--error { background: var(--critical-soft); color: var(--critical-ink); }
+.lg-msg--info { background: var(--good-soft); color: var(--good-ink); }
+
+.lg-form { display: flex; flex-direction: column; gap: 14px; }
+.lg-field { display: flex; flex-direction: column; gap: 6px; }
+.lg-field__label { font-size: 13px; font-weight: 600; }
+.lg-input {
+  width: 100%; height: 40px; padding: 0 12px;
+  border: 0; border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ring-strong);
+  font: inherit;
+  transition: box-shadow 120ms ease;
+}
+.lg-input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
+
+/* the password with its show / hide button inside the field */
+.lg-pass { position: relative; }
+.lg-pass .lg-input { padding-right: 44px; }
+.lg-eye {
+  position: absolute; top: 4px; right: 4px; width: 32px; height: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--ink-2); cursor: pointer;
+}
+.lg-eye[hidden] { display: none; }
+.lg-eye:hover { background: var(--surface-2); color: var(--ink); }
+.lg-eye:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.lg-eye__off { display: none; }
+.lg-eye[aria-pressed="true"] .lg-eye__on { display: none; }
+.lg-eye[aria-pressed="true"] .lg-eye__off { display: block; }
+
+.lg-submit {
+  height: 40px; margin-top: 4px;
+  border: 0; border-radius: var(--radius-sm);
+  background: var(--accent); color: var(--accent-ink);
+  font: inherit; font-weight: 600; cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.lg-submit:hover, .lg-submit:active { background: var(--accent-hover); }
+.lg-submit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.lg-note { margin: 20px 0 0; padding-top: 14px; border-top: 1px solid var(--ring); color: var(--ink-3); font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition-duration: 1ms !important; } }
