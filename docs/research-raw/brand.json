@@ -1,0 +1,477 @@
+{
+ "key": "brand",
+ "research": {
+  "outlets": [
+   {
+    "name": "Miya Kebabs - Pali Hill",
+    "area": "Pali Hill, Bandra West (Shop 5, Luis Bella, 16th & 30th Road Junction)",
+    "city": "Mumbai",
+    "format": "Compact dine-in with semi-outdoor seating, plus takeaway and delivery. Evening and late-night only (opens 5-6pm, closes about 2am). Swiggy Dineout tags it QSR at Rs 600 for two; Zomato says Rs 1,000 for two. A photo timestamp shows it open by Dec 2021, so this is the first Mumbai outlet. Zomato: 4,884 delivery ratings, 117 dining ratings.",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/mumbai/miya-kebabs-pali-hill-bandra-west"
+   },
+   {
+    "name": "Miya Kebabs - Oshiwara / Andheri West",
+    "area": "Oshiwara, Andheri West (Shops 09B/09C/10, Meera CHS / Meera Tower, New Link Road, near Mega Mall)",
+    "city": "Mumbai",
+    "format": "Dine-in (indoor and outdoor seating), takeaway and delivery. Open 12:45pm-3am. Zomato says Rs 700 for two. Most delivery ratings in the chain: Zomato 5,614 (4.5), Swiggy 4.4 from 1.6K+ ratings.",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/mumbai/miya-kebabs-oshiwara"
+   },
+   {
+    "name": "Miya Kebabs - Fort",
+    "area": "Fort, South Mumbai (82/84, Plot 80/A, Ground Floor, Ali Chambers, Mudhana Shetty Marg)",
+    "city": "Mumbai",
+    "format": "Dine-in (indoor seating), takeaway and delivery. Open 12:45pm-3:30am. Zomato says Rs 1,000 for two; Swiggy says Rs 700 for two. Zomato: dining 4.3 (254), delivery 4.6 (3,202). Swiggy: 4.6 (892).",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/mumbai/miya-kebabs-fort"
+   },
+   {
+    "name": "Miya Kebabs - Kalyan",
+    "area": "Kalyan West (6/31 HIG Scheme, Khadakpada colony, opposite Birla College), Thane district",
+    "city": "Kalyan (Mumbai Metropolitan Region)",
+    "format": "Dine-in with outdoor seating and Zomato table booking, plus delivery. Open 1pm-11:45pm. Rs 1,000 for two. Zomato: dining 4.4 (278), delivery 4.4 (3,240).",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/mumbai/miya-kebabs-2-kalyan-thane"
+   },
+   {
+    "name": "Miya Kebabs - Koregaon Park",
+    "area": "Koregaon Park (A8, Shops 4/5/6, Meera Nagar Co-op Society, Lane 7, near Karachi Sweets)",
+    "city": "Pune",
+    "format": "Zomato lists it as 'Delivery only / no seating' at Rs 300 per order. magicpin lists dine-in plus home delivery at Rs 600 for two. Treat it as a small takeaway and delivery-led outlet. Zomato delivery 4.4 (3,288). Opened around mid-2025 (Justdial listing ID dated July 2025).",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/pune/miya-kebabs-koregaon-park"
+   },
+   {
+    "name": "Miya Kebabs - Baner",
+    "area": "Baner / Balewadi High Street (Unit 105, 1st Floor, Solitaire Business Hub)",
+    "city": "Pune",
+    "format": "The brand's Threads post says dine-in opened 11 Feb 2026 ('bigger, better'); Urbanly calls it their biggest outlet. Zomato still tags it 'Delivery only' at Rs 300 per order. Zomato delivery 4.4 (1,738).",
+    "confidence": "high",
+    "source_url": "https://www.threads.com/@miyakebabs/post/DUnmzJelBko/baner-your-cravings-just-got-an-upgrade-the-wait-is-finally-over-miya-kebabs-is"
+   },
+   {
+    "name": "Miya Kebabs - Viman Nagar",
+    "area": "Viman Nagar (Shop 3, Building 3, Konark Nagar)",
+    "city": "Pune",
+    "format": "Delivery-only cloud kitchen, dinner only, Rs 150 per order. Zomato 3.8 from only 16 ratings. Zomato counts it among '3 Miya Kebabs outlets in Pune', but it is not on the brand's own outlet list (LinkedIn / official site), so it may be new, a trial or unaffiliated.",
+    "confidence": "low",
+    "source_url": "https://www.zomato.com/pune/miya-kebabs-viman-nagar"
+   },
+   {
+    "name": "Miya Kebabs - Nashik (Ashoka Marg / Dwarka)",
+    "area": "Ashoka Marg, Ganesh Baba Nagar, opposite Karma Pinnacle Society, Dwarka",
+    "city": "Nashik",
+    "format": "Kiosk / roadside stall, evenings only (opens 6pm), Rs 250 for two. The Zomato listing is unclaimed. Wanderlog shows 4.5 from 37 reviews. The brand has an Instagram handle @miyakebabs.nashik, but Nashik is not among the 6 outlets on LinkedIn, so affiliation is unconfirmed.",
+    "confidence": "medium",
+    "source_url": "https://www.zomato.com/nashik/miya-kebabs-dwarka"
+   },
+   {
+    "name": "Miya Kebabs Sarda (Sarda Circle)",
+    "area": "Sarda Circle / Bombay Naka",
+    "city": "Nashik",
+    "format": "Swiggy delivery listing (rest790051). On 18 Sep 2026 the URL redirected to the Nashik city page, so it is probably inactive. A second Swiggy Nashik listing, 'Miya Kebab' (rest728523), also turns up in search.",
+    "confidence": "low",
+    "source_url": "https://www.swiggy.com/restaurants/miya-kebabs-sarda-nas-bombay-naka-nashik-790051"
+   },
+   {
+    "name": "Al Arabian Express (parent restaurant, not a Miya Kebabs outlet)",
+    "area": "College Road (Gokul Boys Town Lane, near Big Bazaar)",
+    "city": "Nashik",
+    "format": "Family dine-in restaurant and the origin of the brand. It started in 2011 as a 200 sq ft unit in a parking lot and grew to 2,300 sq ft.",
+    "confidence": "medium",
+    "source_url": "https://www.mappls.com/k79n8v"
+   }
+  ],
+  "dishes": [
+   {
+    "name": "Angara Chicken Shawarma",
+    "category": "Shawarma (khaboos/rumali wrap)",
+    "veg": false,
+    "price_inr_aggregator": 309,
+    "price_inr_dine_in": 185,
+    "price_basis": "Aggregator price: Swiggy live listing on 18 Sep 2026, identical at Andheri and Fort. Dine-in price: chain-wide menu card on Zomato (the same image file is used for Pali Hill and Fort; the card is undated). magicpin Pali Hill showed Rs 265.",
+    "popularity_signal": "Swiggy Bestseller at Andheri and Fort. Most-rated shawarma (245 ratings, 4.4 at Andheri). Swiggy names it a popular dish. 'Must Try' on the menu card.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Butter Chicken Shawarma",
+    "category": "Shawarma",
+    "veg": false,
+    "price_inr_aggregator": 340,
+    "price_inr_dine_in": 220,
+    "price_basis": "Swiggy live listing (Andheri and Fort); dine-in price from the Zomato menu card.",
+    "popularity_signal": "Swiggy Bestseller at both outlets. 129 ratings (4.5) at Andheri, 71 at Fort.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-fort-fort-colaba-rest986662"
+   },
+   {
+    "name": "Malai Chicken Shawarma",
+    "category": "Shawarma",
+    "veg": false,
+    "price_inr_aggregator": 309,
+    "price_basis": "Swiggy live listing. Not on the current dine-in card. An older card (about 2021-22, on Swiggy Dineout) priced all shawarmas at Rs 170. For a current dine-in figure, use about Rs 185 as an estimate from comparable shawarmas.",
+    "popularity_signal": "Swiggy Bestseller at Andheri and Fort. 69 ratings at Fort, 51 at Andheri.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-fort-fort-colaba-rest986662"
+   },
+   {
+    "name": "Banjara Chicken Shawarma",
+    "category": "Shawarma",
+    "veg": false,
+    "price_inr_aggregator": 309,
+    "price_inr_dine_in": 185,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "Swiggy Bestseller at Fort. 80 ratings at Andheri.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-fort-fort-colaba-rest986662"
+   },
+   {
+    "name": "Angara Paneer Shawarma",
+    "category": "Shawarma",
+    "veg": true,
+    "price_inr_aggregator": 309,
+    "price_inr_dine_in": 185,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card. magicpin Pali Hill showed Rs 265.",
+    "popularity_signal": "'Must Try' on the menu card. Top veg shawarma (45 ratings at Andheri, 31 at Fort with 4.7).",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Chicken Changezi Tikka (menu card: Changezi Kebab, served with masala naan)",
+    "category": "Signature kebabs / tava gravy",
+    "veg": false,
+    "price_inr_aggregator": 540,
+    "price_inr_dine_in": 390,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card ('Signature Kebabs').",
+    "popularity_signal": "Most-rated item on the Swiggy Andheri menu (445 ratings, 4.6). Bestseller at both outlets. 'Must Try' on the menu card.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Chicken Kashmiri Tikka (menu card: Kashmiri Kebab, served with naan)",
+    "category": "Signature kebabs",
+    "veg": false,
+    "price_inr_aggregator": 540,
+    "price_inr_dine_in": 390,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "Bestseller. 291 ratings (4.6) at Andheri, 98 (4.8) at Fort. First dish named in Swiggy's popular-dishes text.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Chicken Angara Tikka (menu card: Angara Kebab)",
+    "category": "Classic kebabs / tikka",
+    "veg": false,
+    "price_inr_aggregator": 465,
+    "price_inr_dine_in": 290,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card. magicpin Pali Hill showed 'Angara Tikka' at Rs 415.",
+    "popularity_signal": "'Must Try' on the menu card. 68 ratings at Andheri. Reviewers single out Angara and Banjara.",
+    "source_url": "https://b.zmtcdn.com/data/dining_catalog/502/6130bbe3c89fd3d2ba6bfd25de25f502.png"
+   },
+   {
+    "name": "Paneer Angara Tikka",
+    "category": "Classic kebabs / tikka",
+    "veg": true,
+    "price_inr_aggregator": 465,
+    "price_inr_dine_in": 290,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "Swiggy names it a popular dish. 4.8 rating (16 at Andheri, 13 at Fort). 'Must Try' on the menu card.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Chicken Seekh Kebabs",
+    "category": "Seekh kebabs (served with rumali / naan)",
+    "veg": false,
+    "price_inr_aggregator": 410,
+    "price_inr_dine_in": 280,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "Bestseller at both outlets. 136 ratings (4.7) at Andheri, 70 (4.8) at Fort. 'Must Try' on the menu card.",
+    "source_url": "https://b.zmtcdn.com/data/dining_catalog/506/bff1464bab9159a49c62adb6611b5506.png"
+   },
+   {
+    "name": "Mutton Seekh Kebabs",
+    "category": "Seekh kebabs",
+    "veg": false,
+    "price_inr_aggregator": 560,
+    "price_inr_dine_in": 450,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "Bestseller at both outlets. 142 ratings (4.6) at Andheri. The official site and reviews highlight mutton seekh.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Butter Chicken (boneless, makhani gravy)",
+    "category": "Gravy / main course",
+    "veg": false,
+    "price_inr_aggregator": 599,
+    "price_inr_dine_in": 390,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "Bestseller at Andheri (92 ratings, 4.6). 35 ratings at Fort. 'Must Try' on the menu card.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Za'atar Naan with Hummus",
+    "category": "Appetizers (Lebanese)",
+    "veg": true,
+    "price_inr_aggregator": 540,
+    "price_inr_dine_in": 420,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card. Plain Za'atar Naan is Rs 300 on Swiggy and Rs 250 dine-in.",
+    "popularity_signal": "Bestseller at Andheri. 28 ratings (4.8) at Fort. 'Must Try' on the menu card. The official site mentions Zaatar Naan with Cheese.",
+    "source_url": "https://b.zmtcdn.com/data/dining_catalog/9b4/5b69a0bbfe3bb1cd9727fcf02c06d9b4.png"
+   },
+   {
+    "name": "Kheema with Hummus (menu card: Mutton Keema Hummus with Pita)",
+    "category": "Appetizers",
+    "veg": false,
+    "price_inr_aggregator": 550,
+    "price_inr_dine_in": 480,
+    "price_basis": "Swiggy live listing (Rs 550 at Andheri, Rs 560 at Fort); dine-in price from the Zomato menu card.",
+    "popularity_signal": "30 ratings (4.7) at Andheri. Featured in Urbanly's Pune launch write-up.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Chicken Tawa Pulao",
+    "category": "Rice",
+    "veg": false,
+    "price_inr_aggregator": 425,
+    "price_basis": "Swiggy live listing. Not on the current dine-in card; the older card (about 2021-22) had it at Rs 270. Paneer Tava Pulav on the current card is Rs 320, so a current dine-in estimate is about Rs 320.",
+    "popularity_signal": "Most-rated rice item (40 ratings at Andheri; 24 at Fort with 4.9).",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-fort-fort-colaba-rest986662"
+   },
+   {
+    "name": "Chicken Bhuna Pulao",
+    "category": "Rice",
+    "veg": false,
+    "price_inr_aggregator": 360,
+    "price_inr_dine_in": 320,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "13 ratings at Andheri. Lowest markup among the mains (about 12%).",
+    "source_url": "https://b.zmtcdn.com/data/dining_catalog/706/1f9dc629c720ea663c6bf68573ddf706.png"
+   },
+   {
+    "name": "Tangdi Kulfi (cheese-cream drumsticks)",
+    "category": "Tangdi kebab",
+    "veg": false,
+    "price_inr_aggregator": 399,
+    "price_inr_dine_in": 350,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "'Must Try' on the menu card. In Swiggy's 'Recommended' section at Fort. Other tangdi items on Swiggy: Fiery Tangdi Rs 299, Dynamite Tangdi Rs 349.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-fort-fort-colaba-rest986662"
+   },
+   {
+    "name": "Arbi Tandoori (half chicken, Arabian masala)",
+    "category": "Tandoori",
+    "veg": false,
+    "price_inr_aggregator": 460,
+    "price_inr_dine_in": 350,
+    "price_basis": "Swiggy live listing; dine-in price from the Zomato menu card.",
+    "popularity_signal": "33 ratings (4.4) at Andheri. Chef's-cap icon on the menu card.",
+    "source_url": "https://b.zmtcdn.com/data/dining_catalog/9b4/5b69a0bbfe3bb1cd9727fcf02c06d9b4.png"
+   },
+   {
+    "name": "Butter Naan",
+    "category": "Breads",
+    "veg": true,
+    "price_inr_aggregator": 70,
+    "price_inr_dine_in": 65,
+    "price_basis": "Swiggy live listing (Rs 70 at Andheri; Rs 60 as 'Tandoor Butter Naan' at Fort); dine-in price from the Zomato menu card. On Swiggy, Butter Garlic Naan is Rs 105, Khaboos Rs 55 and Roomali Rs 80.",
+    "popularity_signal": "Bestseller at Andheri (219 ratings). It is an attach item on most kebab and gravy orders.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Kunafa (Swiggy lists cheese, Nutella and dry-fruit variants)",
+    "category": "Dessert",
+    "veg": true,
+    "price_inr_aggregator": 480,
+    "price_inr_dine_in": 299,
+    "price_basis": "Swiggy live listing at Andheri: Special Cheese Kunafa Rs 480; Nutella and dry-fruit variants Rs 550. Dine-in 'Kunafa' is Rs 299 on the Zomato menu card.",
+    "popularity_signal": "Low volume (4 ratings). Useful as a dessert line in the mock.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "name": "Fresh Lime Soda / mocktails (Virgin Mojito, Green Apple, Blue Lagoon)",
+    "category": "Beverages (in-store only)",
+    "veg": true,
+    "price_inr_dine_in": 80,
+    "price_basis": "Zomato dine-in menu card; all drinks are Rs 80. There are no beverages on the Swiggy delivery menus checked, so in the mock these should sell through Petpooja only.",
+    "popularity_signal": "No signal found. Include as a dine-in-only attach item.",
+    "source_url": "https://b.zmtcdn.com/data/dining_catalog/706/1f9dc629c720ea663c6bf68573ddf706.png"
+   }
+  ],
+  "central_kitchen_or_factory": "Nothing found. I checked the official-site snippets, LinkedIn, Zomato and Swiggy listings, magicpin, Urbanly, Threads and job-related searches; none mentions a central kitchen, commissary or factory. LinkedIn only says the brand focuses on kitchen consistency and structured restaurant operations and has 300+ employees. The menu, the named marinades and gravies (Angara, Banjara, Pahadi, Changezi, Kashmiri, makhani) and the prices are identical across outlets, which is consistent with centralised production. That is an inference only. The factory described in the client brief should be shown in the mock as the client's own internal fact, not as something confirmed publicly.",
+  "average_order_value_estimate_inr": "These are estimates; the brand publishes no AOV.\n\n**Delivery (Swiggy / Zomato)**\n- Gross order value at menu prices, before discounts: about Rs 600-700. Use about Rs 640 in the mock.\n- After restaurant-funded discounts: about Rs 500-580.\n- Typical baskets at live Swiggy prices:\n  - 2 shawarmas: Rs 618.\n  - Signature kebab with naan plus 1 extra butter naan: about Rs 610.\n  - Butter chicken plus 3 breads: about Rs 800.\n  - Single shawarma: Rs 309-340.\n- This sits above the platform averages of Rs 425 (Zomato) and Rs 436 (Swiggy) for Q1 FY25 (Macquarie via Business Standard), because the aggregator menu is priced 40-65% above dine-in on the hero items.\n- Zomato shows 'Rs 300 for one order (approx.)' on the Pune delivery-only listings. That is a per-person figure.\n\n**In-store (Petpooja dine-in and takeaway)**\n- The menu card is far cheaper: shawarma Rs 185-220, kebabs Rs 280-390, drinks Rs 80.\n- Cost for two is Rs 600 on Swiggy Dineout and Rs 700-1,000 on Zomato.\n- Estimated counter or takeaway ticket: Rs 250-400.\n- Estimated dine-in table bill: Rs 650-900.\n- Blended in-store AOV: about Rs 450-520. Use about Rs 480 in the mock.\n- Confidence: medium for delivery, low-to-medium for in-store.",
+  "brand_notes": [
+   "Brand story (official site, read through search snippets): Junaid started in Nashik in 2011 in a 200 sq ft restaurant in a parking lot, which grew to the 2,300 sq ft Al Arabian Express. Miya Kebabs launched in 2021 under that parent. It expanded to Bandra Pali Hill, Kalyan, Andheri, Fort, Koregaon Park and Baner.",
+   "LinkedIn describes it as 'a growing Indian QSR brand' with '6 outlets across Mumbai and Pune: Bandra, Andheri, Fort, Kalyan, Koregaon Park and Baner' and '300+ employees' (size band 201-500). No founder, funding or franchise details are public.",
+   "miyakebabs.in did not resolve (DNS failure) from my environment on 18 Sep 2026, so all official-site content came from search-engine snippets. LinkedIn lists the website as miyakebabs.com, which is a parked GoDaddy domain.",
+   "The brief mentions rolls and biryani. The current Swiggy and Zomato menus have no biryani and no rolls section. Rice is tawa pulao and bhuna pulao only. Urbanly describes the Pune menu as kebabs, tandoori, a few gravies and naan. Rolls (Butter Chicken Roll about Rs 290, Mutton Roll about Rs 360, Baida Roti) appear only on magicpin and an older menu card from about 2021-22. For the ~10 mock dishes, pick from shawarma, signature and classic kebabs, seekh, gravy, hummus and za'atar, pulao, breads, kunafa and drinks.",
+   "The dine-in menu card is chain-wide: Zomato serves the same five image files for Pali Hill and Fort. The card is undated, but Fort is a recent outlet, so treat it as current.",
+   "Delivery prices are far higher than dine-in. Swiggy prices are identical at Andheri and Fort.",
+   "Hero items carry a 40-67% markup on Swiggy over the dine-in card: shawarma Rs 185 to Rs 309, Angara kebab Rs 290 to Rs 465, butter chicken Rs 390 to Rs 599, chicken seekh Rs 280 to Rs 410.",
+   "Low-ticket items carry about 5-25%: butter naan Rs 65 to Rs 70, bhuna pulao Rs 320 to Rs 360, tangdi kulfi Rs 350 to Rs 399.",
+   "This is well above the usual 10-25% aggregator markup. The mock should therefore keep separate price lists per channel.",
+   "Zomato's website no longer shows item prices; ordering and prices are app-only. Zomato listing prices could not be verified, so the Swiggy price is used as the aggregator price. I assume it is the same on Zomato but did not confirm this.",
+   "Discounting visible on Swiggy on 18 Sep 2026: 'Extra Rs 20 off above Rs 99', 'Items at Rs 50 on select items', and bank offers (10% up to Rs 75; flat Rs 150 off). Zomato dining at Kalyan shows 'Flat Rs 175 off' on the dining payment. Restaurant-funded discounts should be a visible line in the channel economics.",
+   "Relative delivery volume, using Zomato delivery-rating counts as a proxy: Oshiwara/Andheri 5,614, Pali Hill 4,884, Koregaon Park 3,288, Kalyan 3,240, Fort 3,202, Baner 1,738, Viman Nagar 16.",
+   "Swiggy rating counts: Andheri 1.6K+, Fort 892.",
+   "Trading hours skew to evening and late night: Andheri until 3am, Fort until 3:30am, Pali Hill from 5-6pm to 2am, Kalyan 1pm-11:45pm. Mock daypart data should peak at dinner and late night, with little or no breakfast and weak lunch.",
+   "Most-rated Swiggy items at Andheri: Chicken Changezi Tikka (445), Chicken Kashmiri Tikka (291), Angara Chicken Shawarma (245), Butter Naan (219), Mutton Seekh (142), Chicken Seekh (136), Butter Chicken Shawarma (129), Butter Chicken (92).",
+   "Swiggy's FAQ for the Andheri outlet says there are 32 vegetarian items.",
+   "Reviewers at Pali Hill report that delivery orders get priority over dine-in and that waits are long. Zomato's review highlights at Oshiwara praise portion size, value and packaging.",
+   "A different chain, Chote Miya (Hill Road Bandra; also in Nashik), appears in the same searches. It is unrelated, so do not mix the two."
+  ],
+  "sources": [
+   "https://www.miyakebabs.in/ (official site; unreachable from my environment, content via search snippets only)",
+   "https://www.linkedin.com/company/miya-kebabs",
+   "https://www.zomato.com/mumbai/restaurants/miya-kebabs?category=2",
+   "https://www.zomato.com/mumbai/miya-kebabs-pali-hill-bandra-west",
+   "https://www.zomato.com/mumbai/miya-kebabs-pali-hill-bandra-west/order",
+   "https://www.zomato.com/mumbai/miya-kebabs-pali-hill-bandra-west/menu",
+   "https://b.zmtcdn.com/data/dining_catalog/9b4/5b69a0bbfe3bb1cd9727fcf02c06d9b4.png (dine-in menu card p1: appetizers, tangdi, tandoori)",
+   "https://b.zmtcdn.com/data/dining_catalog/506/bff1464bab9159a49c62adb6611b5506.png (p2: fries, seekh, signature kebabs)",
+   "https://b.zmtcdn.com/data/dining_catalog/504/4c7d888a700288376e78632f13b67504.png (p3: shawarma, add-ons)",
+   "https://b.zmtcdn.com/data/dining_catalog/502/6130bbe3c89fd3d2ba6bfd25de25f502.png (p4: classic kebabs, gravy)",
+   "https://b.zmtcdn.com/data/dining_catalog/706/1f9dc629c720ea663c6bf68573ddf706.png (p5: rice, bread, dessert, drinks)",
+   "https://www.zomato.com/mumbai/miya-kebabs-fort",
+   "https://www.zomato.com/mumbai/miya-kebabs-fort/menu",
+   "https://www.zomato.com/mumbai/miya-kebabs-oshiwara",
+   "https://www.zomato.com/mumbai/miya-kebabs-2-kalyan-thane",
+   "https://www.zomato.com/pune/miya-kebabs-koregaon-park",
+   "https://www.zomato.com/pune/miya-kebabs-baner",
+   "https://www.zomato.com/pune/miya-kebabs-viman-nagar",
+   "https://www.zomato.com/nashik/miya-kebabs-dwarka",
+   "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334 (full live menu with prices, bestseller tags, per-item ratings)",
+   "https://www.swiggy.com/city/mumbai/miya-kebabs-fort-fort-colaba-rest986662 (full live menu with prices)",
+   "https://www.swiggy.com/restaurants/miya-kebab-bandra-west-bandra-west-383529/dineout (Swiggy Dineout: Rs 600 for two, QSR, older menu-card photos)",
+   "https://www.swiggy.com/restaurants/miya-kebabs-sarda-nas-bombay-naka-nashik-790051",
+   "https://magicpin.in/Mumbai/Pali-Hill/Restaurant/Miya-Kebabs/store/587549",
+   "https://magicpin.in/Mumbai/Oshiwara/Restaurant/Miya-Kebabs/store/163b883/menu?menu=Food+Menu%3FImg%3DFood+Menu",
+   "https://magicpin.in/Pune/Koregaon-Park/Restaurant/Miya-Kebabs/store/1770c44/menu",
+   "https://fooddy.in/explore/mumbai/miya-kebabs_rest_9162d29a-58b8-4229-898a-aaa3abc621ff",
+   "https://www.threads.com/@miyakebabs/post/DUnmzJelBko/baner-your-cravings-just-got-an-upgrade-the-wait-is-finally-over-miya-kebabs-is",
+   "https://www.urbanly.in/pune/food/mumbais-famous-miya-kebabs-now-in-punes-koregaon-park/ (page errored; search snippet only)",
+   "https://www.urbanly.in/pune/food/miya-kebabs-just-opened-their-biggest-outlet-in-baner/ (search snippet only)",
+   "https://wanderlog.com/place/details/12797041/miya-kebabs",
+   "https://www.mappls.com/k79n8v",
+   "https://www.instagram.com/miyakebabs/",
+   "https://www.instagram.com/miyakebabs.nashik/",
+   "https://www.business-standard.com/markets/news/zomato-vs-swiggy-macquarie-compares-food-delivery-quick-commerce-biz-124101600223_1.html (platform AOV benchmark: Zomato Rs 425, Swiggy Rs 436, Q1 FY25)"
+  ]
+ },
+ "verify": {
+  "corrections": [
+   {
+    "item": "Pali Hill (Bandra) trading hours",
+    "was": "Evening and late-night only, opens 5-6pm, closes about 2am",
+    "now": "Opens 5pm, closes 3:45am on Fri 18 Sep 2026 (Zomato shows '12midnight - 3:45am, 5pm - 12midnight'; District shows 'Open 5:00 PM to 3:45 AM'). Swiggy Dineout says it opens at 6pm. For the mock, use 5pm to about 3:30-3:45am and treat the business day as ending around 4am, not at midnight.",
+    "reason": "Two listings checked independently on 18 Sep 2026 both give a 3:45am close. The 2am figure was not corroborated.",
+    "source_url": "https://www.district.in/dining/mumbai/miya-kebabs-pali-hill-bandra-west"
+   },
+   {
+    "item": "Claim that Swiggy prices are identical across outlets / one chain-wide aggregator price list",
+    "was": "Swiggy prices are identical at Andheri and Fort; the menu and prices are identical across outlets (also used as evidence for centralised production)",
+    "now": "Only partly true. Andheri, Fort, Koregaon Park and Baner share one Swiggy price list: shawarma 309, Angara tikka 465, Changezi/Kashmiri tikka 540, chicken seekh 410, mutton seekh 560, butter chicken 599, butter naan 70. Kalyan has its own list on Swiggy (rest773494): shawarma 275, Butter Chicken Wrap 305, Angara tikka 390, Kashmiri/Changezi 510, butter chicken 550, chicken seekh 410, mutton seekh 595, butter naan 85, Tangdi Kulfi 445, Mutton Kheema with Hummus 620, Za'atar Naan with Hummus 545, Turkish Kunafa 450. Kalyan is cheaper on hero items and dearer on breads and sides. The mock needs a price list per outlet and per channel, not one aggregator list.",
+    "reason": "I extracted the full live Swiggy menus for all five Swiggy listings on 18 Sep 2026. The researcher only checked Andheri and Fort.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-khadb-colony-kalyan-rest773494"
+   },
+   {
+    "item": "Rolls on the current menu",
+    "was": "The current Swiggy and Zomato menus have no rolls section; rolls appear only on magicpin and an old 2021-22 card",
+    "now": "Rolls are live on both Pune delivery menus. Swiggy Koregaon Park: Butter Chicken Roll Rs 340 (Bestseller, 4.6 from 74 ratings), Chicken Kashmiri Roll Rs 340 (Bestseller, 34 ratings), Chicken Seekh Roll Rs 340, Mutton Seekh Roll Rs 399 (Rs 409 at Baner), and Aloo Makhani, Aloo Kashmiri and Mushroom Changezi Rolls at Rs 340. Zomato Koregaon Park shows 'Vegetarian Rolls (3)' and 'Non-vegetarian Rolls (4)'. The Mumbai menus (Andheri, Fort, Pali Hill, Kalyan) have no rolls category; Kalyan sells 'Wraps' at Rs 305 instead. Biryani is still not on any outlet's menu on either platform.",
+    "reason": "Two independent listings (Swiggy and Zomato, Pune) show a rolls category. If the mock includes a Pune outlet, a roll is a legitimate SKU there. Biryani should not appear at all.",
+    "source_url": "https://www.swiggy.com/city/pune/miya-kebabs-kalyani-nagar-rest1140840"
+   },
+   {
+    "item": "Beverages on aggregator menus",
+    "was": "There are no beverages on the Swiggy delivery menus, so drinks should sell through Petpooja only",
+    "now": "True for Andheri, Fort, Koregaon Park and Baner. Kalyan lists 'Thumbs Up' at Rs 25 and 'Arabian Delight' (dessert) at Rs 105 on Swiggy. Keep mocktails and fresh lime soda (Rs 80 on the dine-in card) as in-store only. A packaged soft drink on the aggregator is acceptable for Kalyan only.",
+    "reason": "The researcher checked only two of the five Swiggy listings.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-khadb-colony-kalyan-rest773494"
+   },
+   {
+    "item": "Swiggy coverage of outlets (missing data)",
+    "was": "Swiggy listings given only for Andheri (rest800334) and Fort (rest986662), plus the Bandra Dineout page",
+    "now": "Add three listings. Kalyan: rest773494, 4.4 from 1.0K+ ratings, FSSAI 21523021002194. Koregaon Park: rest1140840, listed under the locality 'Kalyani Nagar', 4.6 from 520 ratings, FSSAI 11525079000403. Baner: rest1296697, 4.5 from 500 ratings, FSSAI 21525036002894. Andheri (4.4 from 1.6K+) and Fort (4.6 from 892) are verified. I found no Swiggy delivery listing for Bandra Pali Hill, only the Dineout page (383529, Rs 600 for two, 4.7 from 3,000+ dining ratings). Treat Bandra-on-Swiggy-delivery as unclear and confirm with the client.",
+    "reason": "The mock assumes every outlet sells on Swiggy, Zomato and Petpooja. Public evidence supports that for five of the six outlets. Bandra on Swiggy delivery is unverified.",
+    "source_url": "https://www.swiggy.com/city/pune/miya-kebabs-baner-rest1296697"
+   },
+   {
+    "item": "Swiggy 'cost for two' used as a pricing signal",
+    "was": "Fort: Swiggy says Rs 700 for two (shown alongside Zomato's Rs 1,000)",
+    "now": "Swiggy's cost-for-two values are unreliable placeholders: Andheri Rs 200, Kalyan Rs 250, Baner Rs 300, Koregaon Park Rs 600, Fort Rs 700. The menus are near-identical and a single shawarma is Rs 275-309. Do not use these in AOV reasoning. Zomato's cost for two (Rs 700 at Oshiwara; Rs 1,000 at Pali Hill, Fort and Kalyan) is consistent with the dine-in card.",
+    "reason": "The figures contradict the item prices on the same pages.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-adarsh-nagar-andheri-lokhandwala-rest800334"
+   },
+   {
+    "item": "Dine-in (Petpooja / in-store) prices: confidence level",
+    "was": "Dine-in prices taken from the Zomato menu card and presented as current, with implied high confidence",
+    "now": "Every dine-in number was checked against the five Zomato card images and matches: shawarma 185, butter chicken shawarma 220, chicken seekh 280, mutton seekh 450, Kashmiri/Changezi kebab 390, Angara kebab and Angara paneer tikka 290, butter chicken 390, Za'atar naan with hummus 420, mutton keema hummus 480, Tangdi Kulfi 350, Arbi tandoori 350, Chicken Bhuna Pulav 320, butter naan 65, kunafa 299, drinks 80. It remains single-source. District is the same Zomato data. The only other 2026 source, bestmenuhub (15 Sep 2026), lists shawarma Rs 300-330 and tikkas Rs 365-540 without saying which channel. Those match aggregator prices, not the card. Downgrade dine-in prices to medium confidence. The card is from 2024 or later, because it is attached to the Fort outlet, whose FSSAI licence is a 2024 series, and its 'NEW' Tangdi Kulfi is live on Swiggy. The client should confirm current Petpooja prices.",
+    "reason": "No second independent source exists for the dine-in card, and the card is undated.",
+    "source_url": "https://b.zmtcdn.com/data/dining_catalog/504/4c7d888a700288376e78632f13b67504.png"
+   },
+   {
+    "item": "magicpin prices and hours",
+    "was": "magicpin Pali Hill cited for shawarma Rs 265, Angara Tikka Rs 415, Butter Chicken Roll Rs 290 and Mutton Roll Rs 360",
+    "now": "Do not use. magicpin shows Pali Hill hours as 10:00 AM - 10:30 PM, which contradicts Zomato, District and Swiggy Dineout (evening to 3:45am). Its prices match neither the current card (185/290) nor current Swiggy (309/465). Treat it as a stale snapshot. The current roll price is Rs 340 (Pune, Swiggy).",
+    "reason": "Its hours are wrong against three other sources, so its prices cannot be trusted.",
+    "source_url": "https://magicpin.in/Mumbai/Pali-Hill/Restaurant/Miya-Kebabs/store/587549"
+   },
+   {
+    "item": "Baner outlet format / confidence",
+    "was": "Confidence high; dine-in opened 11 Feb 2026",
+    "now": "Existence and address: high. They are confirmed on Zomato, on Swiggy, in the brand's Instagram bio ('Bandra | Kalyan | Andheri | Fort | KP | Baner') and on LinkedIn. Dine-in format: medium. The brand's Threads post says 'Dine-In Open @ (11/02/26, 7:00 PM IST)', but Zomato still shows 'Delivery only / No seating available' and zero dining ratings. The FSSAI number on Swiggy is a 2025 series, so delivery probably predates the dine-in space.",
+    "reason": "The brand's own post and the Zomato listing disagree on the format.",
+    "source_url": "https://www.zomato.com/pune/miya-kebabs-baner"
+   },
+   {
+    "item": "Oshiwara / Andheri listing detail",
+    "was": "Only delivery ratings quoted (Zomato 5,614 at 4.5)",
+    "now": "Add the dining rating of 4.0 from 355 ratings, the most dining ratings in the chain. Hours are 12:45pm-3am. The Zomato delivery menu has 60 items in 11 categories with no rolls, biryani or beverages: Appetizers 7, Tandoori 5, Shawarma 10, Classic Tikka 14, Tava Gravy 7, Breads 4, Rice 3, Seekh 2, Add-ons 2, Desserts 3, Tangdi 3.",
+    "reason": "Omission. The Zomato category structure independently corroborates the Swiggy menu.",
+    "source_url": "https://www.zomato.com/mumbai/miya-kebabs-oshiwara/order"
+   },
+   {
+    "item": "Platform AOV benchmark",
+    "was": "Delivery AOV of about Rs 640 sits above platform averages of Rs 425 (Zomato) and Rs 436 (Swiggy), Q1 FY25, Macquarie via Business Standard",
+    "now": "The 425/436 figures are corroborated by a second source (Straits Research, Nov 2024), though Business Standard itself returned 403 to me. They are April-June 2024 numbers, more than two years stale. They are defined pre-discount and including taxes and customer delivery charges, so they are not like-for-like with a restaurant's item-level order value. Use them only as a loose floor. Do not show them in the mock as a 2026 benchmark.",
+    "reason": "Stale data and a definition mismatch.",
+    "source_url": "https://straitsresearch.com/statistic/swiggy-s-market-debut-drives-growth-in-food-and-quick-commerce"
+   },
+   {
+    "item": "Delivery AOV after restaurant-funded discounts",
+    "was": "About Rs 500-580 after discounts (implies a 9-22% discount)",
+    "now": "Narrow to about Rs 560-610, a 5-12% restaurant-funded discount. The offers visible on all Swiggy listings on 18 Sep 2026 are 'Extra Rs 20 off above Rs 99' and 'Items at Rs 50 on select items'. The 10% and flat Rs 150 offers are bank-funded (Visa, SBI Mastercard) and should not reduce the restaurant's net. Rs 640 gross is reasonable for Andheri, Fort and Pune. For Kalyan use about Rs 570-590, because its price list is lower.",
+    "reason": "Bank offers were counted with restaurant-funded discounts, and Kalyan's price list differs.",
+    "source_url": "https://www.swiggy.com/city/mumbai/miya-kebabs-fort-fort-colaba-rest986662"
+   },
+   {
+    "item": "'300+ employees'",
+    "was": "LinkedIn: 300+ employees (size band 201-500)",
+    "now": "This is a self-reported marketing figure. It is repeated verbatim in the brand's job ads, and LinkedIn shows only 49 associated members. It probably includes the Nashik parent (Al Arabian Express), head office and any production unit. For the mock's unit economics use about 25-35 staff per outlet plus a separate factory and HO headcount. Real salary anchors come from WorkIndia ads seen only as search snippets, because the pages returned 403: Commis I/II/III at Fort Rs 15,000-25,000 per month; Restaurant Manager at Andheri West Rs 25,000-35,000 per month.",
+    "reason": "300 staff across 6 outlets is 50 per outlet. That is plausible only at about Rs 40-50 lakh monthly sales per outlet.",
+    "source_url": "https://www.linkedin.com/company/miya-kebabs"
+   },
+   {
+    "item": "Central kitchen inference",
+    "was": "Identical menu, marinades and prices across outlets are 'consistent with centralised production'",
+    "now": "I also found no public mention of a central kitchen, commissary or factory. Job ads, LinkedIn and the bestmenuhub article are silent, and bestmenuhub describes 'in-house marination'. The 'identical' premise is weaker than stated: Kalyan has a different price list, plus fries and wraps; Pune has rolls; Pali Hill's Zomato delivery menu has only 9 categories and no desserts. Keep the factory in the mock as a client-stated internal fact only.",
+    "reason": "The supporting inference was overstated. The conclusion of 'not publicly confirmed' stands.",
+    "source_url": "https://bestmenuhub.com/miya-kebabs-menu/"
+   }
+  ],
+  "red_flags": [
+   "The public record shows 6 branded outlets, but the client brief says 5. The 6 are Bandra Pali Hill, Andheri/Oshiwara, Fort, Kalyan, Koregaon Park and Baner, corroborated by the Instagram bio, LinkedIn, Zomato and Swiggy. Only 4 are in the Mumbai region and 2 are in Pune. Ask the client which 5 to show. A sensible default is the 4 MMR outlets plus Koregaon Park, with Baner as an optional sixth.",
+   "Leave three listings out of the mock. Viman Nagar is a Zomato cloud-kitchen listing with 3.8 from 16 ratings and is not on the brand's own list. The Nashik 'Miya Kebabs' kiosk is an unclaimed Zomato listing at Rs 250 for two. Al Arabian Express is the Nashik parent restaurant.",
+   "Biryani is not on any current Miya Kebabs menu. I checked 5 Swiggy listings, 3 Zomato order pages and the dine-in card. Rice is tawa pulao and bhuna pulao only. A biryani SKU in the mock would be visibly wrong to the client.",
+   "Rolls exist only on the Pune delivery menus (Rs 340-409). Do not put a roll on a Mumbai outlet's sales mix.",
+   "Aggregator pricing is not chain-wide, because Kalyan has its own Swiggy price list. A mock with one 'aggregator price' column would be unrealistic; model a price per outlet and per channel.",
+   "Zomato delivery prices cannot be verified from the web. The Zomato order page lists items with no prices and says 'Online ordering is only supported on the mobile app'. Any Zomato price in the mock is an assumption (Zomato = Swiggy) and should be labelled as such internally.",
+   "Hero items are priced 40-67% higher on delivery than dine-in, for example shawarma Rs 185 dine-in against Rs 309 on Swiggy. This is real but rests on an undated dine-in card from a single source. If the card is old, the true gap is smaller, so get the current Petpooja price list from the client before the demo.",
+   "Per-item rating counts and 'Bestseller' tags come from the public Swiggy consumer page. They are fine for choosing which 10 dishes to feature. Do not present them in the mock as fields from a Swiggy partner report or API unless the channel-topic research confirms that feed exists.",
+   "Zomato and Swiggy rating counts are a weak proxy for relative outlet volume, because outlet ages differ: Pali Hill dates from 2021, Kalyan's FSSAI is a 2023 series, Andheri and Fort are 2024, Pune is 2025. Counts also mix lifetime data. Use them only for rank order (Andheri > Bandra > KP = Kalyan = Fort > Baner), not for ratios.",
+   "Outlets trade past midnight: Pali Hill to 3:45am, Fort to 3:30am, Andheri to 3am. Dashboards must use a business-day cut-off of about 4-5am. Aggregator payout reports use calendar-day and weekly cycles, so a naive Petpooja-to-aggregator daily reconciliation would show false mismatches.",
+   "Swiggy shows 'Closes 12:00 am' on all five listings, including Kalyan, which Zomato says closes at 11:45pm. This looks like a display artefact of day-slotting, so do not read it as Swiggy delivery stopping at midnight.",
+   "The official site miyakebabs.in does not resolve; I independently got ENOTFOUND on 18 Sep 2026, and miyakebabs.com returned an empty page. The founder story (Junaid, Nashik 2011, 200 sq ft to 2,300 sq ft, brand launched 2021) rests on secondary sources: the LinkedIn company post, bestmenuhub, and an IndiaMART listing naming 'Junaid Kokni' for Al Arabian Express. Keep brand-story text out of the mock, or keep it generic.",
+   "I found no public confirmation of a factory or central kitchen. Show it strictly as the client's internal entity, and do not give it a public-looking address.",
+   "Restaurant-funded and platform- or bank-funded discounts must be separate lines. Only restaurant-funded discounts reduce the outlet's net, and the visible restaurant offers are small (Rs 20 off above Rs 99; select items at Rs 50).",
+   "Do not confuse the brand with 'Chote Miya' (Hill Road, Bandra / Nashik) or the second Swiggy Nashik listing 'Miya Kebab'. Both are unrelated or unverified."
+  ],
+  "internal_consistency_check": "The prices and AOV estimates add up to a plausible P&L once the corrections are applied. The commission, discount and cost percentages below are industry heuristics that I did not verify in this review, so align them with the channel-topic research.\n\n**Delivery realisation against dine-in price**\n- Per Rs 100 of listed Swiggy price: a restaurant-funded discount of about 5-12% leaves Rs 88-95.\n- Aggregator commission of about 18-25% plus 18% GST on the commission takes about Rs 19-27, and the payment-gateway charge takes about Rs 2.\n- Net payout is therefore about Rs 60-70 per Rs 100 listed.\n- Applied to the hero items, net payout lands close to the dine-in price:\n\n| Item | Swiggy list (Rs) | Net payout (Rs) | Dine-in (Rs) |\n|---|---|---|---|\n| Shawarma | 309 | about 185-215 | 185 |\n| Angara tikka | 465 | about 280-325 | 290 |\n| Chicken seekh | 410 | about 245-285 | 280 |\n| Butter chicken | 599 | about 360-420 | 390 |\n| Changezi/Kashmiri tikka | 540 | about 325-380 | 390 |\n\n- The 40-67% markup is therefore coherent: it is calibrated so that aggregator net roughly equals the in-store price, and it is not an error.\n- Low-markup items are margin-dilutive on delivery. The mock can show this as an insight.\n  - Butter naan: Rs 70 listed, about Rs 42-49 net, against Rs 65 dine-in.\n  - Bhuna pulao: Rs 360 listed, about Rs 215-250 net, against Rs 320 dine-in.\n  - Tangdi Kulfi: Rs 399 listed, about Rs 240-280 net, against Rs 350 dine-in.\n  - Kheema hummus: Rs 550 listed, about Rs 330-385 net, against Rs 480 dine-in.\n\n**Implied margins**\n- With food cost at a QSR-typical 32-38% of the dine-in price, dine-in gross margin is about 62-68%.\n- On delivery, food cost plus packaging (about 3-5% of listed price) comes to about 22-27% of listed price, or about 35-42% of net payout. Contribution after commission, discount and packaging is about 58-65% of net payout.\n- After Mumbai rent (about 8-12% of sales), staff (about 15-22%), utilities (about 3-5%) and consumables, outlet EBITDA should be about 10-18%. High-street Pali Hill and Fort should be at the lower end, and Kalyan and Pune at the higher end.\n- The factory should run as a cost centre, or at a small transfer-price margin.\n\n**AOV**\n- Delivery gross of Rs 640 is about 2 shawarmas, or 1 signature kebab plus 1-2 breads. This is consistent.\n- Post-discount delivery AOV should be about Rs 560-610, not Rs 500-580. For Kalyan use about Rs 570-590 gross.\n- In-store: a counter ticket of shawarma plus a drink is Rs 265-300.\n- A table for two (kebab 390 + seekh 280 + 3 naan 195 + 2 drinks 160) is about Rs 1,025, which matches Zomato's Rs 1,000 for two.\n- A blended in-store AOV of Rs 450-520 holds if about 60-65% of bills are counter or takeaway.\n\n**Headcount**\n- 300 staff across 6 outlets is 50 per outlet. At about Rs 20,000 average CTC that is about Rs 10 lakh per month in staff cost per outlet.\n- Keeping staff cost within 20-25% of sales would require about Rs 40-50 lakh per month per outlet, or roughly 250-300 bills a day. That is feasible only for the busiest 14-hour outlets.\n- For the mock, use about 25-35 staff per outlet and monthly sales of about Rs 25-45 lakh, scaled by the rating-count rank order.\n- Put production and HO staff in the factory entity so that the staff-cost percentage stays in the 15-22% range.",
+  "confidence_overall": "medium",
+  "notes": "**Verification method**\n- WebSearch was unavailable because the session budget was exhausted, so I checked primary pages directly on 18 Sep 2026.\n- I used WebFetch where it worked, and the browser pane for Swiggy, Zomato and DuckDuckGo.\n- I viewed four of the five Zomato dine-in card images myself.\n\n**High confidence (checked on at least two independent sources)**\n- The six outlets are real and currently operating, and their addresses are correct. Sources: the Zomato listings, the Swiggy listings with FSSAI numbers, the brand's Instagram bio, LinkedIn, and job ads that repeat 'six outlets ... Bandra, Andheri, Fort, Kalyan, Koregaon Park, Baner'.\n- Zomato rating counts are exactly as the researcher stated: Pali Hill 4,884 delivery and 117 dining; Oshiwara 5,614 and 355; Fort 3,202 and 254; Kalyan 3,240 and 278; Koregaon Park 3,288; Baner 1,738; Viman Nagar 16.\n- Every Swiggy price the researcher quoted for Andheri and Fort matched my live extraction item for item, as did the Bestseller tags and rating counts. One nit: Butter Garlic Naan at Rs 105 is on the Fort menu, not Andheri.\n- The dine-in card prices I could view matched the images.\n- Zomato's web order page shows no prices, and the Oshiwara and Fort Zomato menu pages serve the same dining_catalog image.\n\n**Medium confidence**\n- Dine-in prices are single-source and undated.\n- Baner's dine-in status is disputed between the brand's post and Zomato.\n- Pune Swiggy prices match Andheri and Fort.\n- Pali Hill hours vary by source.\n\n**Low or unverifiable**\n- Zomato delivery prices.\n- Bandra on Swiggy delivery.\n- Any central kitchen.\n- The brand story from miyakebabs.in.\n- The WorkIndia salary ranges, which I saw only as search snippets.\n- The Nashik listings.\n\n**Suggested 10-dish set for the mock**\nEach line gives the aggregator price for the Andheri/Fort/Pune list, then the Kalyan Swiggy price where it differs, then the dine-in card price.\n1. Angara Chicken Shawarma: 309 / 275 / 185\n2. Butter Chicken Shawarma: 340 / 305 (listed as 'Butter Chicken Wrap' at Kalyan) / 220\n3. Angara Paneer Shawarma: 309 / 275 / 185\n4. Chicken Changezi Tikka: 540 / 510 / 390\n5. Chicken Kashmiri Tikka: 540 / 510 / 390\n6. Chicken Angara Tikka: 465 / 390 / 290\n7. Chicken Seekh Kebabs: 410 / 410 / 280\n8. Mutton Seekh Kebabs: 560 / 595 / 450\n9. Butter Chicken: 599 / 550 / 390\n10. Butter Naan: 70 / 85 / 65\n\nOptional extras:\n- Za'atar Naan with Hummus: 540 on the aggregator list / 420 dine-in.\n- Chicken Tawa Pulao: 425 on the aggregator list. The dine-in price is an estimate only.\n- Butter Chicken Roll: 340, Pune delivery only.\n- Fresh Lime Soda or a mocktail: 80, Petpooja only.\n\n**Additional sources used**\n- https://www.swiggy.com/city/mumbai/miya-kebabs-khadb-colony-kalyan-rest773494\n- https://www.swiggy.com/city/pune/miya-kebabs-kalyani-nagar-rest1140840\n- https://www.swiggy.com/city/pune/miya-kebabs-baner-rest1296697\n- https://www.zomato.com/mumbai/miya-kebabs-oshiwara/order\n- https://www.zomato.com/pune/miya-kebabs-koregaon-park/order\n- https://www.zomato.com/mumbai/miya-kebabs-pali-hill-bandra-west/order\n- https://www.district.in/dining/mumbai/miya-kebabs-pali-hill-bandra-west\n- https://bestmenuhub.com/miya-kebabs-menu/\n- https://www.instagram.com/miyakebabs/ (bio seen via a search snippet)\n- https://www.workindia.in/jobs/commis_commi_1_2_3-fort-mumbai-8699289/ (snippet only)\n- https://www.workindia.in/jobs/restaurant_manager-andheri_west-mumbai-8111794/ (snippet only)\n- https://straitsresearch.com/statistic/swiggy-s-market-debut-drives-growth-in-food-and-quick-commerce\n\n**Environment note for the orchestrator**\n- WebSearch hit its 200-call session cap.\n- Several marketing MCP connectors report that they need OAuth authorisation in the user's connector settings. They were not needed for this task."
+ }
+}

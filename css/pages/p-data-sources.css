@@ -1,0 +1,91 @@
+/*
+ * Page styles: data sources (how data arrives, the capability matrix, what is left out, about the preview).
+ * Tokens only (css/tokens.css); every selector is prefixed .pg-data-sources and every page-owned class starts
+ * with "ds-". mk-* component classes are never restyled, only placed. The upload modal's body carries the page
+ * class, so the same rules reach inside it.
+ */
+
+/* ---- purpose line */
+.pg-data-sources .ds-intro { display: flex; flex-direction: column; gap: var(--sp-1); max-width: 132ch; }
+.pg-data-sources .ds-intro__text { margin: 0; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+.pg-data-sources .ds-intro__who {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5;
+}
+.pg-data-sources .ds-intro__who > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+
+/* ---- shared small parts */
+.pg-data-sources .ds-text { margin: 0; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.55; max-width: 100ch; }
+.pg-data-sources .ds-note {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-data-sources .ds-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-data-sources .ds-note > .mk-estimate { flex: none; margin-top: 1px; }
+.pg-data-sources .ds-inline { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); }
+.pg-data-sources .ds-foot { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-data-sources .ds-foot .mk-source { margin-top: 0; }
+
+/* ---- section A: one card per route */
+.pg-data-sources .ds-source { display: flex; flex-direction: column; }
+.pg-data-sources .ds-source .mk-card__body { flex: 1; }
+.pg-data-sources .ds-source__body { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-data-sources .ds-source .mk-kv dd { min-width: 0; }
+
+/* ---- section A: the estimated-or-actual rule */
+.pg-data-sources .ds-rule__body { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-data-sources .ds-rule__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.pg-data-sources .ds-rule__item {
+  display: flex; align-items: flex-start; gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-data-sources .ds-rule__chip { flex: none; }
+
+/* ---- section B: the capability matrix */
+.pg-data-sources .ds-caps__body { display: flex; flex-direction: column; }
+.pg-data-sources .ds-legend {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--grid);
+  background: var(--surface-2);
+}
+.pg-data-sources .ds-legend .mk-label { margin: 0; }
+.pg-data-sources .ds-legend__item {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  color: var(--ink-2); font-size: var(--fs-sm);
+}
+.pg-data-sources .ds-capgroup { display: flex; flex-direction: column; }
+.pg-data-sources .ds-capgroup + .ds-capgroup { border-top: 1px solid var(--grid); }
+.pg-data-sources .ds-capgroup__head {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: var(--sp-4) var(--sp-4) var(--sp-3);
+}
+.pg-data-sources .ds-capgroup__head > h4 { margin: 0; }
+.pg-data-sources .ds-capgroup__lead { margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; max-width: 120ch; }
+
+/* ---- section C: what is left out */
+.pg-data-sources .ds-nope { display: inline-flex; align-items: flex-start; gap: var(--sp-2); min-width: 0; }
+.pg-data-sources .ds-nope > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-data-sources .ds-notimported .mk-card__foot { display: block; }
+
+/* ---- section D: about this preview */
+.pg-data-sources .ds-about__body { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; }
+.pg-data-sources .ds-facts { display: grid; gap: var(--sp-3); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pg-data-sources .ds-facts .mk-tile__sub { white-space: normal; }
+.pg-data-sources .ds-about .mk-kv dt { color: var(--ink); font-weight: 600; }
+.pg-data-sources .ds-about .mk-kv dd { color: var(--ink-2); line-height: 1.55; max-width: 120ch; }
+
+/* ---- the upload modal (its body wrapper carries the page class) */
+.pg-data-sources.ds-modal { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-data-sources.ds-modal .mk-source { margin-top: 0; }
+
+/* ---- narrow content column (1280px window and below) */
+@media (max-width: 1180px) {
+  .pg-data-sources .ds-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  .pg-data-sources .ds-facts { grid-template-columns: minmax(0, 1fr); }
+}

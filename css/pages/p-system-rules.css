@@ -1,0 +1,50 @@
+/*
+ * Page styles: system-rules (the catalogue behind "Needs attention", with a dial on every threshold).
+ * Tokens only (css/tokens.css); every selector is prefixed .pg-system-rules and every page-owned class starts
+ * with "sr-". mk-* component classes are never restyled, only placed.
+ */
+
+/* ---- purpose line */
+.pg-system-rules .sr-intro { display: flex; flex-direction: column; gap: var(--sp-1); max-width: 132ch; }
+.pg-system-rules .sr-intro__text { margin: 0; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+.pg-system-rules .sr-intro__who {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5;
+}
+.pg-system-rules .sr-intro__who > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+
+/* ---- KPI row with the reset beside it */
+.pg-system-rules .sr-kpis { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-system-rules .sr-kpis__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
+
+/* ---- rule cards */
+.pg-system-rules .sr-grid > * { min-width: 0; }
+.pg-system-rules .sr-card .mk-card__subtitle { line-height: 1.5; }
+.pg-system-rules .sr-card__sev { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--sp-1); }
+.pg-system-rules .sr-meta {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0 0 var(--sp-3); color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-system-rules .sr-meta > svg { flex: none; margin-top: 3px; color: var(--ink-3); }
+.pg-system-rules .sr-meta--nodial { color: var(--ink-3); }
+
+/* ---- dials: label, stepper, default */
+.pg-system-rules .sr-dials { display: flex; flex-direction: column; gap: var(--sp-2); margin-bottom: var(--sp-3); }
+.pg-system-rules .sr-dial { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.pg-system-rules .sr-dial__label { flex: 1 1 22ch; min-width: 0; color: var(--ink); font-size: var(--fs-sm); }
+.pg-system-rules .sr-dial__default { color: var(--ink-3); font-size: var(--fs-xs); white-space: nowrap; }
+.pg-system-rules .sr-dial__default.is-changed { color: var(--st-warn-ink); font-weight: 600; }
+
+/* ---- what fires now */
+.pg-system-rules .sr-fires { display: flex; flex-direction: column; gap: var(--sp-1); padding-top: var(--sp-3); border-top: 1px solid var(--grid); }
+.pg-system-rules .sr-fires__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.pg-system-rules .sr-fires__tally { color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-system-rules .sr-fires__impact { margin-left: auto; color: var(--ink); font-size: var(--fs-sm); font-weight: 600; font-variant-numeric: tabular-nums; }
+.pg-system-rules .sr-fires__top { margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+
+/* ---- card footer: the screen it opens, the reset */
+.pg-system-rules .sr-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.pg-system-rules .sr-foot__note { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-system-rules .sr-foot__note > svg { color: var(--ink-3); }
+
+@media (max-width: 900px) { .pg-system-rules .sr-grid { grid-template-columns: minmax(0, 1fr); } }

@@ -1,0 +1,536 @@
+/*
+ * Chart kit: the card built by MK.charts.mount(), its legend, table twin, tooltip and sparkline,
+ * plus the layout of the #/system/styleguide-charts page.
+ * Every colour is a token from css/tokens.css. Spacing sits on the 4px scale.
+ */
+
+/* ------------------------------------------------------------------ card */
+
+.mk-chart {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--ring);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--fs-md);
+  line-height: 1.4;
+}
+
+.mk-chart *,
+.mk-chart *::before,
+.mk-chart *::after { box-sizing: border-box; }
+
+.mk-chart [hidden] { display: none !important; }
+
+/* bare: no surface of its own - for a chart placed inside another card, tab or drawer */
+.mk-chart--bare {
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* The header wraps: when the title and the tools no longer fit side by side (a measure or grouping control in a
+   half- or third-width card) the tools drop under the title, right-aligned, instead of squeezing it to a sliver. */
+.mk-chart__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-2) var(--sp-3);
+  min-height: 30px;
+}
+
+.mk-chart__titles { flex: 1 1 160px; min-width: 0; padding-top: 2px; }
+
+.mk-chart__title {
+  margin: 0;
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.mk-chart__subtitle {
+  margin: 2px 0 0;
+  font-size: var(--fs-sm);
+  line-height: 16px;
+  color: var(--ink-2);
+}
+
+.mk-chart__tools {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  min-width: 0;
+  max-width: 100%;
+  margin-left: auto;
+}
+
+.mk-chart__controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.mk-chart__controls:empty { display: none; }
+
+/* ------------------------------------------------------------------ segmented control (measure / grouping, Chart | Table) */
+
+/* Track, radii, heights, weight, pressed state and focus ring are the rules of MK.ui.segmented: css/components.css styles
+   .mk-seg / .mk-seg__btn and .mk-chart__seg / .mk-chart__segbtn with the same selectors. Only layout lives here. */
+.mk-chart__seg { flex-wrap: wrap; max-width: 100%; } /* a long grouping control may break inside a narrow card */
+
+.mk-chart__segbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  line-height: 1;
+}
+
+.mk-chart__seg--icons .mk-chart__segbtn { width: 28px; padding: 0; }
+
+.mk-chart__legbtn:focus-visible,
+.mk-chart__pagerbtn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+/* ------------------------------------------------------------------ legend: top-left, under the title */
+
+.mk-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--sp-3);
+  margin: var(--sp-2) 0 0 -6px;
+  padding: 0;
+  list-style: none;
+}
+
+/* Table view: a legend that toggles series stays - it shows (and changes) which series the table includes. A legend that
+   only explains marks is hidden but keeps its height, so switching Chart | Table never moves the layout. */
+.mk-chart.is-table .mk-chart__legend:not(.has-toggles) { visibility: hidden; }
+
+.mk-chart__legitem { display: flex; min-width: 0; }
+
+.mk-chart__legbtn,
+.mk-chart__legstatic {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  margin: 0;
+  padding: 0 6px;
+  border: 0;
+  border-radius: var(--sp-1);
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: var(--fs-sm);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.mk-chart__legbtn { cursor: pointer; transition: background-color 120ms ease, color 120ms ease; }
+.mk-chart__legbtn:hover { background: var(--surface-2); color: var(--ink); }
+.mk-chart__legbtn[aria-pressed="false"] { color: var(--ink-3); }
+.mk-chart__legbtn[aria-pressed="false"] .mk-chart__legname { text-decoration: line-through; }
+.mk-chart__legbtn[aria-pressed="false"] .mk-chart__swatch { opacity: 0.3; }
+
+.mk-chart__swatch { flex: none; display: block; }
+.mk-chart__swatch--rect { width: 10px; height: 10px; border-radius: 2px; }
+.mk-chart__swatch--line { width: 14px; height: 2px; border-radius: 1px; }
+
+/* sequential scale for heatmaps */
+.mk-chart__scale {
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding-left: 6px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.mk-chart__scalename { margin-right: 2px; font-size: var(--fs-sm); }
+
+.mk-chart__ramp {
+  width: 112px;
+  height: 8px;
+  border-radius: 2px;
+  background: linear-gradient(90deg,
+    var(--seq-100), var(--seq-150), var(--seq-200), var(--seq-250), var(--seq-300), var(--seq-350), var(--seq-400),
+    var(--seq-450), var(--seq-500), var(--seq-550), var(--seq-600), var(--seq-650), var(--seq-700));
+}
+
+/* ------------------------------------------------------------------ body: plot, marker captions, table twin, empty state */
+
+.mk-chart__body {
+  position: relative;
+  flex: none;
+  width: 100%;
+  min-width: 0;
+  margin-top: var(--sp-3);
+  overflow: hidden; /* the plot is sized to this box, axis labels included - nothing scrolls */
+}
+
+.mk-chart__plot {
+  position: absolute;
+  inset: 0;
+}
+
+.mk-chart__marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.mk-chart__mark {
+  position: absolute;
+  font-size: var(--fs-xs);
+  line-height: 14px;
+  color: var(--ink-2); /* words a reader needs: --ink-3 is kept for canvas axis ticks, icons and disabled states */
+  white-space: nowrap;
+}
+
+.mk-chart__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+.mk-chart__empty--inline { position: static; flex: 1; }
+
+.mk-chart__table {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mk-chart__tablewrap {
+  flex: 1;
+  min-height: 0;
+  overflow-x: auto; /* safety valve for very wide matrices; rows are paged, never scrolled */
+  overflow-y: hidden;
+}
+
+.mk-chart__tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.mk-chart__tbl th,
+.mk-chart__tbl td {
+  height: 28px;
+  padding: 0 var(--sp-3);
+  border-bottom: 1px solid var(--grid);
+  text-align: left;
+  font-weight: 400;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.mk-chart__tbl th:first-child,
+.mk-chart__tbl td:first-child { padding-left: 0; }
+
+.mk-chart__tbl th:last-child,
+.mk-chart__tbl td:last-child { padding-right: 0; }
+
+.mk-chart__tbl thead th {
+  height: 30px;
+  border-bottom-color: var(--axis);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+}
+
+.mk-chart__tbl tbody th { color: var(--ink-2); }
+.mk-chart__tbl .is-num { text-align: right; }
+.mk-chart__tbl tbody tr:hover th,
+.mk-chart__tbl tbody tr:hover td { background: var(--surface-2); }
+
+.mk-chart__pager {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-1);
+  height: 36px;
+  padding-right: 3px; /* room for the last button's focus ring (2px + 1px offset): the body clips its overflow */
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.mk-chart__pagerinfo { margin-right: var(--sp-2); }
+
+.mk-chart__pagerbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--sp-1);
+  background: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--ring);
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.mk-chart__pagerbtn:hover:not(:disabled) { background: var(--surface-2); color: var(--ink); }
+.mk-chart__pagerbtn:disabled { color: var(--axis); cursor: default; }
+
+.mk-chart__note {
+  margin: var(--sp-3) 0 0;
+  font-size: var(--fs-xs);
+  line-height: 16px;
+  color: var(--ink-2);
+}
+
+.mk-chart__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------ tooltip (appended to <body> by ECharts) */
+
+.mk-tip {
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+}
+
+.mk-tip__in {
+  min-width: 128px;
+  max-width: 340px;
+  padding: 10px var(--sp-3);
+}
+
+.mk-tip__head {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--ink-2);
+  white-space: normal;
+}
+
+.mk-tip__sub {
+  margin-top: 2px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  white-space: normal;
+}
+
+.mk-tip__rows {
+  display: grid;
+  grid-template-columns: 12px max-content minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--sp-2);
+  row-gap: 2px;
+}
+
+.mk-tip__head + .mk-tip__rows,
+.mk-tip__sub + .mk-tip__rows { margin-top: 6px; }
+
+.mk-tip__key { display: flex; align-items: center; height: 18px; }
+.mk-tip__key i { display: block; width: 12px; height: 2px; border-radius: 1px; } /* a short line key, not a box */
+
+.mk-tip__val {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+}
+
+.mk-tip__name {
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+
+.mk-tip__name.is-active { color: var(--ink); font-weight: 600; }
+
+.mk-tip__key.is-total,
+.mk-tip__val.is-total,
+.mk-tip__name.is-total {
+  margin-top: var(--sp-1);
+  padding-top: var(--sp-1);
+  height: auto;
+  border-top: 1px solid var(--grid);
+}
+
+.mk-tip__foot {
+  margin-top: 6px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  white-space: normal;
+}
+
+/* ------------------------------------------------------------------ sparkline */
+
+.mk-spark { display: inline-block; vertical-align: middle; overflow: visible; }
+
+.mk-spark__line {
+  fill: none;
+  stroke: var(--series-muted);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mk-spark__line--empty { stroke: var(--grid); }
+.mk-spark__area { fill: var(--series-muted); stroke: none; opacity: 0.2; }
+.mk-spark__dot { stroke: var(--surface); stroke-width: 1.5; }
+
+/* ------------------------------------------------------------------ #/system/styleguide-charts */
+
+.mk-cg {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--sp-4);
+  font-family: var(--font);
+  color: var(--ink);
+}
+
+.mk-cg__intro,
+.mk-cg__section,
+.mk-cg__w12 { grid-column: span 12; }
+.mk-cg__w8 { grid-column: span 8; }
+.mk-cg__w6 { grid-column: span 6; }
+.mk-cg__w4 { grid-column: span 4; }
+
+/* cards in one row share a height: the cell is a flex column and its card takes the slack */
+.mk-cg__w12,
+.mk-cg__w8,
+.mk-cg__w6,
+.mk-cg__w4 { display: flex; flex-direction: column; min-width: 0; }
+
+.mk-cg .mk-chart,
+.mk-cg__panel { flex: 1 0 auto; }
+
+.mk-cg__intro {
+  max-width: 880px;
+  margin: 0;
+  font-size: var(--fs-md);
+  line-height: 20px;
+  color: var(--ink-2);
+}
+
+.mk-cg__section {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin: var(--sp-4) 0 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--grid);
+}
+
+.mk-cg__section:first-of-type { margin-top: 0; }
+
+.mk-cg__section h2 {
+  margin: 0;
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--ink);
+}
+
+.mk-cg__section p {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+
+.mk-cg__panel {
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--ring);
+}
+
+.mk-cg__panel h3 {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.mk-cg__sparks {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.mk-cg__sparks th,
+.mk-cg__sparks td {
+  height: 36px;
+  padding: 0 var(--sp-3) 0 0;
+  border-bottom: 1px solid var(--grid);
+  text-align: left;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.mk-cg__sparks thead th { height: 28px; font-size: var(--fs-xs); font-weight: 600; color: var(--ink-2); border-bottom-color: var(--axis); }
+.mk-cg__sparks tbody th { color: var(--ink); }
+.mk-cg__sparks .is-num { text-align: right; padding-right: 0; }
+.mk-cg__sparks tr:last-child th,
+.mk-cg__sparks tr:last-child td { border-bottom: 0; }
+
+.mk-cg__rules {
+  margin: 0;
+  padding: 0 0 0 var(--sp-4);
+  font-size: var(--fs-sm);
+  line-height: 20px;
+  color: var(--ink-2);
+}
+
+.mk-cg__rules li + li { margin-top: var(--sp-1); }
+
+.mk-cg__log {
+  margin: var(--sp-3) 0 0;
+  min-height: 16px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+@media (max-width: 1180px) {
+  .mk-cg__w8,
+  .mk-cg__w6,
+  .mk-cg__w4 { grid-column: span 12; }
+}

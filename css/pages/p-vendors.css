@@ -1,0 +1,209 @@
+/*
+ * Page styles: vendors (vendor master and onboarding). Tokens only (css/tokens.css); every selector is
+ * prefixed .pg-vendors. Page-owned classes start with "vn-"; mk-* component classes are never restyled here.
+ * The profile drawer, the onboarding wizard, the edit form and the decision dialogs live outside the page
+ * root: their content sits in wrappers that carry the page class
+ * (.pg-vendors.vn-drawer / .vn-wiz / .vn-actions / .vn-decide / .vn-headchip).
+ */
+
+/* ---- one-line purpose under the title */
+.pg-vendors .vn-intro {
+  margin: 0;
+  max-width: 136ch;
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.pg-vendors .vn-intro__who { color: var(--ink); }
+
+/* ---- KPI row: one tidy line of five */
+.pg-vendors .vn-kpis {
+  display: grid; gap: var(--sp-3);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+/* ---- equal-height cells for the chart / attention row */
+.pg-vendors .vn-cell { display: flex; flex-direction: column; min-width: 0; }
+.pg-vendors .vn-cell > * { flex: 1; }
+.pg-vendors .vn-chartsrc { padding: 0 var(--sp-5) var(--sp-3); }
+
+/* ---- "not payable right now" list */
+.pg-vendors .vn-att { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.pg-vendors .vn-att > li + li { border-top: 1px solid var(--grid); }
+.pg-vendors .vn-att__row {
+  display: flex; flex-direction: column; gap: 2px;
+  width: 100%; margin: 0; padding: var(--sp-2) var(--sp-1);
+  border: 0; border-radius: var(--radius-sm); background: transparent;
+  color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.pg-vendors .vn-att__row:hover { background: var(--surface-2); }
+.pg-vendors .vn-att__top { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); min-width: 0; }
+.pg-vendors .vn-att__name {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-weight: 600; font-size: var(--fs-md);
+}
+.pg-vendors .vn-att__money { font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+.pg-vendors .vn-att__why { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+.pg-vendors .vn-cardfoot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); }
+.pg-vendors .vn-cardfoot__more { display: inline-flex; align-items: center; gap: var(--sp-1); color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-vendors .vn-cardfoot__more > svg { color: var(--ink-3); }
+
+/* ---- shared small parts */
+.pg-vendors .vn-mono {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: var(--fs-sm); letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+.pg-vendors .vn-muted { color: var(--ink-2); font-weight: 400; }
+.pg-vendors .vn-small { font-size: var(--fs-sm); }
+.pg-vendors .vn-nowrap { white-space: nowrap; }
+.pg-vendors .vn-inline { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); }
+.pg-vendors .vn-units { display: inline-flex; align-items: baseline; gap: var(--sp-1); white-space: nowrap; }
+.pg-vendors .vn-divider { height: 1px; background: var(--grid); }
+
+/* ---- the register */
+.pg-vendors .vn-toolbar {
+  padding: 0 var(--sp-5);
+  box-shadow: inset 0 -1px 0 var(--grid);
+  overflow-x: auto;
+}
+.pg-vendors .vn-filters {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  border-bottom: 1px solid var(--grid);
+}
+.pg-vendors .vn-filters__count { margin-left: auto; color: var(--ink-2); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+
+/* ---- masked value with an eye toggle (the kit has no secret field) */
+.pg-vendors .vn-secret { display: inline-flex; align-items: center; gap: var(--sp-1); min-width: 0; }
+.pg-vendors .vn-secret--input { display: flex; width: 100%; }
+.pg-vendors .vn-secret--input > input { flex: 1; min-width: 0; }
+.pg-vendors .vn-eye {
+  flex: none; display: inline-grid; place-items: center;
+  width: 24px; height: 24px; padding: 0;
+  border: 0; border-radius: var(--radius-sm); background: transparent;
+  color: var(--ink-2); cursor: pointer;
+}
+.pg-vendors .vn-eye:hover { background: var(--surface-3); color: var(--ink); }
+.pg-vendors .vn-eye[aria-pressed="true"] { color: var(--ink); }
+
+/* ---- pre-check list */
+.pg-vendors .vn-checks { display: flex; flex-direction: column; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
+.pg-vendors .vn-check { display: flex; align-items: flex-start; gap: var(--sp-2); min-width: 0; }
+.pg-vendors .vn-check__mark { flex: none; display: inline-flex; margin-top: 1px; }
+.pg-vendors .vn-check__mark--ok { color: var(--st-good-ink); }
+.pg-vendors .vn-check__mark--bad { color: var(--st-critical-ink); }
+.pg-vendors .vn-check__mark--skip { color: var(--ink-3); }
+.pg-vendors .vn-check__main { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.pg-vendors .vn-check__label { font-size: var(--fs-md); font-weight: 600; }
+.pg-vendors .vn-check__detail { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; overflow-wrap: anywhere; }
+.pg-vendors .vn-check.is-skipped .vn-check__label { font-weight: 400; color: var(--ink-2); }
+
+/* ---- quiet one-liners */
+.pg-vendors .vn-quiet {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0;
+  color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5;
+}
+.pg-vendors .vn-quiet > svg { flex: none; margin-top: 3px; color: var(--ink-3); }
+.pg-vendors .vn-quiet--ok > svg { color: var(--st-good-ink); }
+.pg-vendors .vn-quiet--bad { color: var(--st-critical-ink); }
+.pg-vendors .vn-quiet--bad > svg { color: var(--st-critical-ink); }
+
+/* ---- verification evidence */
+.pg-vendors .vn-evi { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-vendors .vn-evi__group {
+  display: flex; flex-direction: column; gap: var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.pg-vendors .vn-evi__title {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2);
+  margin: 0;
+}
+.pg-vendors .vn-evi__note { margin: 0; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+.pg-vendors .vn-evi__lead { margin: 0 0 var(--sp-1); }
+.pg-vendors .vn-evi__lead:last-child { margin-bottom: 0; }
+.pg-vendors .vn-evi__src {
+  display: flex; align-items: flex-start; gap: var(--sp-1);
+  margin: 0;
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4;
+}
+.pg-vendors .vn-evi__src > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+
+/* ---- profile drawer */
+.pg-vendors.vn-headchip { display: inline-flex; align-items: center; flex: none; padding-top: 2px; }
+.pg-vendors.vn-drawer { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; }
+.pg-vendors .vn-sec { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-vendors .vn-sec__head {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--grid);
+}
+.pg-vendors .vn-sec__title { margin: 0; }
+.pg-vendors .vn-state { padding: var(--sp-2) 0; overflow-x: auto; }
+
+.pg-vendors .vn-spend { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-vendors .vn-spend__chart { min-width: 0; }
+.pg-vendors .vn-spend__chart:empty { display: none; }
+
+.pg-vendors .vn-bills { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-vendors .vn-bills__foot { margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+
+/* ---- action bar (drawer and dialog footers) */
+.pg-vendors.vn-actions { flex: 1; display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-vendors .vn-actions__row { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); }
+.pg-vendors .vn-actions__buttons { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: var(--sp-2); margin-left: auto; }
+.pg-vendors .vn-actions__next {
+  flex: 1; display: flex; align-items: flex-start; gap: var(--sp-2);
+  min-width: 0;
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-vendors .vn-actions__next > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-vendors .vn-actions__why {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-vendors .vn-actions__why > svg { flex: none; margin-top: 3px; color: var(--ink-3); }
+
+/* ---- decision dialog */
+.pg-vendors.vn-decide { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+
+/* ---- onboarding wizard and edit form */
+.pg-vendors.vn-wiz { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-vendors .vn-wiz__steps { padding-bottom: var(--sp-2); border-bottom: 1px solid var(--grid); overflow-x: auto; }
+.pg-vendors .vn-wiz__panel { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-vendors .vn-wiz__error:empty { display: none; }
+.pg-vendors .vn-wiz__checks {
+  display: flex; flex-direction: column; gap: var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.pg-vendors .vn-wiz__checks .vn-sec__head { border-bottom-color: var(--ring); }
+
+.pg-vendors .vn-units__pick {
+  display: grid; gap: var(--sp-1) var(--sp-4);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.pg-vendors .vn-docs { display: flex; flex-direction: column; gap: var(--sp-1); }
+.pg-vendors .vn-docs__row {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-1) 0;
+}
+.pg-vendors .vn-docs__row + .vn-docs__row { border-top: 1px solid var(--grid); }
+.pg-vendors .vn-docs__file {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  color: var(--ink-2); font-size: var(--fs-sm);
+}
+.pg-vendors .vn-docs__file > svg { color: var(--ink-3); }
+.pg-vendors .vn-review { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+
+/* ---- narrower windows */
+@media (max-width: 1439px) {
+  .pg-vendors .vn-kpis { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+@media (max-width: 1180px) {
+  .pg-vendors .vn-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 1023px) {
+  .pg-vendors .vn-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

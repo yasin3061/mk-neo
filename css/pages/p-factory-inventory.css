@@ -1,0 +1,95 @@
+/*
+ * Page styles: factory-inventory (stock, days of cover, raw material prices, factory payables).
+ * Tokens only (css/tokens.css); every selector is prefixed .pg-factory-inventory and every page-owned class
+ * starts with "fi-". mk-* component classes are never restyled, only placed.
+ */
+
+/* ---- suggested purchases: safety dials above the table, the working in a popover (which lives outside the page root) */
+.pg-factory-inventory .fi-suggest { display: flex; flex-direction: column; min-width: 0; }
+.pg-factory-inventory .fi-dials { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-5); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--grid); }
+.pg-factory-inventory .fi-dials__note { flex: 1 1 28ch; min-width: 0; color: var(--ink-2); font-size: var(--fs-xs); line-height: 1.4; }
+.pg-factory-inventory.fi-working { display: flex; flex-direction: column; gap: var(--sp-2); }
+.pg-factory-inventory.fi-working .fi-working__title { font-size: var(--fs-sm); font-weight: 600; }
+.pg-factory-inventory.fi-working .fi-working__steps { display: flex; flex-direction: column; gap: 4px; margin: 0; padding-left: 1.2em; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+
+/* ---- purpose line */
+.pg-factory-inventory .fi-intro { display: flex; flex-direction: column; gap: var(--sp-1); max-width: 132ch; }
+.pg-factory-inventory .fi-intro__text { margin: 0; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+.pg-factory-inventory .fi-intro__who {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5;
+}
+.pg-factory-inventory .fi-intro__who > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+
+/* ---- KPI row: six tiles across the wide column, three then two as the column narrows */
+.pg-factory-inventory .fi-kpiblock { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-factory-inventory .fi-kpiblock .mk-source { margin-top: 0; }
+.pg-factory-inventory .fi-kpis { display: grid; gap: var(--sp-3); grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.pg-factory-inventory .fi-kpis .mk-tile__sub { white-space: normal; }
+
+/* ---- price trend beside the morning action list.
+   The action list is as long as the morning needs it to be; the price card is a fixed plot plus its note. Stretching
+   them to a common height would leave a field of empty card under the plot, so each card ends where its content does. */
+.pg-factory-inventory .fi-split {
+  display: grid; gap: var(--sp-4); align-items: start;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+}
+.pg-factory-inventory .fi-split > * { min-width: 0; }
+.pg-factory-inventory .fi-pricecard, .pg-factory-inventory .fi-attention { display: flex; flex-direction: column; }
+.pg-factory-inventory .fi-plot { min-width: 0; }
+
+/* ---- card footers: the capability caveat sits above the source pills */
+.pg-factory-inventory .fi-foot { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-factory-inventory .fi-foot .mk-source { margin-top: 0; }
+.pg-factory-inventory .fi-foot--actions {
+  flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4);
+}
+.pg-factory-inventory .fi-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-3); }
+.pg-factory-inventory .fi-note {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-factory-inventory .fi-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+
+/* ---- needs attention today */
+.pg-factory-inventory .fi-attention__body { display: flex; flex-direction: column; gap: var(--sp-4); }
+.pg-factory-inventory .fi-block { display: flex; flex-direction: column; gap: var(--sp-2); }
+.pg-factory-inventory .fi-block__title {
+  margin: 0; color: var(--ink-2);
+  font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.pg-factory-inventory .fi-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.pg-factory-inventory .fi-alert {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-3);
+  padding: var(--sp-2) 0;
+  border-top: 1px solid var(--grid);
+}
+.pg-factory-inventory .fi-list > .fi-alert:first-child { border-top: 0; padding-top: 0; }
+.pg-factory-inventory .fi-alert__main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pg-factory-inventory .fi-alert__name { color: var(--ink); font-size: var(--fs-md); font-weight: 600; }
+.pg-factory-inventory .fi-alert__meta { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4; }
+.pg-factory-inventory .fi-alert__chip { flex: none; padding-top: 2px; }
+
+/* ---- stock tables */
+.pg-factory-inventory .fi-cover { min-width: 112px; }
+.pg-factory-inventory .fi-cell2 { display: flex; flex-direction: column; gap: 1px; line-height: 1.3; align-items: flex-end; }
+.pg-factory-inventory .fi-cell2__sub { font-size: var(--fs-sm); font-weight: 400; white-space: nowrap; }
+.pg-factory-inventory .fi-ok { color: var(--ink-2); font-size: var(--fs-sm); white-space: nowrap; }
+.pg-factory-inventory .fi-lots { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); padding: 2px 0; }
+
+/* ---- what the factory owes */
+.pg-factory-inventory .fi-pay { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-factory-inventory .fi-pay__table { min-width: 0; }
+.pg-factory-inventory .fi-pay .mk-bad { display: inline-flex; align-items: center; gap: var(--sp-1); }
+
+/* ---- narrow content column (1280px window and below) */
+@media (max-width: 1380px) {
+  .pg-factory-inventory .fi-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 1120px) {
+  .pg-factory-inventory .fi-split { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .pg-factory-inventory .fi-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pg-factory-inventory .fi-foot--actions { align-items: flex-start; flex-direction: column; }
+}

@@ -1,0 +1,102 @@
+/*
+ * Food cost (COGS) (#/costs/cogs). Tokens only (css/tokens.css); every selector is prefixed .pg-costs-cogs.
+ * Page-owned classes start with "cg-"; mk-* component classes are used as they are and never restyled here.
+ */
+
+/* ---- header: purpose, month switch, notes */
+.pg-costs-cogs .cg-head { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-costs-cogs .cg-intro { margin: 0; max-width: 980px; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+.pg-costs-cogs .cg-intro strong { color: var(--ink); font-weight: 600; }
+
+.pg-costs-cogs .cg-period {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius); background: var(--surface); box-shadow: 0 0 0 1px var(--ring);
+}
+.pg-costs-cogs .cg-period__switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); min-width: 0; }
+.pg-costs-cogs .cg-period__label { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); font-size: var(--fs-md); }
+.pg-costs-cogs .cg-period__label svg { flex: none; color: var(--ink-3); }
+.pg-costs-cogs .cg-period__label strong { font-weight: 600; }
+
+.pg-costs-cogs .cg-notes { display: flex; flex-direction: column; gap: var(--sp-1); }
+.pg-costs-cogs .cg-note {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; max-width: 1100px; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5;
+}
+.pg-costs-cogs .cg-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-costs-cogs .cg-note > span { min-width: 0; }
+.pg-costs-cogs .cg-note .mk-btn { flex: none; margin-top: -3px; }
+.pg-costs-cogs .mk-card__body .cg-note { margin-top: var(--sp-3); }
+
+/* ---- KPI tiles with the source caption under the block */
+.pg-costs-cogs .cg-kpiblock { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-costs-cogs .cg-kpiblock .mk-tile__value { overflow: hidden; text-overflow: ellipsis; }
+.pg-costs-cogs .cg-source-flat { margin-top: 0; }
+.pg-costs-cogs .cg-source-end { margin-top: auto; padding-top: var(--sp-3); }
+
+.pg-costs-cogs .cg-flags { display: flex; flex-direction: column; gap: var(--sp-2); }
+
+/* ---- a share above the red flag: icon + ink */
+.pg-costs-cogs .cg-flagged { display: inline-flex; align-items: center; gap: var(--sp-1); color: var(--st-critical-ink); font-weight: 650; }
+.pg-costs-cogs .cg-flagged svg { flex: none; }
+
+/* ---- variance value cell: inline bar and the factory / local split under it */
+.pg-costs-cogs .cg-varcell { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pg-costs-cogs .cg-varcell__split { color: var(--ink-2); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; text-align: right; white-space: normal; }
+
+/* ---- paired cards share a row height */
+.pg-costs-cogs .cg-fill { height: 100%; }
+.pg-costs-cogs .cg-leftcol { min-width: 0; }
+
+/* ---- food cost statement: label, rupees, share of net sales */
+.pg-costs-cogs .cg-stmt { display: flex; flex-direction: column; margin: 0; min-width: 0; }
+.pg-costs-cogs .cg-stmt__row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 96px 72px; align-items: baseline; gap: var(--sp-3);
+  padding: 7px 0; border-top: 1px solid var(--grid);
+  font-size: var(--fs-md); line-height: 1.4;
+}
+.pg-costs-cogs .cg-stmt__row:first-child { border-top: 0; padding-top: 0; }
+.pg-costs-cogs .cg-stmt__label { display: flex; align-items: flex-start; gap: var(--sp-2); min-width: 0; color: var(--ink-2); }
+.pg-costs-cogs .cg-stmt__label .mk-legend-dot { flex: none; margin-top: 5px; }
+.pg-costs-cogs .cg-stmt__text { min-width: 0; }
+.pg-costs-cogs .cg-stmt__sign { flex: none; width: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; text-align: center; }
+.pg-costs-cogs .cg-stmt__value, .pg-costs-cogs .cg-stmt__share { margin: 0; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.pg-costs-cogs .cg-stmt__value { font-weight: 550; }
+.pg-costs-cogs .cg-stmt__share { color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-costs-cogs .cg-stmt__row--start .cg-stmt__label,
+.pg-costs-cogs .cg-stmt__row--total .cg-stmt__label,
+.pg-costs-cogs .cg-stmt__row--total-bad .cg-stmt__label { color: var(--ink); font-weight: 600; }
+.pg-costs-cogs .cg-stmt__row--start .cg-stmt__value,
+.pg-costs-cogs .cg-stmt__row--total .cg-stmt__value,
+.pg-costs-cogs .cg-stmt__row--total-bad .cg-stmt__value { font-weight: 650; }
+.pg-costs-cogs .cg-stmt__row--total, .pg-costs-cogs .cg-stmt__row--total-bad { border-top-color: var(--axis); }
+.pg-costs-cogs .cg-stmt__row--total .cg-stmt__share { color: var(--ink); font-weight: 600; }
+.pg-costs-cogs .cg-stmt__row--total-bad .cg-stmt__share { color: var(--st-critical-ink); font-weight: 650; }
+
+/* ---- recipe cost card */
+.pg-costs-cogs .cg-recipe__chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); padding: 0 var(--sp-5) var(--sp-3); }
+.pg-costs-cogs .cg-recipe__block { min-width: 0; }
+.pg-costs-cogs .cg-recipe__block + .cg-recipe__block { margin-top: var(--sp-4); border-top: 1px solid var(--grid); padding-top: var(--sp-3); }
+.pg-costs-cogs .cg-subhead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-1) var(--sp-4); padding: 0 var(--sp-5) var(--sp-2); }
+.pg-costs-cogs .cg-subhead h4 { margin: 0; color: var(--ink-2); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.pg-costs-cogs .cg-bomlegend { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); color: var(--ink-2); font-size: var(--fs-sm); }
+/* a caveat that belongs beside the block heading, not only in the small print under it */
+.pg-costs-cogs .cg-subnote { display: inline-flex; align-items: center; gap: 6px; min-width: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4; }
+.pg-costs-cogs .cg-subnote svg { flex: none; color: var(--st-warn); }
+.pg-costs-cogs .cg-bomlegend__item { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.pg-costs-cogs .cg-item { display: flex; align-items: flex-start; gap: var(--sp-2); min-width: 0; max-width: 208px; }
+.pg-costs-cogs .cg-item .mk-legend-dot { flex: none; margin-top: 5px; }
+.pg-costs-cogs .cg-item__text { min-width: 0; }
+.pg-costs-cogs .cg-item__name, .pg-costs-cogs .cg-item__sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pg-costs-cogs .cg-item__name { font-weight: 550; }
+.pg-costs-cogs .cg-item__sub { color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-costs-cogs .cg-recipe__notes { display: flex; flex-direction: column; gap: var(--sp-1); padding: 0 var(--sp-5) var(--sp-4); }
+.pg-costs-cogs .cg-col-selected { background: var(--surface-2); }
+
+/* ---- price and cost history */
+.pg-costs-cogs .cg-history { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+
+/* ---- narrower windows */
+@media (max-width: 1180px) {
+  .pg-costs-cogs .mk-grid--12 > * { grid-column: span 12; }
+}

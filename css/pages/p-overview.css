@@ -1,0 +1,122 @@
+/*
+ * Overview - management cockpit (#/overview). Tokens only (css/tokens.css); every selector is prefixed .pg-overview.
+ * Page-owned classes start with "ov-"; mk-* component classes are never restyled here.
+ */
+
+/* ---- headline block: hero card on the left, six tiles on the right */
+.pg-overview .ov-herobody { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; }
+.pg-overview .ov-kpis {
+  display: grid; gap: var(--sp-3);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+}
+/* ---- looking ahead: three forecast tiles over the reactiveness dial */
+.pg-overview .ov-outlook { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-overview .ov-outlook__tiles { display: grid; gap: var(--sp-3); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pg-overview .ov-outlook__tiles .mk-tile__sub { white-space: normal; }
+.pg-overview .ov-dial { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.pg-overview .ov-dial__label { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-size: var(--fs-sm); font-weight: 600; white-space: nowrap; }
+.pg-overview .ov-dial__label svg { color: var(--ink-3); }
+.pg-overview .ov-dial__note { flex: 1 1 32ch; min-width: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4; }
+@media (max-width: 1100px) { .pg-overview .ov-outlook__tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .pg-overview .ov-outlook__tiles { grid-template-columns: minmax(0, 1fr); } }
+
+/* statement-style list: label on the left (may wrap), figure on the right (never wraps) */
+.pg-overview .ov-lines { display: flex; flex-direction: column; min-width: 0; }
+.pg-overview .ov-line {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  padding: 6px 0; border-top: 1px solid var(--grid);
+  font-size: var(--fs-md); line-height: 1.4;
+}
+.pg-overview .ov-line:first-child { border-top: 0; padding-top: 0; }
+.pg-overview .ov-line:last-child { padding-bottom: 0; }
+.pg-overview .ov-line__label { min-width: 0; color: var(--ink-2); }
+.pg-overview .ov-line__value { flex: none; font-weight: 550; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.pg-overview .ov-line--total { border-top-color: var(--axis); }
+.pg-overview .ov-line--total .ov-line__label, .pg-overview .ov-line--total .ov-line__value { color: var(--ink); font-weight: 650; }
+.pg-overview .ov-chipline { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+
+/* one caption line under the block: cost-period and provisional notes on the left, sources on the right */
+.pg-overview .ov-strip { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-4); }
+.pg-overview .ov-strip .ov-source-flat { margin-top: 0; }
+.pg-overview .ov-stripnotes { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+/* ---- approvals and payments: two or three wide tiles */
+.pg-overview .ov-section { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-overview .ov-flow { display: grid; gap: var(--sp-3); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pg-overview .ov-flow--1 { grid-template-columns: minmax(0, 1fr); }
+.pg-overview .ov-flow--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* extra line inside a stat tile: icon or badge, then text */
+.pg-overview .ov-tileline {
+  display: flex; align-items: flex-start; gap: var(--sp-1);
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4;
+}
+.pg-overview .ov-tileline__lead { flex: none; display: inline-flex; align-items: center; min-height: 17px; white-space: nowrap; }
+.pg-overview .ov-tileline__lead svg { color: var(--ink-3); }
+
+/* ---- captions and source tags owned by this page */
+.pg-overview .ov-footnote { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5; }
+.pg-overview .ov-source-flat { margin-top: 0; }
+.pg-overview .ov-footnote + .ov-source-flat { margin-top: var(--sp-2); }
+.pg-overview .mk-link + .ov-source-flat { margin-top: var(--sp-2); }
+.pg-overview .ov-source-end { margin-top: auto; padding-top: var(--sp-3); }
+
+/* ---- needs attention: grouped list flowing into two columns */
+.pg-overview .ov-attn { columns: 2; column-gap: var(--sp-8); }
+.pg-overview .ov-attn__head {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: 0 var(--sp-2) var(--sp-2);
+  break-after: avoid; break-inside: avoid;
+}
+/* space sits under a group, never above a heading: a group that starts the second column stays level with the first */
+.pg-overview .ov-attn__group { padding-bottom: var(--sp-4); }
+.pg-overview .ov-attn__group:last-child { padding-bottom: 0; }
+
+.pg-overview .ov-ins {
+  display: flex; align-items: flex-start; gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-2);
+  border-top: 1px solid var(--grid); border-radius: 0;
+  color: var(--ink); text-decoration: none;
+  break-inside: avoid;
+}
+.pg-overview a.ov-ins { transition: background-color 80ms ease; }
+.pg-overview a.ov-ins:hover { background: var(--surface-2); }
+.pg-overview a.ov-ins:focus-visible { outline-offset: -2px; border-radius: var(--radius-sm); }
+
+.pg-overview .ov-ins__icon { flex: none; display: flex; margin-top: 1px; color: var(--ink-3); }
+.pg-overview .ov-ins--critical .ov-ins__icon { color: var(--st-critical-ink); }
+.pg-overview .ov-ins--warn .ov-ins__icon { color: var(--st-warn-ink); }
+.pg-overview .ov-ins--info .ov-ins__icon { color: var(--seq-600); }
+.pg-overview .ov-ins--good .ov-ins__icon { color: var(--st-good-ink); }
+
+.pg-overview .ov-ins__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pg-overview .ov-ins__title { font-size: var(--fs-md); font-weight: 600; line-height: 1.35; }
+.pg-overview .ov-ins__detail {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2;
+  overflow: hidden;
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-overview .ov-ins__meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 2px var(--sp-3);
+  margin-top: 2px;
+  color: var(--ink-2); font-size: var(--fs-xs);
+}
+.pg-overview .ov-ins__area { font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.pg-overview .ov-ins__go { display: inline-flex; align-items: center; gap: 2px; color: var(--accent); font-weight: 550; }
+.pg-overview a.ov-ins:hover .ov-ins__go { text-decoration: underline; text-underline-offset: 2px; }
+
+.pg-overview .ov-ins__metric { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; max-width: 140px; text-align: right; }
+.pg-overview .ov-ins__value { font-size: var(--fs-lg); font-weight: 650; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pg-overview .ov-ins__label { color: var(--ink-2); font-size: var(--fs-xs); line-height: 1.3; }
+
+/* ---- below 1180px the right-hand blocks get tight: relax to two tiles and one list column */
+@media (max-width: 1180px) {
+  .pg-overview .ov-attn { columns: 1; }
+  /* a third of the width is too narrow for the hero card and the side chart: stack them */
+  .pg-overview .ov-top > *, .pg-overview .ov-charts > * { grid-column: span 12; }
+}
+@media (max-width: 1023px) {
+  .pg-overview .ov-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pg-overview .ov-flow, .pg-overview .ov-flow--2 { grid-template-columns: minmax(0, 1fr); }
+}

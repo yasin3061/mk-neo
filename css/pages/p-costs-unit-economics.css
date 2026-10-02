@@ -1,0 +1,151 @@
+/*
+ * Unit economics (#/costs/unit-economics). Tokens only (css/tokens.css); every selector is prefixed .pg-costs-unit-economics.
+ * Page-owned classes start with "ue-"; mk-* component classes are used as they are and never restyled here.
+ */
+
+/* ---- header: purpose, unit tabs, month switch, notes */
+.pg-costs-unit-economics .ue-head { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-costs-unit-economics .ue-intro { margin: 0; max-width: 980px; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+.pg-costs-unit-economics .ue-intro strong { color: var(--ink); font-weight: 600; }
+.pg-costs-unit-economics .ue-locked { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+
+.pg-costs-unit-economics .ue-period {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius); background: var(--surface); box-shadow: 0 0 0 1px var(--ring);
+}
+.pg-costs-unit-economics .ue-period__switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); min-width: 0; }
+.pg-costs-unit-economics .ue-period__label { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); font-size: var(--fs-md); }
+.pg-costs-unit-economics .ue-period__label svg { flex: none; color: var(--ink-3); }
+.pg-costs-unit-economics .ue-period__label strong { font-weight: 600; }
+
+.pg-costs-unit-economics .ue-notes { display: flex; flex-direction: column; gap: var(--sp-1); }
+.pg-costs-unit-economics .ue-note {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 18px;
+}
+.pg-costs-unit-economics .ue-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-costs-unit-economics .ue-note > span { min-width: 0; }
+.pg-costs-unit-economics .ue-note > .mk-estimate, .pg-costs-unit-economics .ue-note > .mk-btn, .pg-costs-unit-economics .ue-note > .mk-np { flex: none; }
+.pg-costs-unit-economics .mk-chart .ue-note, .pg-costs-unit-economics .mk-card__body .ue-note { margin-top: var(--sp-3); }
+
+.pg-costs-unit-economics .ue-unitline { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-2); margin: 0; font-size: var(--fs-md); line-height: 1.5; }
+.pg-costs-unit-economics .ue-unitline .mk-legend-dot { align-self: center; }
+.pg-costs-unit-economics .ue-unitline strong { font-weight: 600; }
+
+/* ---- KPI tiles: two even rows of four, source caption under the block */
+.pg-costs-unit-economics .ue-kpiblock { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-costs-unit-economics .ue-kpis { display: grid; gap: var(--sp-3); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pg-costs-unit-economics .ue-source-flat { margin-top: 0; }
+.pg-costs-unit-economics .ue-source-end { margin-top: auto; padding-top: var(--sp-3); }
+
+/* ---- paired cards share a row height */
+.pg-costs-unit-economics .ue-pair { align-items: stretch; }
+.pg-costs-unit-economics .ue-fill { height: 100%; }
+
+/* ---- outlet comparison */
+.pg-costs-unit-economics .ue-standouts { display: grid; gap: var(--sp-2); grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); padding: 0 var(--sp-5) var(--sp-3); }
+.pg-costs-unit-economics .ue-standout {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0; border-radius: var(--radius-sm); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--ring);
+  color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+  transition: background-color 80ms ease, box-shadow 80ms ease;
+}
+.pg-costs-unit-economics .ue-standout:hover { background: var(--surface-3); }
+.pg-costs-unit-economics .ue-standout.is-selected { box-shadow: inset 0 0 0 1px var(--ring-strong), inset 3px 0 0 var(--accent); }
+.pg-costs-unit-economics .ue-standout__who { display: flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-costs-unit-economics .ue-standout__what { font-size: var(--fs-md); font-weight: 600; line-height: 1.35; }
+.pg-costs-unit-economics .ue-standout__diff { color: var(--st-critical-ink); font-size: var(--fs-sm); font-weight: 550; font-variant-numeric: tabular-nums; }
+/* a gap too small to act on is stated in the muted tone, not in the status ink */
+.pg-costs-unit-economics .ue-standout__diff.is-soft { color: var(--ink-2); font-weight: 400; }
+
+.pg-costs-unit-economics .mk-card__body .ue-cmpnote { margin: 0; padding: 0 var(--sp-5) var(--sp-3); }
+
+.pg-costs-unit-economics .ue-cmp th[scope="row"] {
+  position: static; height: 32px; padding: 3px var(--sp-3);
+  background: transparent; border-bottom: 1px solid var(--grid);
+  color: var(--ink); font-size: var(--fs-md); font-weight: 400; text-align: left; white-space: nowrap;
+}
+.pg-costs-unit-economics .ue-cmp tbody tr:last-child th { border-bottom: 0; }
+.pg-costs-unit-economics .ue-cmp td { min-width: 96px; }
+.pg-costs-unit-economics .ue-cmp__label > span, .pg-costs-unit-economics .ue-cmp__label .mk-estimate { margin-left: var(--sp-2); }
+.pg-costs-unit-economics .ue-cmp__label > span:first-child { margin-left: 0; }
+.pg-costs-unit-economics .ue-cmp__line th[scope="row"] { padding-left: calc(var(--sp-5) + var(--sp-5)); color: var(--ink-2); }
+.pg-costs-unit-economics .ue-cmp__group th[scope="row"], .pg-costs-unit-economics .ue-cmp__group td { font-weight: 600; }
+.pg-costs-unit-economics .ue-cmp__total th[scope="row"], .pg-costs-unit-economics .ue-cmp__total td { font-weight: 650; border-top: 1px solid var(--axis); }
+.pg-costs-unit-economics .ue-cmp__est th[scope="row"], .pg-costs-unit-economics .ue-cmp__est td { color: var(--st-warn-ink); font-style: italic; }
+.pg-costs-unit-economics .ue-cmp__section th {
+  position: static; height: 32px; padding-top: var(--sp-3);
+  background: var(--surface-2); border-top: 1px solid var(--axis); border-bottom: 1px solid var(--grid);
+  color: var(--ink-2); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; vertical-align: bottom;
+}
+.pg-costs-unit-economics .ue-cmp__all { background: var(--surface-2); color: var(--ink-2); }
+.pg-costs-unit-economics .ue-cmp thead th.ue-cmp__all { background: var(--surface-2); }
+.pg-costs-unit-economics .ue-cmp thead th.is-selected { box-shadow: inset 0 -2px 0 var(--accent); color: var(--ink); }
+
+.pg-costs-unit-economics .ue-colbtn, .pg-costs-unit-economics .ue-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 0 -4px; padding: 2px 4px;
+  border: 0; border-radius: 4px; background: transparent;
+  color: inherit; font: inherit; font-weight: 600; cursor: pointer;
+}
+.pg-costs-unit-economics .ue-colbtn:hover, .pg-costs-unit-economics .ue-toggle:hover { background: var(--surface-2); color: var(--ink); }
+.pg-costs-unit-economics .ue-toggle svg { flex: none; color: var(--ink-3); }
+.pg-costs-unit-economics .ue-toggle > span { margin-left: 0; }
+
+.pg-costs-unit-economics .ue-legend { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-5); color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5; }
+.pg-costs-unit-economics .ue-legend__item { display: inline-flex; align-items: center; gap: var(--sp-2); min-width: 0; }
+.pg-costs-unit-economics .ue-legend__ramp { flex: none; display: inline-block; width: 44px; height: 10px; border-radius: 2px; box-shadow: inset 0 0 0 1px var(--ring); }
+.pg-costs-unit-economics .ue-legend__ramp--seq { background: linear-gradient(90deg, var(--seq-100), var(--seq-300), var(--seq-550)); }
+.pg-costs-unit-economics .ue-legend__ramp--div { background: linear-gradient(90deg, var(--div-neg-2), var(--div-neg-1), var(--div-mid), var(--div-pos-1), var(--div-pos-2)); }
+.pg-costs-unit-economics .ue-cmpcard .mk-card__foot .mk-source { margin-top: var(--sp-2); }
+
+/* ---- per-order statement: label, rupees, share of the order */
+.pg-costs-unit-economics .ue-stmt { display: flex; flex-direction: column; margin: 0; min-width: 0; }
+.pg-costs-unit-economics .ue-stmt__row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 84px 76px; align-items: baseline; gap: var(--sp-3);
+  padding: 7px 0; border-top: 1px solid var(--grid);
+  font-size: var(--fs-md); line-height: 1.4;
+}
+.pg-costs-unit-economics .ue-stmt__row:first-child { border-top: 0; padding-top: 0; }
+.pg-costs-unit-economics .ue-stmt__label { display: flex; align-items: baseline; gap: var(--sp-2); min-width: 0; color: var(--ink-2); }
+.pg-costs-unit-economics .ue-stmt__text { min-width: 0; }
+.pg-costs-unit-economics .ue-stmt__sign { flex: none; width: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; text-align: center; }
+.pg-costs-unit-economics .ue-stmt__value, .pg-costs-unit-economics .ue-stmt__share { margin: 0; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.pg-costs-unit-economics .ue-stmt__value { font-weight: 550; }
+.pg-costs-unit-economics .ue-stmt__share { color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-costs-unit-economics .ue-stmt__row--start .ue-stmt__label, .pg-costs-unit-economics .ue-stmt__row--total .ue-stmt__label { color: var(--ink); font-weight: 600; }
+.pg-costs-unit-economics .ue-stmt__row--start .ue-stmt__value, .pg-costs-unit-economics .ue-stmt__row--total .ue-stmt__value { font-weight: 650; }
+.pg-costs-unit-economics .ue-stmt__row--total { border-top-color: var(--axis); }
+.pg-costs-unit-economics .ue-stmt__row--sub { border-top: 0; padding-top: 0; font-size: var(--fs-sm); }
+.pg-costs-unit-economics .ue-stmt__row--sub .ue-stmt__label { padding-left: calc(10px + var(--sp-2)); }
+.pg-costs-unit-economics .ue-stmt__row--sub .ue-stmt__value { font-weight: 400; color: var(--ink-2); }
+
+/* ---- full P&L */
+.pg-costs-unit-economics .ue-line { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.pg-costs-unit-economics .ue-line--line { padding-left: var(--sp-5); }
+.pg-costs-unit-economics .ue-line__est { display: flex; align-items: center; gap: var(--sp-1); color: var(--ink-2); font-size: var(--fs-xs); font-weight: 400; }
+.pg-costs-unit-economics .ue-detail tr.ue-row-total td { background: var(--surface-2); border-top: 1px solid var(--axis); }
+.pg-costs-unit-economics .ue-detail tr.ue-row-line td { color: var(--ink); }
+.pg-costs-unit-economics .ue-detail tr.ue-row-line td:first-child { color: var(--ink-2); }
+/* the free-text column takes whatever width is left and truncates instead of stretching the table */
+.pg-costs-unit-economics .ue-bookedcell { width: auto; }
+.pg-costs-unit-economics .ue-booked { display: flex; align-items: center; gap: var(--sp-2); min-width: 0; }
+.pg-costs-unit-economics .ue-booked .mk-chip { flex: none; }
+.pg-costs-unit-economics .ue-booked__text {
+  flex: 1; width: 0; min-width: 120px;
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.35;
+}
+.pg-costs-unit-economics .ue-booked__clamp {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2;
+  overflow: hidden; white-space: normal; overflow-wrap: break-word;
+}
+
+/* ---- narrower windows */
+@media (max-width: 1180px) {
+  .pg-costs-unit-economics .ue-pair > * { grid-column: span 12; }
+}
+@media (max-width: 1023px) {
+  .pg-costs-unit-economics .ue-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

@@ -1,0 +1,1327 @@
+{
+ "key": "swiggy",
+ "research": {
+  "channel": "Swiggy (food delivery, India) - data visible to a restaurant partner and to its POS/ERP (Petpooja / UrbanPiper-style integration)",
+  "data_points": [
+   {
+    "name": "Swiggy order ID, outlet/store ID, order created timestamp, channel tag = swiggy",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay (Petpooja direct integration / UrbanPiper middleware: ext_platforms.id, store, created)",
+    "granularity": "per order, real time",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+    "notes": "Aggregator order id is the join key to the weekly payout annexure."
+   },
+   {
+    "name": "Order subtotal, order total, payable amount, total taxes, total charges",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+    "notes": "order_subtotal = items + options x qty, excluding taxes/charges/discounts. These are menu-side values only; no Swiggy fees appear here."
+   },
+   {
+    "name": "Order status lifecycle with timestamps (Acknowledged, Food Ready, Dispatched, Completed, Cancelled)",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order status API / webhooks",
+    "granularity": "per order, per state change",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-status-update.md",
+    "notes": "timestamp and timestamp_unix on every state change, so accept-to-ready (kitchen time) can be computed by the POS/ERP itself."
+   },
+   {
+    "name": "Customer order instructions / special requests",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay (instructions, item instructions)",
+    "granularity": "per order / per item",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/integration-certification/testing-and-validation"
+   },
+   {
+    "name": "Item name, Swiggy/POS item ID, quantity, unit price, item total, category, veg/non-veg flag",
+    "group": "item",
+    "availability": "available",
+    "via": "POS order relay (items[])",
+    "granularity": "per item per order",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md"
+   },
+   {
+    "name": "Variants and add-ons chosen (options_to_add) with prices",
+    "group": "item",
+    "availability": "available",
+    "via": "POS order relay",
+    "granularity": "per item per order",
+    "confidence": "high",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/swiggy/integration-overview"
+   },
+   {
+    "name": "Item-level taxes and item-level charges",
+    "group": "item",
+    "availability": "available",
+    "via": "POS order relay",
+    "granularity": "per item per order",
+    "confidence": "medium",
+    "source_url": "https://urbanpiper.helpjuice.com/55451-ordering/598671-ordering-platforms-special-constraints",
+    "notes": "Swiggy quirk: taxes on item-level charges arrive in the order-level taxes array rather than on the item (seen in search snippet of UrbanPiper special-constraints page; page itself is paywalled to bots)."
+   },
+   {
+    "name": "Item-wise sales ranking / how much each menu item sells on Swiggy",
+    "group": "item",
+    "availability": "available",
+    "via": "Swiggy Owner app / partner portal insights (also derivable from POS relay data)",
+    "granularity": "per item, aggregate by period and outlet",
+    "confidence": "high",
+    "source_url": "https://apps.apple.com/in/app/swiggy-owner/id1209732136"
+   },
+   {
+    "name": "Item-level customer rating",
+    "group": "item",
+    "availability": "unclear",
+    "via": "partner dashboard (not verified)",
+    "granularity": "unknown",
+    "confidence": "low",
+    "notes": "No source found confirming dish-level ratings are exposed to the restaurant. Do not show."
+   },
+   {
+    "name": "Packaging (packing) charge on the order",
+    "group": "charges_taxes",
+    "availability": "available",
+    "via": "POS order relay (charges[] title/value) and payout annexure",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+    "notes": "Packaging is part of Swiggy's gross order value, so commission is charged on it too."
+   },
+   {
+    "name": "GST on food (5%) amount per order, with liability flag = aggregator",
+    "group": "charges_taxes",
+    "availability": "available",
+    "via": "POS order relay (taxes[] with rate, value, liability_on merchant/aggregator) and payout annexure",
+    "granularity": "per order (and per item)",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+    "notes": "Under section 9(5) the tax is Swiggy's liability; show it as a memo line 'GST collected and paid by Swiggy', never as restaurant revenue or restaurant GST payable."
+   },
+   {
+    "name": "Swiggy service fee (commission) amount per order",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "Weekly payout annexure (order-level rows) only; NOT in the POS order relay",
+    "granularity": "per order, but only after the payout cycle closes (weekly)",
+    "confidence": "medium",
+    "source_url": "https://hellobooks.ai/guides/swiggy-zomato-reconciliation",
+    "notes": "The order relay schema has no commission/fee field. HelloBooks describes the annexure as carrying order-level gross value, commission, fees, adjustments, TDS. Petpooja's reconciliation shows per-order commission only after you upload the payout report (https://www.petpooja.com/poss/online-order-reconciliation). In the mock, live orders must show 'estimated commission' (contract % x gross) and only settled weeks should show 'actual'."
+   },
+   {
+    "name": "Collection (payment gateway) fee per order - 2%",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "Weekly payout annexure",
+    "granularity": "per order / per payout cycle",
+    "confidence": "medium",
+    "source_url": "https://startupstorymedia.com/insights-swiggy-announces-2-collection-fee-on-restaurant-orders-for-online-payments/",
+    "notes": "Deducted from payouts; not present in POS data. Exact annexure column name not verified from a public source."
+   },
+   {
+    "name": "GST @18% on Swiggy's fees (commission, collection fee etc.)",
+    "group": "charges_taxes",
+    "availability": "available",
+    "via": "Payout annexure and Swiggy's tax invoice to the restaurant",
+    "granularity": "per order in annexure / per invoice per cycle",
+    "confidence": "medium",
+    "source_url": "https://hellobooks.ai/guides/swiggy-zomato-reconciliation",
+    "notes": "ITC eligibility is a separate question (restaurants at 5% without ITC cannot claim it); treat as cost."
+   },
+   {
+    "name": "Swiggy One per-order fee charged to restaurant (from 25 Nov 2025)",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "Payout report",
+    "granularity": "per payout cycle (depends on share of Swiggy One orders in the cycle)",
+    "confidence": "low",
+    "source_url": "https://www.verdictfoodservice.com/news/swiggy-levy-added-charge-swiggy-one/",
+    "notes": "Amount not publicly disclosed. If shown in the mock, keep it as a small 'other platform fees' line, not a precise formula."
+   },
+   {
+    "name": "Fixed per-order 'platform/technology fee' charged to restaurants (Rs 5-15)",
+    "group": "charges_taxes",
+    "availability": "unclear",
+    "via": "claimed in payout statements",
+    "granularity": "per order",
+    "confidence": "low",
+    "source_url": "https://www.menuhelper.in/blog/fixed-variable-platform-fees-swiggy-zomato-2026",
+    "notes": "Only an unsourced blog asserts this. Do not model it as a fact."
+   },
+   {
+    "name": "Customer-side delivery fee and customer-side platform fee (approx Rs 15) paid to Swiggy",
+    "group": "charges_taxes",
+    "availability": "unclear",
+    "via": "not seen in POS relay or documented annexure fields",
+    "granularity": "n/a",
+    "confidence": "low",
+    "source_url": "https://www.verdictfoodservice.com/news/swiggy-levy-added-charge-swiggy-one/",
+    "notes": "These are Swiggy's own revenue from the customer on Swiggy-delivered orders. No source shows them being reported to the restaurant. Do not show."
+   },
+   {
+    "name": "Total discount on the order",
+    "group": "discount",
+    "availability": "available",
+    "via": "POS order relay (discount)",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md"
+   },
+   {
+    "name": "Restaurant-funded (merchant) discount per order",
+    "group": "discount",
+    "availability": "available",
+    "via": "POS order relay: discount minus total_external_discount; ext_platforms.discounts[].is_merchant_discount",
+    "granularity": "per order",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/integration-certification/testing-and-validation",
+    "notes": "For Swiggy specifically the relayed discount is effectively the merchant share because Swiggy does not send its own share."
+   },
+   {
+    "name": "Swiggy-funded (platform) discount per order",
+    "group": "discount",
+    "availability": "partial",
+    "via": "NOT in POS relay for Swiggy; funding split visible in payout annexure 'Discount Summary' sheet via 'Restaurant Share (%)' column",
+    "granularity": "per discount campaign per payout cycle (order-level split not verified)",
+    "confidence": "medium",
+    "source_url": "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b",
+    "notes": "UrbanPiper: 'Swiggy doesn't send its share of discount in the Order Relay payload' (https://urbanpiper.helpjuice.com/55451-ordering/598671-ordering-platforms-special-constraints, via search snippet). Restaurant Share 100 = fully restaurant funded, 50 = co-funded. In the mock, show platform-funded discount only in the weekly settlement view, by campaign."
+   },
+   {
+    "name": "Coupon code / discount campaign title on the order",
+    "group": "discount",
+    "availability": "partial",
+    "via": "POS order relay (coupon, discounts[].title/code); campaign list in annexure Discount Summary",
+    "granularity": "per order / per campaign",
+    "confidence": "low",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+    "notes": "Schema fields exist but UrbanPiper warns not every attribute is populated for every aggregator."
+   },
+   {
+    "name": "Discount spend and its effectiveness vs market peers",
+    "group": "discount",
+    "availability": "available",
+    "via": "Swiggy Market Intelligence Dashboard - Spend Metrics tab",
+    "granularity": "aggregate per outlet/brand per period, benchmarked vs ~30 similar players",
+    "confidence": "high",
+    "source_url": "https://blog.swiggy.com/swiggy-catalyst/stay-ahead-of-the-game-with-swiggys-market-intelligence-dashboard/"
+   },
+   {
+    "name": "Weekly payout amount, cycle dates, payout history",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "Partner portal / Owner app Finance-Payouts section (also inside Petpooja via embedded Swiggy portal iframe); downloadable annexure",
+    "granularity": "per payout cycle (weekly), per outlet",
+    "confidence": "high",
+    "source_url": "https://blog.petpooja.com/operations-workflows/swiggy-now-inside-your-restaurant-order-management-system/"
+   },
+   {
+    "name": "Payout annexure workbook (Excel, 7 sheets incl. Summary, Discount Summary, Other charges and deductions; order-level sheet)",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "Partner portal download / email",
+    "granularity": "per payout cycle; rows per order, per campaign, per adjustment",
+    "confidence": "medium",
+    "source_url": "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b",
+    "notes": "Only three sheet names are confirmed by a public source. Exact order-level column headers could not be verified publicly (Scribd copies of real annexures were unreachable). Use generic labels in the mock."
+   },
+   {
+    "name": "Net payout per order (gross less fees, taxes, TDS, adjustments)",
+    "group": "settlement_payout",
+    "availability": "partial",
+    "via": "Payout annexure order-level rows; Petpooja reconciliation after upload",
+    "granularity": "per order, weekly in arrears",
+    "confidence": "medium",
+    "source_url": "https://www.petpooja.com/poss/online-order-reconciliation",
+    "notes": "Ads and other restaurant-level deductions are NOT allocated to orders; they sit in a separate sheet, so true order-level net after ads is a derived/allocated figure."
+   },
+   {
+    "name": "TDS deducted (sec 194-O; from 1 Apr 2026 sec 393(1) Table Sl. 8(v) of Income-tax Act 2025)",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "Payout annexure; quarterly TDS certificate; Form 26AS",
+    "granularity": "per order / per payout cycle",
+    "confidence": "medium",
+    "source_url": "https://blog.tdsman.com/2026/07/tds-on-e-commerce-transactions-section-3931-194o/",
+    "notes": "0.1% of gross amount of sales facilitated. Recoverable as tax credit, so show as 'TDS receivable', not an expense."
+   },
+   {
+    "name": "GST TCS under section 52",
+    "group": "settlement_payout",
+    "availability": "partial",
+    "via": "Payout annexure / GSTR-8 credit",
+    "granularity": "per payout cycle",
+    "confidence": "medium",
+    "source_url": "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf",
+    "notes": "NOT collected on restaurant services taxed under 9(5). Applies only to non-9(5) supplies (e.g. packaged MRP goods) at 0.5% since 10 Jul 2024. For a kebab QSR this should be nil or negligible."
+   },
+   {
+    "name": "Section 9(5) GST collected and deposited by Swiggy",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "Order relay tax fields + payout annexure; Swiggy issues the customer invoice",
+    "granularity": "per order and per cycle",
+    "confidence": "high",
+    "source_url": "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf",
+    "notes": "Never reaches the restaurant's bank. Restaurant reports the taxable value in GSTR-3B Table 3.1.1(ii) and GSTR-1 Table 14 with no tax payable (https://www.casahuja.com/2026/09/gst-on-restaurant-cloud-kitchen-sales.html)."
+   },
+   {
+    "name": "Restaurant-level adjustments: current-week block plus adjustments carried over from previous week",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "Payout annexure 'Other charges and deductions' sheet",
+    "granularity": "per adjustment line per cycle",
+    "confidence": "medium",
+    "source_url": "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b",
+    "notes": "Some rows literally read 'Unable to fetch Campaign Details' - i.e. unexplained deductions exist in real files; a realistic mock can include an 'unclassified deduction' bucket."
+   },
+   {
+    "name": "Bank UTR / payment reference for each payout",
+    "group": "settlement_payout",
+    "availability": "unclear",
+    "via": "payout report / payment advice",
+    "granularity": "per payout",
+    "confidence": "low",
+    "source_url": "https://www.cointab.net/in/reconciliation-of-swiggy-with-mis-for-restaurants/",
+    "notes": "Cointab mentions a 'payment advice report' and settlement reference; exact Swiggy field not verified. Safer to take UTR from the bank statement side."
+   },
+   {
+    "name": "Machine-readable settlement feed (API) into POS/ERP",
+    "group": "settlement_payout",
+    "availability": "not_available",
+    "via": "not exposed - reports are downloaded from the partner portal and uploaded",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "source_url": "https://www.petpooja.com/poss/online-order-reconciliation",
+    "notes": "Petpooja's own reconciliation works by the restaurant sharing/uploading payout reports, which implies no settlement API. The ERP mock should show an 'upload annexure' step."
+   },
+   {
+    "name": "Customer phone number (real)",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/miscellaneous/swiggy-feature-actions.md",
+    "notes": "Only a temporary masked number plus PIN can be fetched per live order (fetch_customer_data); it expires and must be re-fetched after rider departure. UrbanPiper shows a dummy 1234567890 for all Swiggy orders."
+   },
+   {
+    "name": "Customer name",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "POS relay carries a placeholder (name = 'Swiggy')",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "source_url": "https://urbanpiper.helpjuice.com/hub-order-relay/485581-how-an-order-is-relayed",
+    "notes": "UrbanPiper help (via search snippet): Swiggy masks customer details; every Swiggy order shows the same name, email NA, dummy phone and dummy address. Whether the Swiggy Owner app order card shows a first name was not verified - do not rely on it."
+   },
+   {
+    "name": "Customer email",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "high",
+    "source_url": "https://urbanpiper.helpjuice.com/hub-order-relay/485581-how-an-order-is-relayed"
+   },
+   {
+    "name": "Customer delivery address / lat-long / pincode",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "POS relay carries a placeholder address for Swiggy",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "source_url": "https://urbanpiper.helpjuice.com/hub-order-relay/485581-how-an-order-is-relayed",
+    "notes": "Swiggy's own fleet delivers, so the restaurant does not need the address. No customer heat-maps or locality analysis should be shown for Swiggy."
+   },
+   {
+    "name": "Persistent customer identity across orders (customer ID/hash), order history per customer",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "source_url": "https://www.medianama.com/2025/11/223-zomato-swiggy-share-customer-data-restaurants/",
+    "notes": "'Data masking' is the long-running NRAI grievance. No per-customer cohorts, LTV or CRM lists can be built from Swiggy data."
+   },
+   {
+    "name": "New vs repeat customer flag per order",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "not exposed per order",
+    "granularity": "n/a",
+    "confidence": "low",
+    "notes": "No source shows a per-order new/repeat flag in the relay or annexure."
+   },
+   {
+    "name": "New vs repeat customer mix (aggregate) / 'customer' score",
+    "group": "customer",
+    "availability": "partial",
+    "via": "Market Intelligence Dashboard Overview tab (business, operations, customer, spend scores); ads reporting",
+    "granularity": "aggregate per outlet per period",
+    "confidence": "low",
+    "source_url": "https://blog.swiggy.com/swiggy-catalyst/stay-ahead-of-the-game-with-swiggys-market-intelligence-dashboard/",
+    "notes": "Swiggy confirms a 'customer' area in the overview score but does not publish the metric names. If shown, keep it to an aggregate percentage labelled as 'from Swiggy dashboard (manual entry)'."
+   },
+   {
+    "name": "Consent-based sharing of customer phone numbers for marketing",
+    "group": "customer",
+    "availability": "unclear",
+    "via": "proposed in-app consent prompt",
+    "granularity": "per consenting customer",
+    "confidence": "low",
+    "source_url": "https://www.medianama.com/2025/11/223-zomato-swiggy-share-customer-data-restaurants/",
+    "notes": "As of Nov 2025 Swiggy was only in early-stage talks with NRAI (Zomato was further along). No evidence found of a live Swiggy rollout by Sep 2026. Do not show."
+   },
+   {
+    "name": "Delivery rider name and phone",
+    "group": "delivery_logistics",
+    "availability": "available",
+    "via": "POS rider status webhook (delivery_person name, phone, alt_phone)",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/rider-status-update.md",
+    "notes": "Operational only; no value in storing for analytics."
+   },
+   {
+    "name": "Rider status timeline with timestamps (Assigned, Arrived/At Store, PickedUp/Out for Delivery, Delivered) and reassignment",
+    "group": "delivery_logistics",
+    "availability": "available",
+    "via": "POS rider status webhook",
+    "granularity": "per order, per status change",
+    "confidence": "high",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/swiggy/integration-overview",
+    "notes": "Allows rider wait time at store and pickup-to-delivered duration to be derived."
+   },
+   {
+    "name": "Rider ETA to the outlet",
+    "group": "delivery_logistics",
+    "availability": "available",
+    "via": "Swiggy feature action rider_eta (async callback time_to_arrive)",
+    "granularity": "per order, on request",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/miscellaneous/swiggy-feature-actions.md"
+   },
+   {
+    "name": "Order return flow states (return-start, return-failed, return-completed)",
+    "group": "delivery_logistics",
+    "availability": "available",
+    "via": "POS rider status webhook (Swiggy-specific)",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/rider-status-update.md"
+   },
+   {
+    "name": "Total delivery time to customer",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "derived from rider status timestamps (Delivered minus order created)",
+    "granularity": "per order",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/rider-status-update.md",
+    "notes": "Derived, not a Swiggy-supplied KPI; depends on the Delivered event actually being relayed."
+   },
+   {
+    "name": "Delivery distance (km) per order",
+    "group": "delivery_logistics",
+    "availability": "unclear",
+    "via": "not in POS relay; customer address is masked so it cannot be computed",
+    "granularity": "n/a",
+    "confidence": "low",
+    "notes": "Could not verify from a public source whether the annexure carries a distance column. Do not show."
+   },
+   {
+    "name": "Rider live GPS location / route",
+    "group": "delivery_logistics",
+    "availability": "not_available",
+    "via": "not exposed to POS for Swiggy-fleet orders",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/llms.txt",
+    "notes": "UrbanPiper's live-tracking API is for the restaurant's own riders pushing location TO aggregators, not the reverse."
+   },
+   {
+    "name": "Delivery cost / rider payout borne by Swiggy",
+    "group": "delivery_logistics",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "notes": "Internal to Swiggy; no source shows it shared with restaurants."
+   },
+   {
+    "name": "Restaurant rating, customer ratings and review text",
+    "group": "ratings_feedback",
+    "availability": "available",
+    "via": "Swiggy Owner app / partner portal Ratings and Reviews (also via Petpooja-embedded portal)",
+    "granularity": "overall rating aggregate; individual reviews",
+    "confidence": "medium",
+    "source_url": "https://apps.apple.com/in/app/swiggy-owner/id1209732136",
+    "notes": "Portal only - no ratings field in the POS relay. For the ERP mock treat as manually keyed or 'from Swiggy portal' aggregate (average rating, count)."
+   },
+   {
+    "name": "Ratings/reviews via POS API",
+    "group": "ratings_feedback",
+    "availability": "not_available",
+    "via": "not exposed in POS integration",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/llms.txt",
+    "notes": "UrbanPiper's endpoint index has no ratings/review endpoint."
+   },
+   {
+    "name": "Reviewer identity (name/contact) and linkage of a review to a specific order ID",
+    "group": "ratings_feedback",
+    "availability": "unclear",
+    "via": "partner portal",
+    "granularity": "per review",
+    "confidence": "low",
+    "notes": "Not verified publicly."
+   },
+   {
+    "name": "Menu quality score (out of 100) at brand and outlet level",
+    "group": "ratings_feedback",
+    "availability": "available",
+    "via": "Swiggy partner dashboard",
+    "granularity": "per outlet / brand",
+    "confidence": "medium",
+    "source_url": "https://inc42.com/buzz/swiggy-unveils-data-tool-for-restaurant-partners-to-gauge-marketing-efforts-against-peers/"
+   },
+   {
+    "name": "Ad campaign performance: impressions, clicks, CTR, orders from ads, cost per order, ROAS/ROI",
+    "group": "marketing_ads",
+    "availability": "available",
+    "via": "Swiggy Ads section of Owner app / partner portal",
+    "granularity": "per campaign, per day/period, per outlet",
+    "confidence": "medium",
+    "source_url": "https://digitalcatapult.in/blog/swiggy-ads-complete-guide-2026",
+    "notes": "Metric list comes from agency/secondary sources, not Swiggy documentation. Portal only; no API to the ERP."
+   },
+   {
+    "name": "Ad spend actually deducted from payout",
+    "group": "marketing_ads",
+    "availability": "available",
+    "via": "Payout annexure 'Other charges and deductions' sheet",
+    "granularity": "per campaign line per weekly cycle",
+    "confidence": "medium",
+    "source_url": "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b",
+    "notes": "Netted off the weekly payout, not invoiced separately for payment. Disputes about ads run without consent are widely reported (https://www.medianama.com/2026/04/223-swiggy-ad-charges-without-consent-unauthorized-deductions-restaurants/)."
+   },
+   {
+    "name": "Ad billing model",
+    "group": "marketing_ads",
+    "availability": "partial",
+    "via": "Ads dashboard / contract",
+    "granularity": "per campaign",
+    "confidence": "low",
+    "source_url": "https://digitalcatapult.in/blog/swiggy-ads-complete-guide-2026",
+    "notes": "Described as CPC auction by an agency guide; Medianama also reports 'cost per sale (CPS)' charges. Keep the mock generic: 'ad spend', 'orders from ads', 'ROAS'."
+   },
+   {
+    "name": "Ad and discount spend benchmarked against market",
+    "group": "marketing_ads",
+    "availability": "available",
+    "via": "Market Intelligence Dashboard - Spend Metrics tab",
+    "granularity": "aggregate per outlet per period",
+    "confidence": "high",
+    "source_url": "https://hospibuz.com/swiggy-empowers-restaurant-partners-with-insights-through-its-market-intelligence-dashboard/"
+   },
+   {
+    "name": "Attribution of an individual order to an ad click",
+    "group": "marketing_ads",
+    "availability": "unclear",
+    "via": "not in POS relay",
+    "granularity": "n/a",
+    "confidence": "low",
+    "notes": "No evidence of an ad flag on the order payload or annexure row. Do not show order-level ad attribution."
+   },
+   {
+    "name": "Funnel conversion (menu visits to cart to order), i.e. share of people who order after viewing the menu",
+    "group": "funnel",
+    "availability": "available",
+    "via": "Market Intelligence Dashboard - Funnel Metrics tab (portal only)",
+    "granularity": "aggregate per outlet/brand per period, benchmarked vs peers",
+    "confidence": "medium",
+    "source_url": "https://blog.swiggy.com/swiggy-catalyst/stay-ahead-of-the-game-with-swiggys-market-intelligence-dashboard/",
+    "notes": "Swiggy confirms the tab and that it covers customer behaviour and conversion rates; Inc42 confirms 'people placing orders after taking a look at the menu'. Exact stage names (M2C, C2O) are not officially published."
+   },
+   {
+    "name": "Organic listing impressions / search appearances",
+    "group": "funnel",
+    "availability": "unclear",
+    "via": "partner dashboard",
+    "granularity": "aggregate",
+    "confidence": "low",
+    "notes": "Impressions are confirmed for ads only, not for organic listing. Label any top-of-funnel figure as 'menu visits', not 'impressions', or omit."
+   },
+   {
+    "name": "Funnel data per customer/session, or via API into the ERP",
+    "group": "funnel",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/llms.txt",
+    "notes": "Portal-only aggregates. In the mock, mark funnel numbers as 'entered from Swiggy dashboard'."
+   },
+   {
+    "name": "Preparation time communicated with the order",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS order relay",
+    "granularity": "per order",
+    "confidence": "medium",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/swiggy/integration-overview",
+    "notes": "UrbanPiper help lists preparation time among relayed order fields. The acknowledge-with-prep-time field (extra.prep_time_mins) is documented as Zomato-only."
+   },
+   {
+    "name": "Actual kitchen time (accept to Food Ready) and rider wait",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "derived from POS status and rider timestamps",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-status-update.md",
+    "notes": "This is the restaurant's own data, so safe to analyse in depth."
+   },
+   {
+    "name": "Cancellation event and merchant-side cancellation reason",
+    "group": "operations_quality",
+    "availability": "partial",
+    "via": "POS status webhook (Cancelled); reason codes for merchant-initiated cancels (item_out_of_stock, store_closed, store_busy, etc.)",
+    "granularity": "per order",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-status-update.md",
+    "notes": "For Swiggy, direct API cancellation after acceptance is blocked ('Cancellation of Swiggy orders is not allowed. Callback requested instead') - Swiggy support calls the outlet. A reliable 'cancelled by customer vs Swiggy vs restaurant' attribution and the financial treatment are only in the portal/annexure."
+   },
+   {
+    "name": "Cancellation rate, outlet availability (online %), complaint rate - with peer benchmark",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "Market Intelligence Dashboard - Operational Metrics tab",
+    "granularity": "aggregate per outlet per period",
+    "confidence": "high",
+    "source_url": "https://blog.swiggy.com/swiggy-catalyst/stay-ahead-of-the-game-with-swiggys-market-intelligence-dashboard/"
+   },
+   {
+    "name": "Customer complaints (missing item, quality, etc.) per order",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "Swiggy Owner app complaints section / partner portal complaint management",
+    "granularity": "per complaint, linked to an order",
+    "confidence": "medium",
+    "source_url": "https://apps.apple.com/in/app/swiggy-owner/id1209732136",
+    "notes": "Portal only, not in POS relay."
+   },
+   {
+    "name": "Refund amount recovered from the restaurant for a complaint",
+    "group": "operations_quality",
+    "availability": "partial",
+    "via": "Payout annexure adjustments / refund deductions",
+    "granularity": "per order or per adjustment line, weekly",
+    "confidence": "medium",
+    "source_url": "https://hellobooks.ai/guides/swiggy-zomato-reconciliation",
+    "notes": "Swiggy refunds the customer first and nets it off a later payout. The refund amount the customer actually received is not necessarily what the restaurant sees."
+   },
+   {
+    "name": "Compensation paid to restaurant for customer-cancelled orders after preparation",
+    "group": "operations_quality",
+    "availability": "unclear",
+    "via": "payout annexure",
+    "granularity": "per order",
+    "confidence": "low",
+    "source_url": "https://www.swiggy.com/refund-policy",
+    "notes": "Swiggy's consumer policy says cancellation fees of up to 100% compensate merchants and delivery partners, but the restaurant-side rule and annexure presentation were not verifiable publicly."
+   },
+   {
+    "name": "Penalties for restaurant-side rejections/cancellations and rejection-rate thresholds",
+    "group": "operations_quality",
+    "availability": "unclear",
+    "via": "partner portal / merchant terms",
+    "granularity": "n/a",
+    "confidence": "low",
+    "source_url": "https://www.dinecard.in/blog/restaurant-delivery-aggregator-rejection-rate-reduce-india",
+    "notes": "Threshold zones (3%, 5%, 8%) come from an unsourced blog. Merchant terms are not public."
+   },
+   {
+    "name": "Payment mode flag (prepaid/online vs pay-on-delivery)",
+    "group": "payments",
+    "availability": "partial",
+    "via": "POS order relay (payment[].option)",
+    "granularity": "per order",
+    "confidence": "low",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+    "notes": "Field exists generically; population for Swiggy not verified. Commercially irrelevant to the restaurant because Swiggy collects 100% of customer money (including cash via its rider) and settles weekly."
+   },
+   {
+    "name": "Payment instrument detail (UPI/card/wallet, gateway txn id)",
+    "group": "payments",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "notes": "No source shows instrument-level data shared. Do not show a UPI/card split for Swiggy orders."
+   },
+   {
+    "name": "Item in-stock / out-of-stock toggle (incl. time-bound out-of-stock)",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS item availability API pushed to Swiggy; also Owner app",
+    "granularity": "per item per outlet, real time (write action)",
+    "confidence": "high",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/swiggy/integration-overview"
+   },
+   {
+    "name": "Add-on/option in-stock toggle; store on/off toggle; store timings",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS availability/store APIs",
+    "granularity": "per option / per outlet",
+    "confidence": "high",
+    "source_url": "https://github.com/api-evangelist/urbanpiper/blob/main/README.md"
+   },
+   {
+    "name": "Mark an item out of stock on a live order (Swiggy-specific order modification)",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS 'mark order item stock-out' API + callback",
+    "granularity": "per order item",
+    "confidence": "high",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/llms.txt"
+   },
+   {
+    "name": "Stock quantities on Swiggy",
+    "group": "inventory",
+    "availability": "not_available",
+    "via": "Swiggy holds only binary availability for restaurant items",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "notes": "Quantities live in the restaurant's own inventory system; Swiggy only knows on/off."
+   },
+   {
+    "name": "Peer benchmarking vs an average of ~30 similar restaurants in the same city/zone; overall outlet score 1-100",
+    "group": "other",
+    "availability": "available",
+    "via": "Market Intelligence Dashboard - Overview tab",
+    "granularity": "aggregate per outlet",
+    "confidence": "high",
+    "source_url": "https://blog.swiggy.com/swiggy-catalyst/stay-ahead-of-the-game-with-swiggys-market-intelligence-dashboard/",
+    "notes": "Peers are anonymous averages; no named competitor data."
+   },
+   {
+    "name": "Public self-serve Swiggy partner API for an ERP",
+    "group": "other",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "source_url": "https://blog.petpooja.com/operations-workflows/swiggy-now-inside-your-restaurant-order-management-system/",
+    "notes": "Access is through certified POS/middleware integrations (order/menu/stock/status only) and the partner portal (Petpooja merely embeds the portal in an iframe). Everything analytic or financial is portal view or file download."
+   }
+  ],
+  "access_routes": [
+   {
+    "route": "POS order relay (Petpooja's Swiggy integration, or UrbanPiper-type middleware)",
+    "what_it_gives": "Real-time per-order operational data: Swiggy order ID, items/add-ons/qty/prices, packaging charge, taxes with liability flag, total and merchant-funded discount, instructions, prep time, status timestamps, rider name/phone/status timeline, cancellation events. No commission/fees, no customer PII, no Swiggy-funded discount, no ratings, no funnel, no ads.",
+    "prerequisites": "Active Swiggy partner account; POS integration enabled by Swiggy PoC/account manager; menu mapped between POS and Swiggy."
+   },
+   {
+    "route": "Swiggy feature actions via middleware (rider_eta, fetch_customer_data)",
+    "what_it_gives": "On-demand rider ETA; a temporary masked customer phone number plus PIN for a live order only.",
+    "prerequisites": "UrbanPiper-type integration; works only while order is live; masked number expires and must be re-fetched."
+   },
+   {
+    "route": "Swiggy Partner portal / Swiggy Owner app (partner.swiggy.com) - also embedded inside Petpooja via iframe",
+    "what_it_gives": "Live orders, menu and stock control, ratings and reviews, complaints, discounts and ads set-up, settlements and payouts view, performance metrics (orders, cancellations), multi-outlet view, account-manager chat.",
+    "prerequisites": "Owner/manager login per outlet or brand. View/download only - no API; figures reach an ERP only by manual entry or file upload."
+   },
+   {
+    "route": "Weekly payout annexure (Excel workbook) and Swiggy tax invoice",
+    "what_it_gives": "Financial truth: order-level gross, service fee, collection fee, GST on fees, TDS, net payable; Discount Summary with Restaurant Share (%); 'Other charges and deductions' (ads, restaurant-level adjustments, prior-week carry-overs); Summary total.",
+    "prerequisites": "Download from partner portal Finance/Payouts (or email) after the cycle closes; join to POS orders on Swiggy order ID."
+   },
+   {
+    "route": "Swiggy Market Intelligence Dashboard (launched Jul 2024, self-serve, all partners)",
+    "what_it_gives": "Aggregate benchmarked metrics in 5 tabs: Overview (score 1-100 across business, operations, customer, spend), Business (order growth, AOV), Operational (cancellations, availability, complaints), Funnel (conversion), Spend (ads and discounts) vs ~30 similar peers.",
+    "prerequisites": "Partner portal login; aggregate only, no export API documented."
+   },
+   {
+    "route": "Swiggy Ads dashboard (inside Owner app/portal)",
+    "what_it_gives": "Campaign-level impressions, clicks, CTR, orders, cost per order, ROAS; budget control.",
+    "prerequisites": "Ads opted in; spend is netted off weekly payouts."
+   },
+   {
+    "route": "Petpooja Online Order Reconciliation report",
+    "what_it_gives": "Order-level match of POS orders vs uploaded Swiggy payout report: status mismatches, amount variances, missing orders, commission overcharges, per-order commission and discount breakdown.",
+    "prerequisites": "Restaurant must share/upload each payout cycle's Swiggy report to Petpooja; results are weekly in arrears."
+   },
+   {
+    "route": "Statutory trail (Form 26AS / TDS certificates; GSTR-3B Table 3.1.1(ii), GSTR-1 Table 14)",
+    "what_it_gives": "Independent confirmation of TDS deducted by Swiggy and of 9(5) turnover reported.",
+    "prerequisites": "PAN and GSTIN correctly registered with Swiggy."
+   }
+  ],
+  "settlement_mechanics": "Cycle and lag: Swiggy settles restaurants weekly. Trade press (Verdict Foodservice, Nov 2025) states a weekly payout cadence, typically settling on Wednesdays or Thursdays, timing varying by city; orders of a Monday-Sunday week are therefore paid roughly 3-4 days after the week closes (so cash lag is about 3 to 10 days from order date). One third-party blog claims real-world lags of 10-14 days in 2026; treat that as anecdotal. An older source (2020) mentions weekly or bi-weekly depending on agreement. There is no evidence of a daily/T+1 restaurant payout option.\n\nWhat is netted off before the bank credit (Swiggy collects 100% of customer money, including pay-on-delivery cash via its rider): (1) Service fee/commission as a contract % of GROSS order value - per Swiggy's own communication (Aug 2024) gross order value includes packaging charges and GST along with net order value, applied uniformly across metros and non-metros from 14 Aug 2024; commonly reported range 17-25%. (2) Collection fee of 2% of order value for online payment facilitation (standardised from 20 Dec 2023; a further rollout to additional restaurants from 16 Feb 2025). (3) GST at 18% on Swiggy's fees, covered by Swiggy's tax invoice. (4) Swiggy One per-order fee from 25 Nov 2025 (amount undisclosed; depends on the share of Swiggy One orders in the cycle). (5) Restaurant-funded share of discounts - shown in the annexure 'Discount Summary' with a 'Restaurant Share (%)' per campaign (100 = fully restaurant funded, 50 = co-funded); the Swiggy-funded share is not the restaurant's cost. (6) Ads and promotion charges - in the 'Other charges and deductions' sheet, which has one block for the current week and a second block for adjustments carried over from the previous week; real files contain rows such as 'Unable to fetch Campaign Details', and unauthorised ad deductions were widely reported in 2025-26. (7) Customer-complaint refunds and cancellation adjustments - Swiggy refunds the customer first and recovers from a later payout; dispute handling is via portal tickets. (8) TDS at 0.1% of the gross amount of sales facilitated (sec 194-O of the 1961 Act, reduced from 1% w.e.f. 1 Oct 2024; from 1 Apr 2026 the same rule sits in sec 393(1) Table Sl. 8(v) of the Income-tax Act 2025). It is a recoverable tax credit (Form 26AS), not an expense. (9) GST TCS under sec 52: not collected on restaurant services covered by sec 9(5) (CBIC Circular 167/23/2021); it applies only to non-9(5) supplies such as packaged MRP goods, at 0.5% since 10 Jul 2024.\n\nSection 9(5) handling: since 1 Jan 2022 Swiggy is the deemed supplier for restaurant services sold through it. Swiggy charges the customer 5% GST, issues the invoice, and pays the tax to the government in cash; the restaurant does not charge, collect or receive this GST. In payout terms the customer-paid GST is included in the gross (and in the commission base) but is retained by Swiggy, so it appears as a deduction/pass-through and never reaches the bank. The restaurant still reports the taxable value in GSTR-3B Table 3.1.1(ii) and GSTR-1 Table 14 with no tax payable, and books its own sales net of that GST.\n\nVisibility timing (the key modelling rule): per-order commission, collection fee, GST on fees, TDS and net payable exist only in the weekly annexure after the cycle closes; they are not in the live POS order payload and there is no settlement API (Petpooja's reconciliation relies on uploading the payout report). A truthful mock therefore shows 'estimated' fees for unsettled orders (contract rate x gross) and 'actual' figures only for settled weeks, with restaurant-level deductions (ads, carry-over adjustments) shown per week/outlet rather than per order.",
+  "typical_rates": [
+   {
+    "item": "Swiggy commission / service fee (on gross order value incl. packaging and GST)",
+    "value": "Commonly reported 17-25% (other secondary sources quote 15-30% or 18-25%; single-outlet brands reported at 25-27%). Contract-specific, not published by Swiggy.",
+    "source_url": "https://www.verdictfoodservice.com/news/swiggy-levy-added-charge-swiggy-one/"
+   },
+   {
+    "item": "Commission base",
+    "value": "Gross order value = net order value + packaging charges + GST, uniform across platform from 14 Aug 2024",
+    "source_url": "https://inc42.com/buzz/swiggy-begins-charging-service-fees-on-gross-order-value-for-non-metro-restaurants-as-well/"
+   },
+   {
+    "item": "Collection (payment gateway) fee",
+    "value": "2% of order value, deducted from payout (effective 20 Dec 2023; additional rollout 16 Feb 2025)",
+    "source_url": "https://startupstorymedia.com/insights-swiggy-announces-2-collection-fee-on-restaurant-orders-for-online-payments/"
+   },
+   {
+    "item": "Collection fee - Feb 2025 rollout",
+    "value": "Additional/selected restaurants notified of 2% collection fee from 16 Feb 2025",
+    "source_url": "https://inc42.com/buzz/swiggy-to-charge-some-restaurant-partners-2-additional-fee/"
+   },
+   {
+    "item": "GST on Swiggy's fees (commission, collection fee)",
+    "value": "18%",
+    "source_url": "https://hellobooks.ai/guides/swiggy-zomato-reconciliation"
+   },
+   {
+    "item": "TDS on e-commerce participants (sec 194-O; now sec 393(1) Table Sl. 8(v) from 1 Apr 2026)",
+    "value": "0.1% of gross amount of sales facilitated (was 1% before 1 Oct 2024); Rs 5 lakh annual threshold applies only to individuals/HUF",
+    "source_url": "https://blog.tdsman.com/2026/07/tds-on-e-commerce-transactions-section-3931-194o/"
+   },
+   {
+    "item": "TDS rate change reference",
+    "value": "1% reduced to 0.1% w.e.f. 1 Oct 2024 (Budget 2024)",
+    "source_url": "https://cleartax.in/s/section-194o"
+   },
+   {
+    "item": "GST on restaurant food sold via Swiggy (sec 9(5))",
+    "value": "5% without ITC, collected from customer and paid by Swiggy in cash since 1 Jan 2022",
+    "source_url": "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf"
+   },
+   {
+    "item": "GST TCS (sec 52)",
+    "value": "Nil on 9(5) restaurant services; 0.5% (0.25% CGST + 0.25% SGST) on other supplies since 10 Jul 2024 (earlier 1%)",
+    "source_url": "https://taxguru.in/goods-and-service-tax/cgst-e-commerce-operator-tcs-collection-rate-reduced-0-25-percent.html"
+   },
+   {
+    "item": "Swiggy One fee on restaurants",
+    "value": "Per-order fee from 25 Nov 2025, amount undisclosed; varies with share of Swiggy One orders per payout cycle",
+    "source_url": "https://www.verdictfoodservice.com/news/swiggy-levy-added-charge-swiggy-one/"
+   },
+   {
+    "item": "Payout cadence",
+    "value": "Weekly, typically credited Wednesday or Thursday",
+    "source_url": "https://www.verdictfoodservice.com/news/swiggy-levy-added-charge-swiggy-one/"
+   },
+   {
+    "item": "Swiggy Ads (secondary/agency figures, low confidence)",
+    "value": "CPC roughly Rs 8-25 in competitive metro categories; daily budgets from about Rs 400-1,200 per campaign; healthy cost per order Rs 35-55 for QSR/biryani; target ROAS 4.5x-7x",
+    "source_url": "https://digitalcatapult.in/blog/swiggy-ads-complete-guide-2026"
+   },
+   {
+    "item": "Typical ad spend share (secondary, low confidence)",
+    "value": "4-9% of aggregator revenue; payment processing 1.8-2.5%; commission 18-28%",
+    "source_url": "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india"
+   },
+   {
+    "item": "Customer-side platform fee (Swiggy's revenue, not the restaurant's)",
+    "value": "Raised from Rs 12 to Rs 15 per order in Sept 2025",
+    "source_url": "https://www.verdictfoodservice.com/news/swiggy-levy-added-charge-swiggy-one/"
+   }
+  ],
+  "caveats": [
+   "Swiggy publishes almost no partner-facing documentation openly: partner.swiggy.com pages rendered empty to the fetcher, and merchant terms are behind login. Most findings rest on UrbanPiper's developer docs (strong for the POS payload), Swiggy's own blog (Market Intelligence Dashboard), Petpooja pages, trade press, and CA/reconciliation blogs.",
+   "Exact column headers of the Swiggy order-level annexure sheet could not be verified from any reachable public source (Scribd copies of real annexures refused connection). Only three sheet names are confirmed: Summary, Discount Summary (with 'Restaurant Share (%)'), Other charges and deductions. Use generic labels in the mock rather than pretending to replicate Swiggy's headers.",
+   "UrbanPiper helpjuice pages returned HTTP 402 to the fetcher; the statements 'Swiggy doesn't send its share of discount in the Order Relay payload' and 'every Swiggy order shows name Swiggy, email NA, phone 1234567890, address Bangalore' were taken from search-engine snippets of those pages, not a full page read.",
+   "Petpooja integrates with Swiggy directly rather than through UrbanPiper; I assumed Swiggy exposes the same data to all POS partners. Petpooja's own field-level documentation for Swiggy orders is not public, so customer-name masking inside Petpooja specifically is inferred, not confirmed.",
+   "Several restaurant blogs still quote TDS at 1%; that is outdated. The rate is 0.1% since 1 Oct 2024, and the section reference changed to 393(1) Sl. 8(v) from 1 Apr 2026. Use 0.1% in mock data.",
+   "Sources conflict on the commission base. Swiggy's Aug 2024 communication (Inc42, Business Standard) says service fee is on gross order value including GST and packaging; one blog says post-discount value. Whether 'gross' is before or after restaurant-funded discount is not settled by public sources - state the assumption in the mock.",
+   "Reports of a fixed per-order restaurant platform fee (Rs 5-15), standardised packaging deductions, rejection-rate threshold zones, and 10-14 day payout delays come from unsourced marketing blogs; treated as unclear.",
+   "Customer phone sharing with consent: as of Nov 2025 only Zomato had a consent prompt; Swiggy was in early talks with NRAI. I found no evidence of a Swiggy rollout by Sep 2026, but absence of evidence is not proof.",
+   "Funnel, ads, ratings, complaints and benchmark metrics are portal-only aggregates. An ERP can show them only if someone keys them in or uploads an export; the mock should label such tiles as 'source: Swiggy partner dashboard (manual/import)' and must not imply a live API feed.",
+   "Safe-to-show list for Swiggy in the mock: order and item sales, packaging, merchant-funded discounts, taxes (as pass-through), kitchen/rider timing derived from status timestamps, cancellations count, weekly settlement waterfall (gross -> commission -> collection fee -> GST on fees -> ads -> refunds/adjustments -> TDS -> net bank credit), estimated vs actual fees. Not safe: customer names/phones/addresses, repeat-customer cohorts, per-order new/repeat flags, delivery distance, customer delivery/platform fees, per-order ad attribution, payment-instrument split, live commission per order."
+  ],
+  "sources": [
+   "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+   "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-status-update.md",
+   "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/rider-status-update.md",
+   "https://api-docs.urbanpiper.com/downstream/api/endpoints/miscellaneous/swiggy-feature-actions.md",
+   "https://api-docs.urbanpiper.com/downstream/integration-certification/testing-and-validation",
+   "https://api-docs.urbanpiper.com/downstream/llms.txt",
+   "https://help.urbanpiper.com/ordering-channels/swiggy/integration-overview",
+   "https://help.urbanpiper.com/ordering-channels/swiggy/manage-your-orders",
+   "https://urbanpiper.helpjuice.com/hub-order-relay/485581-how-an-order-is-relayed",
+   "https://urbanpiper.helpjuice.com/55451-ordering/598671-ordering-platforms-special-constraints",
+   "https://urbanpiper.helpjuice.com/55452-faqs/order-relay-webhook",
+   "https://github.com/api-evangelist/urbanpiper/blob/main/README.md",
+   "https://blog.swiggy.com/swiggy-catalyst/stay-ahead-of-the-game-with-swiggys-market-intelligence-dashboard/",
+   "https://hospibuz.com/swiggy-empowers-restaurant-partners-with-insights-through-its-market-intelligence-dashboard/",
+   "https://inc42.com/buzz/swiggy-unveils-data-tool-for-restaurant-partners-to-gauge-marketing-efforts-against-peers/",
+   "https://apps.apple.com/in/app/swiggy-owner/id1209732136",
+   "https://blog.petpooja.com/operations-workflows/swiggy-now-inside-your-restaurant-order-management-system/",
+   "https://www.petpooja.com/poss/online-order-reconciliation",
+   "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b",
+   "https://hellobooks.ai/guides/swiggy-zomato-reconciliation",
+   "https://www.cointab.net/in/reconciliation-of-swiggy-with-mis-for-restaurants/",
+   "https://www.cointab.net/business/swiggy-orders-reconciliation",
+   "https://www.verdictfoodservice.com/news/swiggy-levy-added-charge-swiggy-one/",
+   "https://inc42.com/buzz/swiggy-begins-charging-service-fees-on-gross-order-value-for-non-metro-restaurants-as-well/",
+   "https://www.business-standard.com/companies/news/swiggy-extends-gross-value-service-fee-policy-to-non-metro-restaurants-124081500186_1.html",
+   "https://startupstorymedia.com/insights-swiggy-announces-2-collection-fee-on-restaurant-orders-for-online-payments/",
+   "https://inc42.com/buzz/swiggy-to-charge-some-restaurant-partners-2-additional-fee/",
+   "https://yourstory.com/2023/12/swiggy-collection-fee-online-payment-platform-zomato",
+   "https://www.medianama.com/2025/11/223-zomato-swiggy-share-customer-data-restaurants/",
+   "https://www.medianama.com/2026/04/223-swiggy-ad-charges-without-consent-unauthorized-deductions-restaurants/",
+   "https://inc42.com/buzz/after-boycott-calls-swiggy-to-refund-alleged-unauthorised-charges-to-restaurants/",
+   "https://www.medianama.com/2025/05/223-ccpa-probes-zomato-swiggy-cancellation-refund-policies/",
+   "https://www.swiggy.com/refund-policy",
+   "https://digitalcatapult.in/blog/swiggy-ads-complete-guide-2026",
+   "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india",
+   "https://www.restaurantdaily.ai/tools/aggregator-payout",
+   "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf",
+   "https://www.casahuja.com/2026/09/gst-on-restaurant-cloud-kitchen-sales.html",
+   "https://www.terra-insight.com/insights/gst-section-9-5-aggregator-restaurant-liability/",
+   "https://cleartax.in/s/section-194o",
+   "https://blog.tdsman.com/2026/07/tds-on-e-commerce-transactions-section-3931-194o/",
+   "https://taxguru.in/goods-and-service-tax/cgst-e-commerce-operator-tcs-collection-rate-reduced-0-25-percent.html",
+   "https://www.menuhelper.in/blog/reconciling-swiggy-zomato-payouts-2026",
+   "https://www.menuhelper.in/blog/tds-section-194o-swiggy-zomato",
+   "https://www.menuhelper.in/blog/fixed-variable-platform-fees-swiggy-zomato-2026",
+   "https://www.dinecard.in/blog/restaurant-delivery-aggregator-rejection-rate-reduce-india",
+   "https://blog.menuviel.com/swiggy-fees-and-commissions-for-restaurants/",
+   "https://www.indifi.com/blog/how-are-payments-managed-on-swiggy/",
+   "https://www.urbanpiper.com/blog/save-money-by-identifying-payment-errors-on-zomato-swiggy"
+  ]
+ },
+ "verify": {
+  "corrections": [
+   {
+    "name": "Bank UTR / payment reference for each payout",
+    "was": "unclear, low confidence; 'safer to take UTR from the bank statement side'",
+    "now": "available (medium confidence) in the weekly payout annexure Summary block, which carries: Payout Period, Payout Settlement Date, Total Payout, Total Orders (Delivered + Cancelled), Bank UTR (e.g. 'Bank UTR AXISCN0755063781'). Not in POS relay; only after the cycle closes.",
+    "reason": "Real Swiggy annexures indexed on Scribd show these fields in search-engine snippets (Scribd itself was unreachable, so read via Google/DuckDuckGo snippets only). Enables a genuine annexure-UTR to bank-credit match in the mock.",
+    "source_url": "https://www.scribd.com/document/963308622/invoice-Annexure-951575-25092024-1727255860753"
+   },
+   {
+    "name": "Payout annexure workbook - sheet names and order-level column headers",
+    "was": "Only 3 sheet names confirmed (Summary, Discount Summary, Other charges and deductions); order-level headers 'could not be verified'",
+    "now": "Partially verified (medium). Real annexures (2022-2025) show sections: Summary/'Your Payout Details', Payout Breakup, Order Level, restaurant-level adjustments ('deductions and refunds like Ads, TDS refunds, etc.'), Unresolved Customer Complaints, Discount Summary, Glossary. Order-level headers seen in snippets: Order Date, Order No, Order Status, Order Category, Cancelled By?, Item's total, Packing & Service charges, Merchant Discount (Promo / Exclusive Offer), Total Merchant Discount, Net Bill Value (without taxes), GST on order (including cess), Customer payable, Swiggy Platform Service Fee Chargeable On, Service Fee %, Swiggy Platform Service Fee, Discount on Swiggy Platform Service Fee, Long Distance fee and its discount, Last Mile distance (km), Collection/Access charges, Merchant Cancellation Charges, Call Center Service Fees, Total Swiggy Service Fees (before taxes), Taxes on Swiggy Service Fee, GST Deduction U/S 9(5), Refund For Customer Complaints, Net Payout (Before TCS), TCS, TDS, MFR Accurate?, MFR Pressed?, Cancellation time, Pick Up Status, Coupon Code, Coupon type, Is Super (Swiggy One), Discount Is_replicated / Replicated Base order ID, MRP Items, Order Payment type. Payout Breakup (Sep 2024 format) lines: 1 Item Total, 2 Packaging Charges, 3 Restaurant Item Discount, 4 Swiggy One extra discount, 5 Discount Share, 6 Net Bill Value (Before Taxes), 7 GST Collected, 8 Payment Collection Charges, 9 Pocket Hero Fees, ..., 14 Merchant Share Of Cancelled Orders, 15 Refund For Customer Complaints, Net Payout.",
+    "reason": "Headers vary by year and sheet names differ between the dev.to description and the Scribd files, so the mock should still use generic labels, but the line items themselves are now corroborated. Swiggy also has an official 19-minute 'Swiggy Partners' YouTube guide to payout reports and annexures (https://www.youtube.com/watch?v=XjnaPgGQMKA), confirming the annexure is the official reconciliation artefact.",
+    "source_url": "https://www.scribd.com/document/802691624/Annexure-948298-11092024-1726001746596-xlsx"
+   },
+   {
+    "name": "Swiggy service fee (commission) amount per order",
+    "was": "partial, medium confidence, source = HelloBooks blog",
+    "now": "partial stays (weekly in arrears, never live), but confidence HIGH that the annexure has per-order 'Swiggy Platform Service Fee %', fee amount, and 'Discount on Swiggy Platform Service Fee'. UrbanPiper order-relay schema re-checked: no commission/fee field exists.",
+    "reason": "Corroborated by real annexure snippets and by my own read of the UrbanPiper relay schema. One real file shows 24.0% for a small outlet.",
+    "source_url": "https://www.scribd.com/document/884564124/invoice-Annexure-609099-13102022-1665601151812"
+   },
+   {
+    "name": "Collection (payment gateway) fee per order",
+    "was": "partial; 'exact annexure column name not verified'",
+    "now": "partial (weekly in arrears); line verified as 'Payment Collection Charges' in Payout Breakup with an order-level collection column",
+    "reason": "Seen in multiple real annexure snippets (e.g. '8 Payment Collection Charges -104.96').",
+    "source_url": "https://www.scribd.com/document/808518915/invoice-Annexure-925939-18122024-1734531858961"
+   },
+   {
+    "name": "Delivery distance (km) per order",
+    "was": "unclear - 'Do not show'",
+    "now": "partial (medium-low): the annexure order-level sheet carries a 'Last Mile (in km)' distance column next to the 'Long Distance' fee. Not in the POS relay; available only weekly after upload.",
+    "reason": "Column text appears in snippets of Sep-2024 and Dec-2024 annexures. Because it is snippet-based and Swiggy charges a long-distance fee on it, show only in the settlement view with a caveat, never as a live metric or customer map.",
+    "source_url": "https://www.scribd.com/document/802691624/Annexure-948298-11092024-1726001746596-xlsx"
+   },
+   {
+    "name": "Persistent customer identity across orders (customer ID/hash)",
+    "was": "not_available, medium confidence",
+    "now": "unclear/partial: UrbanPiper's order-relay doc explicitly documents ext_platforms[].extras.swiggy_customer_id - 'Swiggy's unique customer ID (available only in Swiggy orders)' (sample value '4825957'), while warning extras 'are not constant attributes in the payload'. So a pseudonymous ID can reach middleware; whether Petpooja receives, stores or reports it is NOT verified. Names/phones/addresses remain masked for Swiggy-delivered orders.",
+    "reason": "The original claim was too absolute. However the stake rule applies: do not build CRM, LTV or cohort screens on it; at most a caveated 'repeat-order share' and preferably omit until Petpooja confirms.",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md"
+   },
+   {
+    "name": "Restaurant-funded (merchant) discount per order via POS relay",
+    "was": "available, medium - 'discount minus total_external_discount; is_merchant_discount'",
+    "now": "partial: UrbanPiper's Swiggy channel page marks 'Discount Bifurcation' as NOT supported for Swiggy, so the live relay gives one discount figure with no funding split. The actual restaurant-funded amount per order is only in the annexure (Merchant Discount / Discount Share columns).",
+    "reason": "The 'relayed discount = merchant share' assumption rested on an unreadable helpjuice snippet. In the mock: live orders show 'discount (as relayed)'; 'restaurant-funded discount (actual)' appears only for settled weeks.",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/swiggy/manage-your-orders"
+   },
+   {
+    "name": "Coupon code / campaign on the order",
+    "was": "partial, low",
+    "now": "partial, medium: annexure order-level sheet has 'Coupon Code' and 'Coupon type' columns (e.g. SWIGGYIT, FLATDEAL seen). POS-relay population for Swiggy still unverified.",
+    "reason": "Seen in real annexure snippets.",
+    "source_url": "https://www.scribd.com/document/808518915/invoice-Annexure-925939-18122024-1734531858961"
+   },
+   {
+    "name": "Cancellation attribution (customer vs Swiggy vs restaurant)",
+    "was": "partial - 'only in the portal/annexure', unverified",
+    "now": "available via annexure (weekly, medium): order-level 'Cancelled By?', cancellation policy type applied, 'Cancellation time', 'Pick Up Status', 'MFR Pressed?'; Payout Breakup has 'Merchant Share Of Cancelled Orders' and 'Merchant Cancellation Charges'. Live POS relay gives only the Cancelled event.",
+    "reason": "Corroborated by annexure snippets and by Petpooja's own glossary: a Swiggy/Zomato cancellation 'flows in with the order data' while the money side is settled through the aggregator's settlement.",
+    "source_url": "https://blog.petpooja.com/glossary/order-cancellation/"
+   },
+   {
+    "name": "Compensation / restaurant share for cancelled orders",
+    "was": "unclear, low",
+    "now": "partial, medium-low: annexure line 'Merchant Share Of Cancelled Orders' (can be negative, e.g. -116.0) reports the restaurant's share per cycle. Rule set behind it remains non-public.",
+    "reason": "Line item seen in real annexure snippet.",
+    "source_url": "https://www.scribd.com/document/802691624/Annexure-948298-11092024-1726001746596-xlsx"
+   },
+   {
+    "name": "Refund amount recovered for customer complaints",
+    "was": "partial, medium (blog source)",
+    "now": "available via annexure (weekly): 'Refund For Customer Complaints' line plus a separate 'Unresolved Customer Complaints' section",
+    "reason": "Seen in multiple real annexure snippets.",
+    "source_url": "https://www.scribd.com/document/831487348/invoice-Annexure-612628-08052024-1715172821211"
+   },
+   {
+    "name": "Payment mode flag (prepaid vs pay-on-delivery)",
+    "was": "partial, low",
+    "now": "unclear - treat as not available: UrbanPiper documents that payment option 'aggregator' is used when payment is handled by the aggregator platform '(like swiggy)', so the relay normally does not say prepaid vs COD. An 'Order Payment' column seems to exist in the annexure but its content is unverified.",
+    "reason": "Documented behaviour contradicts a usable prepaid/COD split.",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md"
+   },
+   {
+    "name": "Ad campaign performance metrics (impressions, clicks, CTR, orders, CPO, ROAS)",
+    "was": "available, medium",
+    "now": "partial, low-medium: only agency/SEO sources list the metrics; no official Swiggy page found. Swiggy's own sources confirm only that ads can be run/monitored in the partner app/portal and that the MI dashboard 'Spend Metrics' tab evaluates ads and discounts. Keep to generic spend / impressions / clicks / orders / sales / ROAS as manual entry. Drop 'M2C', 'impression share' and 'repeat-order rate on ad-acquired customers' - uncorroborated.",
+    "reason": "No primary source. Also the cited agency page now quotes CPC Rs 3-15, not Rs 8-25 as reported.",
+    "source_url": "https://digitalcatapult.in/blog/swiggy-ads-complete-guide-2026"
+   },
+   {
+    "name": "Commission base ('gross order value incl. GST and packaging, uniform across metros and non-metros from 14 Aug 2024')",
+    "was": "stated as uniform platform-wide fact",
+    "now": "contract-specific. Inc42: the Aug-2024 change went to about 1,000 non-metro partners 'as of now' ('a small subset'). Real annexures have a 'Swiggy Platform Service Fee Chargeable On' column = D (Net Bill Value without taxes) or F = D + E (Net Bill Value + GST on order); in both cases AFTER merchant discount, including packaging.",
+    "reason": "Resolves the researcher's open caveat: base is post restaurant-discount; GST inclusion depends on contract. Mock assumption to state: base = item total + packaging - restaurant-funded discount + 5% GST.",
+    "source_url": "https://inc42.com/buzz/swiggy-begins-charging-service-fees-on-gross-order-value-for-non-metro-restaurants-as-well/"
+   },
+   {
+    "name": "TDS base",
+    "was": "0.1% of gross amount of sales facilitated",
+    "now": "0.1% applied by Swiggy on Net Bill Value (without taxes) - annexure glossary text reads 'Charged at 1% on Net bill value (without taxes)' in a pre-Oct-2024 file; rate is 0.1% since 1 Oct 2024. Section 393(1) Table Sl. 8(v) reference from 1 Apr 2026 corroborated by TDSMAN.",
+    "reason": "Matters for internally consistent mock numbers: TDS = 0.1% x (item total + packaging - merchant discount), excluding GST.",
+    "source_url": "https://www.scribd.com/document/831487348/invoice-Annexure-612628-08052024-1715172821211"
+   },
+   {
+    "name": "Payout cycle and timing",
+    "was": "Monday-Sunday week paid Wed/Thu; lag 3-10 days",
+    "now": "Annexure evidence: payout period runs Sunday-Saturday, 'Payout Settlement Date' is the following Tuesday (15-21 Sep 2024 -> 24 Sep; 8-14 Dec 2024 -> 17 Dec; 1-3 May 2025 -> 6 May), annexure files are date-stamped Wednesday, and periods are cut at month-end (e.g. 1-4 May, 25-30 Sep, 24-31 Oct). Trade press says bank credit typically Wed/Thu. Model: Sun-Sat cycle, settled Tue, credited Tue-Thu, split at month-end.",
+    "reason": "Primary-document evidence beats trade-press generalisation; month-end split is a realism detail the mock should reflect.",
+    "source_url": "https://www.scribd.com/document/874268117/Annexure-519998-07052025-1746616566902-xlsx"
+   },
+   {
+    "name": "Customer name / details",
+    "was": "not_available (blanket)",
+    "now": "not_available for Swiggy-delivered orders (stands). Nuance: UrbanPiper states customer information is 'shared when you handle your own delivery'; fetch_customer_data returns a masked number + PIN only for Swiggy self-delivery orders. Assume Miya Kebabs uses Swiggy fleet, so nothing to show.",
+    "reason": "Precision; does not change the deny-list.",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/swiggy/integration-overview"
+   },
+   {
+    "name": "Preparation time handling",
+    "was": "prep-time acknowledge field 'documented as Zomato-only'",
+    "now": "UrbanPiper relay doc says prep-time passing is supported 'for ubereats, zomato and swiggy'; payload also carries prep_time{estimated,min,max,adjustable} and extras swiggy_prep_time_secs with max increase/decrease thresholds.",
+    "reason": "Minor factual fix; prep-time promised vs actual is safe to analyse.",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md"
+   },
+   {
+    "name": "Menu quality score (out of 100)",
+    "was": "attributed to the Market Intelligence Dashboard",
+    "now": "It is Swiggy's separate 'Menu Score Tool' (Aug 2023); still portal-only, brand and outlet level.",
+    "reason": "Attribution fix only.",
+    "source_url": "https://gadgetsnow.indiatimes.com/"
+   },
+   {
+    "name": "Funnel conversion metrics",
+    "was": "available, medium",
+    "now": "available on the portal only (medium): Swiggy blog confirms a 'Funnel Metrics' tab covering customer behaviour and conversion rates; Inc42 confirms 'number of people placing orders after taking a look at the menu'; Swiggy's 2026 'Guru' AI assistant is reported to offer 'full funnel analysis' of GMV and orders. Stage names and any impression counts are NOT officially published.",
+    "reason": "Stands, but strictly as manual-entry aggregate with generic stage labels.",
+    "source_url": "https://blog.swiggy.com/swiggy-catalyst/stay-ahead-of-the-game-with-swiggys-market-intelligence-dashboard/"
+   }
+  ],
+  "added_data_points": [
+   {
+    "name": "Payout header block: payout period, payout settlement date, total payout, total orders (delivered + cancelled), Bank UTR, restaurant ID, GSTIN",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report - annexure Summary",
+    "granularity": "per payout cycle per outlet (Rest. ID)",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/963308622/invoice-Annexure-951575-25092024-1727255860753",
+    "notes": "Read via search snippets of real annexures. One annexure per outlet ID, so 5 outlets = 5 files per cycle."
+   },
+   {
+    "name": "Long Distance fee (and discount on it) charged to the restaurant, with last-mile distance in km",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "payout (settlement) report - order-level sheet",
+    "granularity": "per order, weekly in arrears",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/802691624/Annexure-948298-11092024-1726001746596-xlsx",
+    "notes": "Glossary snippet: 'Total amount collected for long distance orders'. Keep as a small line in the fee stack."
+   },
+   {
+    "name": "Pocket Hero fees",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "payout (settlement) report - Payout Breakup line 9",
+    "granularity": "per order / per cycle",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/808518915/invoice-Annexure-925939-18122024-1734531858961",
+    "notes": "Only if the outlet participates in the Pocket Hero programme; often 0."
+   },
+   {
+    "name": "Call Center Service Fees (IVR reminder calls for delayed order acceptance) and Merchant Cancellation Charges",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "payout (settlement) report",
+    "granularity": "per order / per cycle",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/963308622/invoice-Annexure-951575-25092024-1727255860753",
+    "notes": "Glossary snippets: 'Amount charged for orders cancelled by the restaurant as per the agreed terms'; 'Amount charged for IVR calls made as reminders for delayed order acceptance'. Good realism lines for an operations-linked leakage view."
+   },
+   {
+    "name": "Discount on Swiggy Platform Service Fee (commission rebate)",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "payout (settlement) report - order-level",
+    "granularity": "per order, weekly",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/831487348/invoice-Annexure-612628-08052024-1715172821211"
+   },
+   {
+    "name": "GST Deduction U/S 9(5) line (GST collected from customer and retained by Swiggy)",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report - Payout Breakup",
+    "granularity": "per order and per cycle",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/884564124/invoice-Annexure-609099-13102022-1665601151812",
+    "notes": "Exact label seen: 'GST Deduction U/S 9(5)'. Confirms the pass-through presentation."
+   },
+   {
+    "name": "Swiggy One flag / 'Swiggy One extra discount' line",
+    "group": "discount",
+    "availability": "partial",
+    "via": "payout (settlement) report (order-level 'Is Super' style flag; Payout Breakup line 4)",
+    "granularity": "per order / per cycle",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/802691624/Annexure-948298-11092024-1726001746596-xlsx",
+    "notes": "Supports a 'share of Swiggy One orders' tile in the settlement view only."
+   },
+   {
+    "name": "MFR (Mark Food Ready) Pressed? / MFR Accurate? flags, Pick Up Status, Cancellation time",
+    "group": "operations_quality",
+    "availability": "partial",
+    "via": "payout (settlement) report - order-level",
+    "granularity": "per order, weekly in arrears",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/831487348/invoice-Annexure-612628-08052024-1715172821211",
+    "notes": "Swiggy's own view of food-ready compliance per order. Complements POS-derived kitchen time."
+   },
+   {
+    "name": "Replicated (replacement) order flag and base order ID",
+    "group": "order",
+    "availability": "partial",
+    "via": "payout (settlement) report - order-level",
+    "granularity": "per order",
+    "confidence": "low",
+    "source_url": "https://www.scribd.com/document/884564124/invoice-Annexure-609099-13102022-1665601151812",
+    "notes": "Columns 'Discount Is_replicated' / 'Replicated Base order ID' seen in snippets."
+   },
+   {
+    "name": "MRP Items flag (non-9(5) packaged goods on the order)",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "payout (settlement) report - order-level",
+    "granularity": "per order",
+    "confidence": "low",
+    "source_url": "https://www.scribd.com/document/884564124/invoice-Annexure-609099-13102022-1665601151812",
+    "notes": "Explains why TCS is normally 0.0 for a kebab QSR; annexure shows 'F TCS 0.0'."
+   },
+   {
+    "name": "Restaurant-level adjustments incl. Ads and TDS refunds",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report - restaurant adjustments section",
+    "granularity": "per adjustment line per cycle",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/802691624/Annexure-948298-11092024-1726001746596-xlsx",
+    "notes": "Snippet: summary of 'all restaurant level deductions and refunds like Ads, TDS refunds, etc.' Corroborates the dev.to 'Other charges and deductions' finding."
+   },
+   {
+    "name": "Order programme flags in relay extras: order_type regular/pop, is_bulk_order + swiggy_parent_id, is_instant_order / thirty_minutes_delivery (Bolt-type), send_cutlery, can_reject_order, order_otp, swiggy_min_cart_value, swiggy_discount_cap, cash_to_be_collected",
+    "group": "order",
+    "availability": "partial",
+    "via": "POS order relay (UrbanPiper ext_platforms[].extras)",
+    "granularity": "per order",
+    "confidence": "medium",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+    "notes": "Documented but 'not constant attributes'; Petpooja exposure unverified. Do not build KPIs on them; at most a 'bulk order' or 'instant order' tag."
+   },
+   {
+    "name": "Pseudonymous swiggy_customer_id",
+    "group": "customer",
+    "availability": "unclear",
+    "via": "POS order relay extras (UrbanPiper); Petpooja not verified",
+    "granularity": "per order",
+    "confidence": "low",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+    "notes": "Documented as 'Swiggy's unique customer ID'. No name/phone. Do not promise repeat-customer analytics on it."
+   },
+   {
+    "name": "Swiggy 'Guru' AI business assistant (2026): chat access to payouts, performance, funnel analysis of GMV/orders, ads and discount management",
+    "group": "other",
+    "availability": "partial",
+    "via": "partner dashboard / Swiggy partner app only - not exposed to POS/ERP",
+    "granularity": "aggregate, conversational",
+    "confidence": "low",
+    "source_url": "https://www.linkedin.com/company/swiggy-in/",
+    "notes": "Seen only in social/press snippets (Aug-Sep 2026). Portal-side feature; reinforces that funnel and ads analytics live inside Swiggy's tools, not in any API."
+   },
+   {
+    "name": "Item-wise sales and revenue trends, multi-outlet consolidated snapshot",
+    "group": "item",
+    "availability": "available",
+    "via": "Swiggy Partner app Business Insights (and derivable from POS relay)",
+    "granularity": "per item / per outlet, aggregate",
+    "confidence": "high",
+    "source_url": "https://play.google.com/store/apps/details?id=in.swiggy.partnerapp",
+    "notes": "Official Play Store text: 'Find out exactly how much each item sells'. For the ERP, compute from Petpooja order data rather than from Swiggy."
+   }
+  ],
+  "safe_to_show": [
+   "Swiggy order count, Swiggy order ID, outlet, order timestamp, order status (from Petpooja order relay)",
+   "Item-level sales on Swiggy: item, quantity, unit price, variants/add-ons, category, veg/non-veg - item mix by outlet and by channel",
+   "Order subtotal, packaging charge, total order discount as relayed (unsplit), order total",
+   "AOV, hourly / day-part / weekday trends computed from POS order data",
+   "5% GST on food shown as a memo line 'collected and paid by Swiggy u/s 9(5)' - never as restaurant revenue or GST payable",
+   "Kitchen prep time (accepted -> food ready) and rider wait at store (arrived -> picked up), derived from POS status timestamps; promised prep time vs actual",
+   "Cancelled order count and rate from POS relay (without who-cancelled attribution in the live view)",
+   "Item / store on-off availability actions and outlet online hours (restaurant's own data)",
+   "Weekly settlement waterfall per outlet from an UPLOADED annexure: item total, packaging, restaurant-funded discount, net bill value, GST retained u/s 9(5), platform service fee (% and amount), payment collection charges (2%), other platform fees (long-distance, Pocket Hero, call-centre, Swiggy One), 18% GST on fees, merchant share of cancelled orders / cancellation charges, refunds for customer complaints, restaurant-level adjustments (ads, carry-overs, unclassified), TCS (nil), TDS, net payout",
+   "Payout header: payout period (Sun-Sat, cut at month-end), settlement date, total payout, order count, Bank UTR - and a UTR-to-bank-statement match",
+   "'Estimated' commission and fees on unsettled orders (contract rate x assumed base), clearly labelled estimated",
+   "'Actual' per-order commission, fees and net payout ONLY for settled weeks after annexure upload",
+   "Ad spend actually deducted per week per outlet (from annexure restaurant-level adjustments)",
+   "TDS receivable ledger at 0.1% (asset, not expense); reconciliation to Form 26AS as a concept",
+   "POS-vs-annexure reconciliation exceptions: missing orders, status mismatches, amount variances, commission rate variance (mirrors Petpooja's own reconciliation product)",
+   "An explicit 'Upload Swiggy annexure' step and 'Source: Petpooja order relay' / 'Source: Swiggy payout annexure' tags on tiles"
+  ],
+  "must_not_show": [
+   "Customer name, phone number, email for Swiggy orders",
+   "Customer delivery address, lat-long, pincode, locality heat-maps or delivery-radius maps for Swiggy orders",
+   "Customer-level CRM lists, per-customer order history, LTV, cohorts or retention curves for Swiggy customers",
+   "Per-order 'new customer' / 'repeat customer' flag",
+   "Live (real-time) actual commission, collection fee, GST on fees, TDS or net payout per order before the weekly annexure exists",
+   "Any implication of a Swiggy settlement / payout API or auto-sync; any 'live feed' of ads, funnel, ratings, complaints or benchmarks into the ERP",
+   "Customer-side delivery fee, customer platform fee (Rs 15), surge, tips, and Swiggy's rider payout / delivery cost",
+   "Rider live GPS location or route maps; rider names/phones in analytics or stored history",
+   "Payment instrument split (UPI / card / wallet) and prepaid-vs-COD split for Swiggy orders",
+   "Per-order ad attribution ('this order came from an ad')",
+   "Per-order Swiggy-funded vs restaurant-funded discount split in the live order view",
+   "Organic listing impressions / search appearances",
+   "Named competitor data or competitor-level benchmarks",
+   "Dish-level ratings, reviewer identity, or review-to-order linkage as ERP data",
+   "Consent-based customer phone sharing for Swiggy (no evidence of rollout as of Sep 2026; only Zomato piloted it)",
+   "A precise Swiggy One fee formula, or a fixed Rs 5-15 per-order restaurant 'platform/technology fee' as fact",
+   "Rejection-rate penalty zones/thresholds (3% / 5% / 8%) as Swiggy policy",
+   "Stock quantities 'on Swiggy' (Swiggy only knows on/off)",
+   "Ad metrics presented as Swiggy-official that are uncorroborated: M2C / C2O stage names, impression share, repeat-order rate of ad-acquired customers",
+   "Verbatim replication of Swiggy annexure sheet names/headers as if official (format changes by year)"
+  ],
+  "show_only_with_caveat": [
+   {
+    "name": "Funnel conversion (menu visits -> cart -> orders) per outlet",
+    "caveat": "Label 'Source: Swiggy partner dashboard - manual entry / import'. Aggregate per outlet per period only; generic stage labels; no impressions; no API."
+   },
+   {
+    "name": "Ads performance (spend, impressions, clicks, orders, sales from ads, ROAS)",
+    "caveat": "Portal-only, manual entry. Metric list comes from agency sources, not Swiggy documentation. Cash truth for ad spend is the weekly annexure deduction."
+   },
+   {
+    "name": "Average rating, rating count, complaint count per outlet",
+    "caveat": "Swiggy partner app/portal only; key in manually as aggregates. No review text feed, no per-dish ratings."
+   },
+   {
+    "name": "Peer benchmark / outlet score 1-100, cancellation %, availability %, complaint % vs peers",
+    "caveat": "From Swiggy Market Intelligence Dashboard; peers are an anonymous average of ~30 similar outlets; manual entry; exact metric names not published."
+   },
+   {
+    "name": "Aggregate new-vs-repeat customer mix",
+    "caveat": "Swiggy only confirms a 'customer' area of the overview score; metric names unpublished. Prefer to omit; if shown, one aggregate % tagged 'from Swiggy dashboard (manual)'."
+   },
+   {
+    "name": "Repeat-order share derived from pseudonymous swiggy_customer_id",
+    "caveat": "Field is documented by UrbanPiper but flagged non-constant and not verified for Petpooja. Omit from v1; if demoed, tag 'subject to POS confirming the field' and never show identities."
+   },
+   {
+    "name": "Restaurant-funded discount per order (actual)",
+    "caveat": "Only for settled weeks from the annexure; the live POS figure is an unsplit discount because discount bifurcation is not supported for Swiggy."
+   },
+   {
+    "name": "Swiggy-funded (platform) discount",
+    "caveat": "Weekly settlement view only, by campaign, from the Discount Summary 'Restaurant Share (%)'; order-level split not verified."
+   },
+   {
+    "name": "Coupon code / campaign per order",
+    "caveat": "From annexure (weekly); relay population for Swiggy unverified."
+   },
+   {
+    "name": "Cancellation attribution ('Cancelled by') and merchant share of cancelled orders",
+    "caveat": "Annexure only, weekly in arrears; live view shows just the cancelled event."
+   },
+   {
+    "name": "Delivery distance (km) and long-distance fee",
+    "caveat": "Annexure only, weekly; evidence is snippet-based. No maps, no customer locality."
+   },
+   {
+    "name": "Total delivery time to customer",
+    "caveat": "Derived from rider status timestamps; depends on the Delivered event being relayed; not a Swiggy-supplied KPI."
+   },
+   {
+    "name": "Estimated commission on live orders",
+    "caveat": "State the assumption on screen: base = item total + packaging - restaurant-funded discount (+ 5% GST if contract is on gross); actual rate and base are contract-specific."
+   },
+   {
+    "name": "Swiggy One / other platform fees",
+    "caveat": "Show as one small 'other platform fees' line per cycle; amount is undisclosed and varies with Swiggy One order share."
+   },
+   {
+    "name": "Payout timing",
+    "caveat": "Model Sun-Sat cycle, settlement Tuesday, bank credit Tue-Thu, periods cut at month-end; note that timing varies by city/contract."
+   },
+   {
+    "name": "Unclassified / unexplained deductions bucket",
+    "caveat": "Realistic (real files contain 'Unable to fetch Campaign Details' rows), but keep amounts small and label as 'to be disputed with Swiggy'."
+   },
+   {
+    "name": "Order programme tags (bulk, instant/Bolt, POP)",
+    "caveat": "Documented in middleware extras but non-constant; Petpooja exposure unverified. Use at most as an optional tag, not a KPI."
+   }
+  ],
+  "rate_corrections": [
+   "Commission base is contract-specific, not 'uniform platform-wide': Inc42 says the Aug-2024 gross-value policy was extended to about 1,000 non-metro partners 'as of now'. Real annexures show a 'Service Fee Chargeable On' column equal to Net Bill Value (after merchant discount, incl. packaging) either without GST or plus GST on order. For mock maths use: base = item total + packaging - restaurant-funded discount + 5% GST; rate 17-25% stands (one real small-outlet file shows 24.0%); for a 5-outlet chain 20-22% is a defensible assumption (assumption, not sourced).",
+   "TDS: 0.1% (since 1 Oct 2024; sec 393(1) Table Sl. 8(v) from 1 Apr 2026) applied on Net Bill Value WITHOUT taxes, not on GST-inclusive gross - annexure glossary wording 'Charged at 1% on Net bill value (without taxes)' in a pre-Oct-2024 file.",
+   "Collection fee 2% stands (annexure line 'Payment Collection Charges'); the Feb-2025 Inc42 report says the email went only to select restaurants. One unsourced Scribd 'guide' claims 2.5% - ignore.",
+   "GST on Swiggy fees 18% stands (annexure formula text shows '*1.18').",
+   "TCS u/s 52: annexure shows 'TCS 0.0' for restaurant orders - keep nil.",
+   "Payout cadence: Sunday-Saturday period, 'Payout Settlement Date' = following Tuesday in real annexures (15-21 Sep 2024 -> 24 Sep; 8-14 Dec 2024 -> 17 Dec; 1-3 May 2025 -> 6 May); periods are cut at month-end. Verdict's 'Wednesdays or Thursdays' likely reflects bank-credit day. The researcher's Monday-Sunday assumption is not supported.",
+   "Swiggy Ads CPC: the cited agency page now states Rs 3-15 (not Rs 8-25); CPO Rs 35-55 for QSR/biryani and ROAS 4.5x-5.5x for QSR. All agency figures, low confidence; keep ad spend at roughly 3-6% of Swiggy GMV in the mock and label as illustrative.",
+   "Swiggy One restaurant fee: per-order from 25 Nov 2025, amount undisclosed, notified to 'select restaurant partners' - do not apply to every outlet by formula."
+  ],
+  "notes": "Method and limits: the WebSearch budget for this session was already exhausted (200/200), so I searched through the Browser pane (Google/DuckDuckGo) and used WebFetch for page reads. Primary pages read directly: UrbanPiper order-relay and Swiggy feature-action docs, UrbanPiper help pages for the Swiggy channel, Swiggy's Market Intelligence blog, Swiggy Partner App Play Store and App Store listings, Petpooja reconciliation page and Petpooja 'Swiggy inside POS' blog (confirms embedded partner portal 'via a secure iframe', i.e. no API data), Inc42 (gross-value fee; 2% fee; MI dashboard), Verdict Foodservice (Swiggy One fee, 17-25%, weekly payout), Medianama (Nov 2025 data sharing: Swiggy only in talks; Apr 2026 unauthorised ad deductions incl. 'cost per sale' charges), TDSMAN, HelloBooks, dev.to annexure article and its companion guide (https://swiggy-consent-auditor.tool-template.workers.dev/guide). Scribd (real annexures) and UrbanPiper helpjuice were unreachable (connection refused / HTTP 402); all annexure column evidence therefore comes from search-engine snippets of those Scribd files, which is why I rate it medium, not high. An official 'Swiggy Partners' YouTube video on payout reports exists (https://www.youtube.com/watch?v=XjnaPgGQMKA) but its transcript could not be retrieved.\n\nWhat stood up: no commission/fee field in the POS relay (re-verified); customer PII masked for Swiggy-delivered orders; no settlement API (Petpooja reconciliation is upload-based: 'you simply share your Zomato and Swiggy payout reports'); funnel/ads/ratings/complaints/benchmarks are portal-only; TDS 0.1%; 9(5) treatment; Swiggy One fee; weekly payouts; Swiggy not yet sharing customer phones.\n\nWhat changed materially: (1) Bank UTR, settlement date and payout period ARE in the annexure; (2) order-level annexure columns are now largely corroborated, including per-order service fee % and amount, payment collection charges, 'Cancelled By?', coupon code, last-mile km, MFR flags, complaint refunds, merchant share of cancelled orders; (3) UrbanPiper documents a pseudonymous swiggy_customer_id, so 'no persistent identity' was too absolute - but unverified for Petpooja, so keep it out of the mock; (4) discount bifurcation is explicitly unsupported for Swiggy in the relay, so restaurant-funded discount per order must be downgraded to annexure-only; (5) prepaid/COD is not reliably exposed (payment option = 'aggregator'); (6) commission base and payout cycle corrected; (7) ads metric list and CPC range are agency-sourced and were partly misquoted.\n\nResidual uncertainty the client should hear: Petpooja integrates with Swiggy directly and publishes no field-level spec, so everything labelled 'POS order relay' is inferred from UrbanPiper's equivalent integration; annexure formats change over time (2022-2026 files differ), so the mock should use generic labels and tag every tile with its source (Petpooja relay / uploaded Swiggy annexure / manual entry from Swiggy dashboard). No files were written."
+ }
+}

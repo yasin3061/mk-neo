@@ -1,0 +1,1152 @@
+{
+ "key": "petpooja",
+ "research": {
+  "channel": "Petpooja (restaurant POS: in-store dine-in / takeaway / own-delivery bills, plus Swiggy and Zomato orders relayed into it)",
+  "data_points": [
+   {
+    "name": "Bill / order header for in-store orders: order ID, created timestamp, business date, order type, status, core total, tax total, discount total, grand total",
+    "group": "order",
+    "availability": "available",
+    "via": "POS reports (downloadable) and pull API generic_get_orders (Order.orderID, refId, order_type, payment_type, core_total, tax_total, discount_total, total, created_on, order_date, status)",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Field names come from a third-party integrator's type definitions, not from official public Petpooja docs. The response is wrapped as order_json[] with Restaurant, Customer, Order, Tax, Discount and OrderItem objects.",
+    "source_url": "https://raw.githubusercontent.com/reservation-pixel/OrderGenie/main/backend/src/services/petpooja/types.ts"
+   },
+   {
+    "name": "Globally unique order / invoice number",
+    "group": "order",
+    "availability": "not_available",
+    "via": "pull API generic_get_orders",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "For many outlets orderID is a per-outlet daily invoice number that resets to 1 each day, so an ERP must key on outlet + business date + orderID. One integrator reports there is no separate invoice-number field.",
+    "source_url": "https://github.com/ShivanshPande19/ETLapp/pull/139"
+   },
+   {
+    "name": "Swiggy / Zomato orders relayed into the POS, tagged with source platform and aggregator order reference",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay, online order reports; an ERP connector reports 'Platform (e.g., Zomato, Swiggy)' on pulled data",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Petpooja records the gross order (items, taxes, discount, charges, status) for aggregator orders. The exact API field carrying the platform name could not be verified publicly.",
+    "source_url": "https://greycube.in/blog/integration/pos-to-erp-connecting-the-dots-with-pet-pooja-and-erpnext"
+   },
+   {
+    "name": "Order type split (dine-in / pick-up or parcel / home delivery)",
+    "group": "order",
+    "availability": "available",
+    "via": "POS reports; API Order.order_type",
+    "granularity": "per order, aggregated per day",
+    "confidence": "high",
+    "notes": "The Online Ordering API enumerates H = Home Delivery, P = Parcel, D = Dine In.",
+    "source_url": "https://jsapi.apiary.io/apis/onlineorderingapisv210.apib"
+   },
+   {
+    "name": "Outlet identifier and multi-outlet / zone-wise consolidated sales",
+    "group": "order",
+    "availability": "available",
+    "via": "head-office dashboard, outlet-wise downloadable reports; API Restaurant.restID / res_name",
+    "granularity": "per outlet, per zone / city / brand group",
+    "confidence": "high",
+    "notes": "Outlets can be grouped by region, state, city, brand or channel. The main owner controls report rights per outlet.",
+    "source_url": "https://www.petpooja.com/poss/large-chain-restaurant-pos-software"
+   },
+   {
+    "name": "Hourly / day-part sales summary",
+    "group": "order",
+    "availability": "available",
+    "via": "POS report (day, item, category and hourly-wise sales summary); also derivable from the API created_on timestamp",
+    "granularity": "per hour, per day",
+    "confidence": "medium",
+    "notes": "Hourly-wise summary is listed in Petpooja feature descriptions; the exact report layout was not verified.",
+    "source_url": "https://www.petpooja.com/poss"
+   },
+   {
+    "name": "Biller / cashier / captain who punched the bill (staff-wise sales)",
+    "group": "order",
+    "availability": "partial",
+    "via": "POS report (Employee Wise Item Summary); not seen in the pull API fields",
+    "granularity": "per staff member",
+    "confidence": "medium",
+    "notes": "The report shows tables served and bills punched by each biller, cashier and captain. No biller field appears in the integrator's type definitions for generic_get_orders.",
+    "source_url": "https://blog.petpooja.com/top-10-restaurant-reports-to-look-out-for-your-business/"
+   },
+   {
+    "name": "Table number / covers (pax) per dine-in bill",
+    "group": "order",
+    "availability": "unclear",
+    "via": "POS (table management exists)",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Low relevance for a QSR. Covers per bill is not confirmed in any report or API, so leave it out of the mock."
+   },
+   {
+    "name": "Item-level lines: item id, name, category, quantity, unit price, line total, line discount, line tax",
+    "group": "item",
+    "availability": "available",
+    "via": "POS item-wise reports; API OrderItem (itemid, name, categoryid, categoryname, price, quantity, total, total_discount, total_tax)",
+    "granularity": "per item per order",
+    "confidence": "medium",
+    "notes": "One integrator notes that category names are free text and vary by outlet, so a chain ERP needs a mapping layer.",
+    "source_url": "https://raw.githubusercontent.com/reservation-pixel/OrderGenie/main/backend/src/services/petpooja/types.ts"
+   },
+   {
+    "name": "Item-wise and category-wise sales reports",
+    "group": "item",
+    "availability": "available",
+    "via": "POS reports (downloadable)",
+    "granularity": "per item / category, per day, per outlet",
+    "confidence": "high",
+    "notes": "Petpooja advertises between 50+ and 100+ reports, including item-wise sales and an item-wise tax report. The pricing page says 90+ reports on the base plan.",
+    "source_url": "https://www.petpooja.com/poss/pricing"
+   },
+   {
+    "name": "Variations and add-ons chosen per item",
+    "group": "item",
+    "availability": "partial",
+    "via": "Online Ordering API save_order payload (variation_id / variation_name, AddonItem group / name / price / quantity)",
+    "granularity": "per item per order",
+    "confidence": "medium",
+    "notes": "Present in the inbound order schema for online orders. Whether the ERP pull API returns the variation and add-on breakdown is not verified.",
+    "source_url": "https://jsapi.apiary.io/apis/onlineorderingapisv210.apib"
+   },
+   {
+    "name": "Recipe-based item food cost / margin",
+    "group": "item",
+    "availability": "partial",
+    "via": "POS inventory module (multi-stage recipes, auto-deduction)",
+    "granularity": "per item (theoretical)",
+    "confidence": "medium",
+    "notes": "Works only if recipes and raw-material costs are maintained in Petpooja. It gives theoretical cost, not audited COGS.",
+    "source_url": "https://www.petpooja.com/poss/restaurant-inventory-management-software"
+   },
+   {
+    "name": "Tax breakup per order (CGST / SGST titles and amounts) and item-wise tax report",
+    "group": "charges_taxes",
+    "availability": "available",
+    "via": "POS tax reports; API Tax[] (title, amount)",
+    "granularity": "per order, per item, per day",
+    "confidence": "high",
+    "notes": "The Item Wise Tax Report shows tax collected per menu item.",
+    "source_url": "https://blog.petpooja.com/top-10-restaurant-reports-to-look-out-for-your-business/"
+   },
+   {
+    "name": "Packing charge, delivery charge and service charge, with tax on each",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "Online Ordering API save_order payload (packing_charges, delivery_charges, service_charge, pc_tax_amount, dc_tax_amount, sc_tax_amount); POS bill",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Confirmed in the inbound order schema. One integrator mentions delivery / container charges and service charges in pulled data, but exact pull-API field names are not verified.",
+    "source_url": "https://jsapi.apiary.io/apis/onlineorderingapisv210.apib"
+   },
+   {
+    "name": "GST liability tag on online orders (tax payable by aggregator under section 9(5) vs by restaurant)",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "Online Ordering API (OrderItem.gst_liability = 'vendor' or 'restaurant'; Tax.restaurant_liable_amt)",
+    "granularity": "per item / per tax line",
+    "confidence": "medium",
+    "notes": "The inbound schema carries the liability split, so Petpooja can separate aggregator-liable GST from restaurant-liable GST. Not verified in reports or the pull API. In-store bills carry normal restaurant-liable GST of 5% without ITC.",
+    "source_url": "https://jsapi.apiary.io/apis/onlineorderingapisv210.apib"
+   },
+   {
+    "name": "GST actually deposited by Swiggy / Zomato under section 9(5)",
+    "group": "charges_taxes",
+    "availability": "not_available",
+    "via": "not exposed by Petpooja; appears only in aggregator payout / tax reports",
+    "granularity": "per order in the aggregator payout report",
+    "confidence": "high",
+    "notes": "The ECO issues the invoice and pays the 5% GST. The restaurant only reports the taxable value in GSTR-1 Table 14 and GSTR-3B 3.1.1(ii).",
+    "source_url": "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf"
+   },
+   {
+    "name": "Round-off and tips",
+    "group": "charges_taxes",
+    "availability": "unclear",
+    "via": "POS bill",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Not found in any public field list. Do not show as a separate analytic."
+   },
+   {
+    "name": "Discount total per order and per item",
+    "group": "discount",
+    "availability": "available",
+    "via": "POS reports; API Order.discount_total, OrderItem.total_discount, Discount[]",
+    "granularity": "per order / per item",
+    "confidence": "medium",
+    "notes": "The integrator types the Discount array as unknown[], so its contents are unspecified.",
+    "source_url": "https://raw.githubusercontent.com/reservation-pixel/OrderGenie/main/backend/src/services/petpooja/types.ts"
+   },
+   {
+    "name": "Discounted-orders report with the reason for the discount (in-store)",
+    "group": "discount",
+    "availability": "available",
+    "via": "POS report (Discounted Orders Report)",
+    "granularity": "per order, per period",
+    "confidence": "medium",
+    "notes": "Shows the number of discounts given in a period and the reason for each.",
+    "source_url": "https://blog.petpooja.com/top-10-restaurant-reports-to-look-out-for-your-business/"
+   },
+   {
+    "name": "Discount split by funding party (restaurant-funded vs Swiggy / Zomato-funded) on aggregator orders",
+    "group": "discount",
+    "availability": "unclear",
+    "via": "POS order relay does not document it; the reconciliation module shows a discount breakdown only after payout sheets are uploaded",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Petpooja's order schema Discount object has only id, title, type and price, with no funding-party field. Middleware such as UrbanPiper does receive total discount and aggregator-sponsored discount separately from aggregators. How Petpooja stores this is not public, so show the funding split only under the Swiggy / Zomato payout views, not as Petpooja data.",
+    "source_url": "https://urbanpiper.helpjuice.com/55451-ordering/handling-discount-logic"
+   },
+   {
+    "name": "Complimentary / NC (non-chargeable) and void bills",
+    "group": "discount",
+    "availability": "unclear",
+    "via": "POS reports",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Common in Indian POS systems, but no public Petpooja page naming an NC or void report was found. Cancelled and modified bill reports are confirmed; see operations_quality."
+   },
+   {
+    "name": "Aggregator commission / service fee per order",
+    "group": "settlement_payout",
+    "availability": "partial",
+    "via": "not known to the POS natively; appears in the Online Order Reconciliation module only after the restaurant uploads Swiggy / Zomato payout reports",
+    "granularity": "per order (after upload), per payout cycle",
+    "confidence": "high",
+    "notes": "Petpooja's own blog says only the base order value appears on billing screens. Commission, GST on it, platform fee and gateway charge stay unknown until payout statements are compared. Reconciliation is included in the Growth plan.",
+    "source_url": "https://blog.petpooja.com/operations-workflows/smart-restaurants-reconcile-thousands-orders-in-minutes/"
+   },
+   {
+    "name": "Aggregator net payout amount, payout date, pending payouts",
+    "group": "settlement_payout",
+    "availability": "partial",
+    "via": "reconciliation module from manually uploaded payout sheets; not available through the POS order relay or the pull API",
+    "granularity": "per payout cycle / per order",
+    "confidence": "medium",
+    "notes": "The reconciliation output covers matched orders, status mismatches, amount variances (tax, discount, rounding), missing orders and a commission / discount breakdown, outlet-wise or chain-wide, each payout cycle. UTR / bank reference is not confirmed.",
+    "source_url": "https://www.petpooja.com/poss/online-order-reconciliation"
+   },
+   {
+    "name": "TDS under section 194-O deducted by aggregators",
+    "group": "settlement_payout",
+    "availability": "not_available",
+    "via": "not exposed by Petpooja; comes from aggregator payout report / Form 26AS",
+    "granularity": "per payout cycle",
+    "confidence": "medium",
+    "notes": "Petpooja's reconciliation page does not mention TDS as a tracked field."
+   },
+   {
+    "name": "Aggregator ads / promotion spend deductions",
+    "group": "settlement_payout",
+    "availability": "not_available",
+    "via": "not exposed by Petpooja; only in aggregator payout reports / partner dashboards",
+    "granularity": "per payout cycle",
+    "confidence": "medium",
+    "notes": "No Petpooja report or API field for ad deductions was found."
+   },
+   {
+    "name": "Card / UPI settlement and provider charges (MDR) per transaction",
+    "group": "settlement_payout",
+    "availability": "partial",
+    "via": "Petpooja Finance / Petpooja Pay+ with integrated providers (Paytm, Razorpay, Pine Labs, Mosambee, BharatPe)",
+    "granularity": "per transaction, per day",
+    "confidence": "medium",
+    "notes": "Only if the outlet uses an integrated EDC / QR. The dashboard shows provider charges next to the final payout and flags transactions with no invoice. With a standalone bank EDC, Petpooja knows only the tender type, not the settlement.",
+    "source_url": "https://blog.petpooja.com/industry-business-guides/petpooja-finance-money-layer-in-pos/"
+   },
+   {
+    "name": "Day-end cash summary / cash drawer operations",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "POS report (Day End Summary, cash drawer reports)",
+    "granularity": "per day / per session per outlet",
+    "confidence": "high",
+    "notes": "Compares total cash received against total sales and highlights discrepancies.",
+    "source_url": "https://blog.petpooja.com/top-10-restaurant-reports-to-look-out-for-your-business/"
+   },
+   {
+    "name": "Swiggy settlements and payouts viewed inside Petpooja (embedded Swiggy panel)",
+    "group": "settlement_payout",
+    "availability": "partial",
+    "via": "Swiggy partner features surfaced inside Petpooja's order management UI",
+    "granularity": "as provided by Swiggy",
+    "confidence": "medium",
+    "notes": "This is Swiggy's data shown in a panel; treat it as Swiggy-channel data. There is no evidence it can be exported through Petpooja reports or APIs, and no Zomato equivalent was found.",
+    "source_url": "https://blog.petpooja.com/operations-workflows/swiggy-now-inside-your-restaurant-order-management-system/"
+   },
+   {
+    "name": "Customer name and phone for in-store / own-channel orders",
+    "group": "customer",
+    "availability": "available",
+    "via": "POS CRM; API Customer.name and Customer.phone",
+    "granularity": "per order (when captured)",
+    "confidence": "high",
+    "notes": "Captured only when the biller or captain enters it, or when the order comes from the restaurant's own online / QR / website channels. Walk-in QSR capture is typically a fraction of bills, so mock it as a subset.",
+    "source_url": "https://www.petpooja.com/poss/restaurant-customer-management-software"
+   },
+   {
+    "name": "Customer address and latitude / longitude for own-delivery orders",
+    "group": "customer",
+    "availability": "partial",
+    "via": "POS delivery orders; Online Ordering API Customer.address, latitude, longitude",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "In the inbound schema for third-party and own online orders. Not seen in the pull API fields (only name and phone).",
+    "source_url": "https://jsapi.apiary.io/apis/onlineorderingapisv210.apib"
+   },
+   {
+    "name": "Birthday / anniversary, customer labels / groups",
+    "group": "customer",
+    "availability": "partial",
+    "via": "POS CRM / feedback add-on",
+    "granularity": "per customer",
+    "confidence": "medium",
+    "notes": "Exists only if staff or the feedback form captures it. CRM + loyalty sits in the separate Marketing Manager plans.",
+    "source_url": "https://www.petpooja.com/poss/pricing"
+   },
+   {
+    "name": "Repeat / new flag, visit frequency, order history and bill value, for customers identified by phone",
+    "group": "customer",
+    "availability": "available",
+    "via": "POS CRM reports (Customer Sales Summary)",
+    "granularity": "per customer",
+    "confidence": "medium",
+    "notes": "Valid only for customers whose phone was captured on own-channel orders; it does not cover aggregator customers.",
+    "source_url": "https://blog.petpooja.com/top-10-restaurant-reports-to-look-out-for-your-business/"
+   },
+   {
+    "name": "Phone number of Swiggy / Zomato customers",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "not exposed (aggregators mask it in the order relay)",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "notes": "UrbanPiper documents that Swiggy masks phone and email in relayed orders. In Nov 2025 Zomato began an opt-in consent prompt to share phone numbers with restaurants, and Swiggy was only in talks. Delivery of those numbers into a POS is not confirmed, so do not show aggregator customer phones in the mock.",
+    "source_url": "https://www.medianama.com/2025/11/223-zomato-swiggy-share-customer-data-restaurants/"
+   },
+   {
+    "name": "Name / address of Swiggy / Zomato customers",
+    "group": "customer",
+    "availability": "partial",
+    "via": "POS order relay",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "UrbanPiper help text is inconsistent. One article says Swiggy relays name and address but masks phone and email; another says all Swiggy customer fields are dummy values. Assume at most a first name or masked value, and do not build analytics on it.",
+    "source_url": "https://urbanpiper.helpjuice.com/55451-ordering/598671-ordering-platforms-special-constraints"
+   },
+   {
+    "name": "Customer identity across aggregator orders (repeat / new for Swiggy and Zomato customers)",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "notes": "Without a stable phone or ID, Petpooja cannot link aggregator orders to a person. Any new-vs-repeat metric for aggregators must come, only in aggregate, from the aggregator partner dashboards."
+   },
+   {
+    "name": "Rider details (name / phone / OTP check-in) for aggregator orders",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "POS live order screen",
+    "granularity": "per live order",
+    "confidence": "low",
+    "notes": "Petpooja advertises 'manage riders', live order status and Swiggy / Zomato OTP for delivery executives. Whether rider data is stored, reportable or exportable is not documented, so keep it out of analytics.",
+    "source_url": "https://www.petpooja.com/poss/online-order-management-software"
+   },
+   {
+    "name": "Own-delivery rider assignment via third-party logistics integrations (Dunzo, Shadowfax, Pidge)",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "POS integrations",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Integration is listed; the data retained per order is not documented.",
+    "source_url": "https://www.petpooja.com/poss/online-order-management-software"
+   },
+   {
+    "name": "Delivery status and time for online orders",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "POS report (Online Orders Summary: invoice, mode of payment, delivery status and time)",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "The POS sees status events (accepted, food ready, dispatched / delivered, cancelled). It does not see the aggregator's last-mile details.",
+    "source_url": "https://blog.petpooja.com/top-10-restaurant-reports-to-look-out-for-your-business/"
+   },
+   {
+    "name": "Delivery distance for aggregator orders",
+    "group": "delivery_logistics",
+    "availability": "unclear",
+    "via": "no field found in Petpooja's order schema",
+    "granularity": "n/a",
+    "confidence": "low",
+    "notes": "Do not show distance as Petpooja data."
+   },
+   {
+    "name": "Own feedback ratings (Petpooja feedback app / SMS link / QR)",
+    "group": "ratings_feedback",
+    "availability": "partial",
+    "via": "POS feedback add-on (Marketing Manager plan)",
+    "granularity": "per feedback response",
+    "confidence": "medium",
+    "notes": "Covers dine-in and own-channel customers only, and only if the add-on is bought.",
+    "source_url": "https://www.petpooja.com/poss/pricing"
+   },
+   {
+    "name": "Swiggy / Zomato ratings and reviews",
+    "group": "ratings_feedback",
+    "availability": "partial",
+    "via": "not in Petpooja's own data or API; Swiggy ratings and reviews are viewable through the Swiggy panel embedded in Petpooja",
+    "granularity": "as provided by Swiggy",
+    "confidence": "medium",
+    "notes": "No Zomato equivalent was found. Treat ratings as aggregator-channel data, not Petpooja data.",
+    "source_url": "https://blog.petpooja.com/operations-workflows/swiggy-now-inside-your-restaurant-order-management-system/"
+   },
+   {
+    "name": "Aggregator ad spend, impressions, clicks, ROI",
+    "group": "marketing_ads",
+    "availability": "not_available",
+    "via": "not exposed in Petpooja reports or API",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "notes": "Swiggy ads and discounts can be launched from the embedded Swiggy panel, but that is a UI action surface, not Petpooja data.",
+    "source_url": "https://blog.petpooja.com/operations-workflows/swiggy-now-inside-your-restaurant-order-management-system/"
+   },
+   {
+    "name": "Own campaigns (SMS / WhatsApp / email), loyalty points, wallet",
+    "group": "marketing_ads",
+    "availability": "partial",
+    "via": "Petpooja Marketing Manager plans (CRM + loyalty, WABA credits, Meta ads on higher tiers)",
+    "granularity": "per campaign / per customer",
+    "confidence": "low",
+    "notes": "Available features are listed; campaign performance metrics are not documented publicly.",
+    "source_url": "https://www.petpooja.com/poss/pricing"
+   },
+   {
+    "name": "Aggregator funnel (impressions to menu opens to cart to orders)",
+    "group": "funnel",
+    "availability": "not_available",
+    "via": "not exposed by Petpooja; exists only in aggregator partner dashboards",
+    "granularity": "n/a",
+    "confidence": "high",
+    "notes": "A POS sees only orders that reach it. Any funnel chart must be attributed to Swiggy / Zomato partner dashboards."
+   },
+   {
+    "name": "In-store funnel (walk-ins, abandoned orders)",
+    "group": "funnel",
+    "availability": "not_available",
+    "via": "not exposed",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "notes": "The POS records bills, KOTs, cancellations and modifications only. Footfall is not captured."
+   },
+   {
+    "name": "Cancelled orders with reason, approver and stage; KOT cancellations; bill modifications",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS reports (cancelled / discounted orders, bill modification reports)",
+    "granularity": "per order / per KOT",
+    "confidence": "high",
+    "notes": "Cancellation is logged as an event: what was dropped, why, who approved, at which stage. Cooked items can be logged as wastage. The pull API returns cancelled orders in the same feed, to be filtered by status.",
+    "source_url": "https://blog.petpooja.com/glossary/order-cancellation/"
+   },
+   {
+    "name": "Aggregator order status in POS (delivered / cancelled / rejected)",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS order relay; online order reports",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "The cancellation flows in with the order data, but its money impact (penalty, refund, partial payout) is settled only in the aggregator's settlement report.",
+    "source_url": "https://blog.petpooja.com/glossary/order-cancellation/"
+   },
+   {
+    "name": "Aggregator cancellation penalties, customer refunds, complaint deductions",
+    "group": "operations_quality",
+    "availability": "not_available",
+    "via": "not exposed by Petpooja natively; visible after payout-sheet upload in reconciliation, or in the aggregator dashboards",
+    "granularity": "per order in the payout report",
+    "confidence": "medium",
+    "notes": "Swiggy complaints can be raised and tracked through the embedded Swiggy panel (UI only)."
+   },
+   {
+    "name": "Kitchen prep time (order timestamp, prep duration, station, delayed flag)",
+    "group": "operations_quality",
+    "availability": "partial",
+    "via": "Petpooja KDS add-on (Growth plan)",
+    "granularity": "per order / per station",
+    "confidence": "medium",
+    "notes": "Requires KDS screens and staff tapping 'done'. The KDS logs timestamp, prep duration and station. The format of any exportable prep-time report is not verified.",
+    "source_url": "https://blog.petpooja.com/glossary/kitchen-display-system/"
+   },
+   {
+    "name": "Staff performance / biller-wise actions",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS reports",
+    "granularity": "per staff member",
+    "confidence": "medium",
+    "notes": "Staff performance and staff action reports are listed among Petpooja reports.",
+    "source_url": "https://blog.petpooja.com/poss/restaurant-business-dynamic-reports/"
+   },
+   {
+    "name": "Payment mode per bill (cash / card / UPI / wallet / online / due)",
+    "group": "payments",
+    "availability": "available",
+    "via": "POS payment reports; API Order.payment_type",
+    "granularity": "per order, per day",
+    "confidence": "high",
+    "notes": "Payment type reports (cash / card / wallet) are standard. Due payments are supported. Older setups may lump UPI-on-EDC under 'Card'.",
+    "source_url": "https://blog.petpooja.com/finance-compliance/card-vs-upi-why-restaurant-payment-reports-never-match/"
+   },
+   {
+    "name": "Part-payment split across tenders",
+    "group": "payments",
+    "availability": "unclear",
+    "via": "POS bill",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Not seen in the pull-API field list that was found."
+   },
+   {
+    "name": "Prepaid vs COD flag for online orders",
+    "group": "payments",
+    "availability": "partial",
+    "via": "Online Ordering API (payment_type COD / CARD / CREDIT / ONLINE / OTHER, collect_cash)",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Aggregator orders appear as online / other tender. The cash is not the restaurant's until the aggregator pays out.",
+    "source_url": "https://jsapi.apiary.io/apis/onlineorderingapisv210.apib"
+   },
+   {
+    "name": "Card vs UPI as distinct tenders, with provider name",
+    "group": "payments",
+    "availability": "partial",
+    "via": "Petpooja Pay+ with integrated EDC / QR providers",
+    "granularity": "per transaction",
+    "confidence": "medium",
+    "notes": "Only with integrated payment devices.",
+    "source_url": "https://blog.petpooja.com/finance-compliance/card-vs-upi-why-restaurant-payment-reports-never-match/"
+   },
+   {
+    "name": "Item in-stock / out-of-stock toggle and store on / off pushed to Swiggy and Zomato",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS action via menu-sync integration",
+    "granularity": "per item / per outlet, real time",
+    "confidence": "high",
+    "notes": "Availability toggles reach the apps within minutes with no platform approval; new items and photos need platform review. A historical toggle log or report is not confirmed, so item-unavailable hours as a metric is unclear.",
+    "source_url": "https://blog.petpooja.com/industry-business-guides/sync-menu-across-swiggy-zomato-and-pos/"
+   },
+   {
+    "name": "Raw materials, multi-stage recipes, auto-consumption on sale",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS inventory module (included in base plan)",
+    "granularity": "per raw material per day per outlet",
+    "confidence": "high",
+    "notes": "Accuracy depends on recipe upkeep.",
+    "source_url": "https://www.petpooja.com/poss/restaurant-inventory-management-software"
+   },
+   {
+    "name": "Purchases: supplier, invoice no. and date, items, qty, unit, price, tax lines, total, payment status",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS purchase module; pull API get_purchase (POST https://api.petpooja.com/V1/thirdparty/get_purchase/)",
+    "granularity": "per purchase invoice line",
+    "confidence": "medium",
+    "notes": "The API enforces a maximum one-month date range per call. Field names come from a third-party integrator. A separate credential set was issued for the Purchase API.",
+    "source_url": "https://github.com/reservation-pixel/OrderGenie"
+   },
+   {
+    "name": "Stock transfers central kitchen / factory to outlets, and outlet to outlet",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS central kitchen module; API get_purchase returns internal transfers flagged is_transfer_only with sender / receiver details",
+    "granularity": "per transfer line",
+    "confidence": "medium",
+    "notes": "No dedicated transfer API has been shared publicly; transfers arrive inside the purchase feed.",
+    "source_url": "https://github.com/reservation-pixel/OrderGenie"
+   },
+   {
+    "name": "Indents / stock requests from outlets to central kitchen; purchase orders to suppliers",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS central kitchen module; a Purchase Order webhook (poNumber, deliveryDate, itemDetails with HSN / SAP code, sender / receiver) is used by one integrator",
+    "granularity": "per indent / PO line",
+    "confidence": "medium",
+    "notes": "Outlets raise stock requests, the central kitchen fulfils them and plans delivery routes. The webhook schema comes from a third-party repo, not official public docs.",
+    "source_url": "https://raw.githubusercontent.com/reservation-pixel/OrderGenie/main/backend/src/services/petpooja/types.ts"
+   },
+   {
+    "name": "Wastage and raw-material consumption report",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS report (Raw Material Consumption & Wastage Report)",
+    "granularity": "per raw material per day",
+    "confidence": "medium",
+    "notes": "Report only; no API route was found.",
+    "source_url": "https://blog.petpooja.com/top-10-restaurant-reports-to-look-out-for-your-business/"
+   },
+   {
+    "name": "Opening / closing stock levels and variance (ideal vs physical)",
+    "group": "inventory",
+    "availability": "partial",
+    "via": "POS inventory reports (20+ inventory reports, day-end inventory checks, low-stock alerts); no documented API",
+    "granularity": "per raw material per day per outlet",
+    "confidence": "medium",
+    "notes": "One integrator reports that no stock-level endpoint has ever been documented or shared by Petpooja, so an ERP would need report exports for closing stock.",
+    "source_url": "https://github.com/reservation-pixel/OrderGenie"
+   },
+   {
+    "name": "Operating expenses (rent, electricity, salaries, consumables) for outlet P&L",
+    "group": "other",
+    "availability": "partial",
+    "via": "POS petty-cash / cash-drawer style expense entries; Tally sync mentions daily sales, GST and expense figures",
+    "granularity": "per entry",
+    "confidence": "low",
+    "notes": "Petpooja is not the book of record for rent, utilities or payroll. Unit-economics dashboards should attribute these to the ERP / accounting layer, not to Petpooja.",
+    "source_url": "https://blog.petpooja.com/operations-workflows/must-have-integrations-for-managing-your-restaurant/"
+   },
+   {
+    "name": "Report export and scheduled delivery (downloadable reports, automated email alerts, owner mobile app)",
+    "group": "other",
+    "availability": "available",
+    "via": "partner dashboard export",
+    "granularity": "per report",
+    "confidence": "high",
+    "notes": "Reports are downloadable, with automated email report alerts and hierarchical report rights.",
+    "source_url": "https://www.petpooja.com/poss/reports-and-analytics"
+   }
+  ],
+  "access_routes": [
+   {
+    "route": "Petpooja dashboard / owner app: downloadable reports and automated email reports",
+    "what_it_gives": "90+ reports on the base plan: sales by day / item / category / hour, order type, payment type, discounts, cancelled and modified bills, tax, online orders, staff, CRM, inventory, purchase, wastage; outlet-wise or consolidated by zone.",
+    "prerequisites": "Any Petpooja POS subscription; report rights granted per outlet by the main owner. Export is manual unless email scheduling is used."
+   },
+   {
+    "route": "Pull API: GET https://api.petpooja.com/V1/thirdparty/generic_get_orders/ (JSON body on a GET)",
+    "what_it_gives": "Per-outlet order feed: Restaurant, Customer (name, phone), Order (orderID, refId, order_type, payment_type, core_total, tax_total, discount_total, total, created_on, order_date, status), Tax[], Discount[], OrderItem[] (item, category, price, qty, total, discount, tax). Includes cancelled orders and aggregator orders relayed to the POS. No commission or payout data.",
+    "prerequisites": "app_key, app_secret and access_token issued by Petpooja per restID (one integrator also needed a cookie). API integration is part of the Growth plan (INR 20,000 per year ex tax). The API must be enabled outlet by outlet; one chain had it on only 6 of 18 outlets. Pagination uses refId. A call for date D returns D and D-1. orderID resets daily. Docs describe T-1 data, though one integrator observed near-live data. Official docs are not public, so request them from Petpooja."
+   },
+   {
+    "route": "Pull API: POST https://api.petpooja.com/V1/thirdparty/get_purchase/",
+    "what_it_gives": "Purchase invoices (supplier / receiver, invoice no. and date, items, qty, unit, price, tax lines, total, payment status), plus internal stock transfers flagged is_transfer_only. Useful for factory-to-outlet transfers.",
+    "prerequisites": "A separate credential set issued by Petpooja; maximum one-month date range per call. No public endpoint exists for stock levels, consumption or wastage, which need report exports."
+   },
+   {
+    "route": "Purchase Order webhook (Petpooja pushes to the ERP URL)",
+    "what_it_gives": "PO number, delivery date, status, totals, item lines with HSN / SAP code and tax rates, sender and receiver party details.",
+    "prerequisites": "Configured by Petpooja for the account. The schema is known only from a third-party repo, so confirm with Petpooja."
+   },
+   {
+    "route": "Packaged accounting / ERP integrations: Tally, SAP / ERP integration, enterprise data lake",
+    "what_it_gives": "Daily or real-time push of sales, taxes, payment-mode totals mapped to ledgers, and purchase data. For large chains Petpooja offers to push sales, inventory and customer data to the ERP (Dynamics NAV, Tally, SAP).",
+    "prerequisites": "Growth plan or an enterprise arrangement; one-time ledger mapping. Third-party connectors also exist (Commercium for Zoho Books / Inventory, a custom ERPNext connector by GreyCube)."
+   },
+   {
+    "route": "Online Order Reconciliation module",
+    "what_it_gives": "Per-order match of POS against the aggregator payout sheet: matched orders, status mismatches, amount variances (tax, discount, rounding), missing orders, commission and discount breakdown, pending payouts; outlet-wise or chain-wide.",
+    "prerequisites": "Growth plan. The restaurant must download Swiggy / Zomato payout reports each cycle and upload or share them with Petpooja; it is not an automatic API pull."
+   },
+   {
+    "route": "Swiggy partner panel embedded inside Petpooja",
+    "what_it_gives": "UI access to Swiggy ads, discounts, smart links, complaints, ratings and reviews, settlements and payouts, and performance metrics (order volume, cancellations, delivery speed).",
+    "prerequisites": "Swiggy integration through Petpooja. UI only, with no evidence of export via Petpooja APIs, so treat it as Swiggy data. No Zomato equivalent was found."
+   },
+   {
+    "route": "Online Ordering API V2.1.0 (Apiary): save_order, fetch / push menu, item stock, store status, order-status callback",
+    "what_it_gives": "Not an extraction route. It lets ordering platforms push orders into Petpooja and sync menus. It shows what Petpooja can hold per online order: customer name / phone / address / lat-long, charges with taxes, gst_liability (vendor vs restaurant), payment type, prep time, OTP.",
+    "prerequisites": "Partner onboarding with Petpooja (app-key, app-secret, access-token, restID mapping)."
+   }
+  ],
+  "settlement_mechanics": "Petpooja is a POS, not a marketplace, so it has no payout of its own. Money reaches the restaurant by tender.\n\n1. **Cash.** Counted at day end against the Day End Summary / cash drawer report, and banked by the outlet.\n\n2. **Cards (EDC).**\n   - The acquirer deducts MDR before settlement, usually on the next working day and later over weekends or holidays.\n   - Debit MDR is capped by RBI at 0.40% (merchant turnover up to INR 20 lakh, cap INR 200 per transaction) or 0.90% (other merchants, cap INR 1,000).\n   - Credit card MDR has no RBI cap and typically runs 1.5-2.5%.\n\n3. **UPI / QR.**\n   - Usually same-day or T+1.\n   - Zero MDR on UPI P2M and RuPay debit since January 2020.\n   - NPCI has announced 0.4% MDR on P2M UPI transactions above INR 2,000 (cap INR 300) from 15 October 2026. Most QSR tickets fall below that threshold.\n\n4. **Petpooja Pay+ / Petpooja Finance.**\n   - With integrated providers (Paytm, Razorpay, Pine Labs, Mosambee, BharatPe), each payment is recorded under its real tender with the provider named.\n   - The dashboard shows provider charges next to the final payout and flags payments with no invoice.\n   - Petpooja advertises T+1 settlement.\n   - With a non-integrated bank EDC, the POS knows only the tender type.\n\n5. **Swiggy / Zomato orders.**\n   - Petpooja records the gross order (items, taxes, discount, charges, status) with an online / other tender.\n   - The cash arrives later in the aggregator's weekly payout, net of commission / service fee, payment-gateway or collection fee, 18% GST on those fees, TDS, ads and refund / cancellation adjustments.\n   - Petpooja's own blog says only the base order value appears on billing screens; commission, GST on it, platform fee and gateway charge are unknown until the payout statement is compared.\n   - The reconciliation module fills this gap only after the restaurant uploads the payout sheets each cycle.\n   - Zomato's terms: orders serviced Monday to Sunday are settled on or before Thursday of the following week.\n\n6. **GST.**\n   - In-store bills: 5% GST without ITC is collected on the bill and paid by the restaurant.\n   - Aggregator orders: under section 9(5) the ECO issues the invoice, collects and deposits the 5% GST, so that tax never reaches the restaurant.\n   - The restaurant reports only the taxable value in GSTR-1 Table 14 and GSTR-3B Table 3.1.1(ii).\n   - Petpooja's inbound order schema carries gst_liability (vendor vs restaurant) and restaurant_liable_amt, so it can keep aggregator-liable tax separate.\n\n7. **TCS.** TCS under section 52 of the CGST Act does not apply to 9(5) restaurant services (CBIC Circular 167/23/2021).\n\n8. **TDS.**\n   - TDS under section 194-O is 0.1% of gross sales facilitated since 1 October 2024 (previously 1%).\n   - From 1 April 2026 it is renumbered as section 393(1), Table Sl. No. 8(v) of the Income-tax Act, 2025.\n   - Petpooja does not show it; it appears in aggregator payout reports and Form 26AS.",
+  "typical_rates": [
+   {
+    "item": "Petpooja POS subscription (ex tax)",
+    "value": "Base INR 12,000 per year. Growth INR 20,000 per year (adds Swiggy / Zomato reconciliation, Tally integration, KDS, API integration, SAP / ERP integration). Scale INR 30,000 per year. Marketing Manager plans INR 20,000 / 30,000 / 40,000 per year. The pricing page does not say whether this is per outlet; per-outlet licensing is likely, so verify.",
+    "source_url": "https://www.petpooja.com/poss/pricing"
+   },
+   {
+    "item": "Aggregator commission (Swiggy / Zomato)",
+    "value": "About 25-27% of order value for single-outlet restaurants; about 18-22% for chains of roughly 10+ locations. Petpooja's own blog headline cites 18-25%. Negotiated per contract.",
+    "source_url": "https://restaurantcoach.in/zomato-swiggy-commission-rates-2026/"
+   },
+   {
+    "item": "Payment gateway / collection fee charged by aggregators",
+    "value": "Swiggy: 2% collection fee on orders since 20 December 2023. Zomato: about 1.84% payment mechanism fee. 18% GST applies on top.",
+    "source_url": "https://yourstory.com/2023/12/swiggy-collection-fee-online-payment-platform-zomato"
+   },
+   {
+    "item": "GST on aggregator commission and fees",
+    "value": "18% (ITC-eligible only if the restaurant is on a regime that allows ITC; standalone restaurants at 5% without ITC cannot claim it)",
+    "source_url": "https://hellobooks.ai/guides/swiggy-zomato-reconciliation"
+   },
+   {
+    "item": "GST on restaurant service",
+    "value": "5% without ITC. On aggregator orders it is collected and paid by the ECO under section 9(5), effective 1 January 2022.",
+    "source_url": "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf"
+   },
+   {
+    "item": "TDS under section 194-O (now section 393(1) Table Sl. 8(v), Income-tax Act 2025)",
+    "value": "0.1% of gross amount of sales facilitated, from 1 October 2024 (previously 1%). The INR 5 lakh threshold exemption applies only to individuals / HUFs. Several 2026 blog posts still wrongly quote 1%.",
+    "source_url": "https://tax2win.in/guide/section-194o-of-the-income-tax-act"
+   },
+   {
+    "item": "TCS under section 52 CGST",
+    "value": "Not applicable to restaurant services on which the aggregator pays GST under section 9(5)",
+    "source_url": "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf"
+   },
+   {
+    "item": "Card MDR (in-store EDC)",
+    "value": "Debit: up to 0.40% (turnover up to INR 20 lakh, cap INR 200 per transaction) or up to 0.90% (others, cap INR 1,000); QR-based is 0.10% lower. Credit: no RBI cap, typically 1.5-2.5%.",
+    "source_url": "https://www.businesstoday.in/latest/economy/story/upi-vs-debit-card-vs-credit-card-mdr-how-much-does-each-payment-method-cost-merchants-555836-2026-09-16"
+   },
+   {
+    "item": "UPI / RuPay debit MDR",
+    "value": "Zero since January 2020. NPCI has announced 0.4% MDR on P2M UPI transactions above INR 2,000, capped at INR 300, effective 15 October 2026.",
+    "source_url": "https://www.business-standard.com/finance/news/upi-versus-cards-what-merchants-will-pay-under-the-new-mdr-regime-126091600504_1.html"
+   },
+   {
+    "item": "Aggregator payout cycle",
+    "value": "Weekly. Zomato terms: orders serviced Monday to Sunday are settled on or before Thursday of the following week. One 2026 practitioner source reports 10-14 days in practice for some partners.",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   }
+  ],
+  "caveats": [
+   "Petpooja does not publish its ERP pull APIs (generic_get_orders, get_purchase, PO webhook). The field lists here are reverse-engineered from third-party GitHub integrators (reservation-pixel/OrderGenie and LiveSales, ShivanshPande19/ETLapp), not from official docs. Confirm with Petpooja before promising the client any specific field.",
+   "The only official public API doc found is the Online Ordering API V2.1.0 on Apiary. It covers pushing orders into Petpooja; it is not a data-extraction API. The Apiary blueprint fetched was truncated, so the callback status codes, rider fields and stock / store endpoints could not be read from the primary source.",
+   "Petpooja does not natively know aggregator commission, platform fee, gateway fee, GST on fees, TDS, ads deductions, penalties or net payout. Its reconciliation module shows these only after the restaurant uploads Swiggy / Zomato payout sheets each cycle. In the mock, present them as aggregator payout-report data, never as Petpooja POS data.",
+   "The 'Swiggy inside Petpooja' panel (ads, discounts, ratings, complaints, settlements) is Swiggy partner data shown in Petpooja's UI. No evidence was found that it can be exported via Petpooja reports or APIs, and no Zomato equivalent was found.",
+   "Aggregator customer PII: Swiggy masks phone and email in relayed orders (per UrbanPiper help text, whose pages returned HTTP 402, so this rests on search snippets). Zomato started opt-in, phone-only sharing in November 2025, but delivery into a POS is unconfirmed. Do not show aggregator customer phones, repeat / new flags or cross-order identity as Petpooja data.",
+   "Whether Petpooja stores the restaurant-funded vs platform-funded discount split for relayed orders is unclear. Its public order schema has no funding-party field. Show the funding split only in Swiggy / Zomato payout views.",
+   "NC / complimentary / void bill reports, part-payment splits, tips / round-off, table covers and delivery distance could not be verified from public Petpooja sources and are marked unclear.",
+   "KDS prep-time, feedback ratings, CRM / loyalty and card-settlement / MDR data each depend on an add-on or integrated hardware (KDS on the Growth plan, Marketing Manager plan, Petpooja Pay+ with integrated EDC / QR). If shown in the mock, label them as module-dependent.",
+   "Inventory accuracy (consumption, food cost, variance) depends on recipe and stock-take discipline. There is no public API for stock levels, consumption or wastage, so an ERP would need report exports or an enterprise data-lake arrangement.",
+   "Rent, electricity, salaries and similar overheads are not Petpooja data. Unit-economics screens should attribute them to the ERP / accounting layer.",
+   "Commission and fee figures come from secondary sources and vary by contract. Several 2026 blog posts still state TDS at 1% and TCS at 1%, which is outdated or incorrect for 9(5) restaurant services. The legal position is TDS 0.1% since 1 October 2024 and no section 52 TCS on 9(5) restaurant services.",
+   "The Zomato developer docs and the Zomato online-ordering terms page timed out when fetched. The Zomato settlement-day statement relies on a search-result snippet of the official terms page.",
+   "QSR walk-in customer capture (name / phone) happens only when the biller enters it. Mock data should show identified customers as a minority of in-store bills. This is a judgment call, not a sourced figure."
+  ],
+  "sources": [
+   "https://jsapi.apiary.io/apis/onlineorderingapisv210.apib",
+   "https://onlineorderingapisv210.docs.apiary.io/",
+   "https://github.com/api-evangelist/petpooja",
+   "https://raw.githubusercontent.com/api-evangelist/petpooja/main/openapi/petpooja-orders-api-openapi.yml",
+   "https://raw.githubusercontent.com/api-evangelist/petpooja/main/openapi/petpooja-stock-api-openapi.yml",
+   "https://github.com/reservation-pixel/OrderGenie",
+   "https://raw.githubusercontent.com/reservation-pixel/OrderGenie/main/backend/src/services/petpooja/types.ts",
+   "https://raw.githubusercontent.com/reservation-pixel/OrderGenie/main/backend/src/services/petpooja/salesApi.service.ts",
+   "https://raw.githubusercontent.com/reservation-pixel/OrderGenie/main/backend/src/services/petpooja/mappers/salesMapper.ts",
+   "https://github.com/reservation-pixel/LiveSales",
+   "https://github.com/ShivanshPande19/ETLapp/pull/139",
+   "https://greycube.in/blog/integration/pos-to-erp-connecting-the-dots-with-pet-pooja-and-erpnext",
+   "https://www.petpooja.com/poss/pricing",
+   "https://www.petpooja.com/poss/reports-and-analytics",
+   "https://www.petpooja.com/poss/online-order-reconciliation",
+   "https://www.petpooja.com/poss/online-order-management-software",
+   "https://www.petpooja.com/poss/large-chain-restaurant-pos-software",
+   "https://www.petpooja.com/poss/restaurant-inventory-management-software",
+   "https://www.petpooja.com/poss/restaurant-customer-management-software",
+   "https://www.petpooja.com/poss/restaurant-integrations",
+   "https://www.petpooja.com/poss",
+   "https://blog.petpooja.com/top-10-restaurant-reports-to-look-out-for-your-business/",
+   "https://blog.petpooja.com/poss/restaurant-business-dynamic-reports/",
+   "https://blog.petpooja.com/operations-workflows/smart-restaurants-reconcile-thousands-orders-in-minutes/",
+   "https://blog.petpooja.com/industry-business-guides/petpooja-makes-online-order-reconciliation-effortless/",
+   "https://blog.petpooja.com/operations-workflows/swiggy-now-inside-your-restaurant-order-management-system/",
+   "https://blog.petpooja.com/industry-business-guides/sync-menu-across-swiggy-zomato-and-pos/",
+   "https://blog.petpooja.com/glossary/order-cancellation/",
+   "https://blog.petpooja.com/glossary/kitchen-display-system/",
+   "https://blog.petpooja.com/finance-compliance/card-vs-upi-why-restaurant-payment-reports-never-match/",
+   "https://blog.petpooja.com/industry-business-guides/petpooja-finance-money-layer-in-pos/",
+   "https://blog.petpooja.com/operations-workflows/must-have-integrations-for-managing-your-restaurant/",
+   "https://blog.petpooja.com/poss/ultimate-guide-to-restaurant-inventory-management/",
+   "https://blog.petpooja.com/growth-scaling/swiggy-zomato-commission-how-kitchens-stay-profitable/",
+   "https://constacloud.com/commercium/account-connectors/zoho-books-and-pet-pooja-integration.html",
+   "https://urbanpiper.helpjuice.com/55451-ordering/598671-ordering-platforms-special-constraints",
+   "https://urbanpiper.helpjuice.com/55451-ordering/handling-discount-logic",
+   "https://www.medianama.com/2025/11/223-zomato-swiggy-share-customer-data-restaurants/",
+   "https://www.business-standard.com/industry/news/food-delivery-data-sharing-restaurants-user-consent-zomato-swiggy-125112001359_1.html",
+   "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf",
+   "https://www.casahuja.com/2026/09/gst-on-restaurant-cloud-kitchen-sales.html",
+   "https://hellobooks.ai/guides/swiggy-zomato-reconciliation",
+   "https://tax2win.in/guide/section-194o-of-the-income-tax-act",
+   "https://blog.tdsman.com/2025/09/section-194o-tds-on-payments-by-e-commerce-operators-to-participants/",
+   "https://restaurantcoach.in/zomato-swiggy-commission-rates-2026/",
+   "https://yourstory.com/2023/12/swiggy-collection-fee-online-payment-platform-zomato",
+   "https://www.zomato.com/policies/online-ordering/",
+   "https://www.menuhelper.in/blog/reconciling-swiggy-zomato-payouts-2026",
+   "https://www.terra-insight.com/insights/zomato-restaurant-settlement-reconciliation/",
+   "https://www.businesstoday.in/latest/economy/story/upi-vs-debit-card-vs-credit-card-mdr-how-much-does-each-payment-method-cost-merchants-555836-2026-09-16",
+   "https://www.business-standard.com/finance/news/upi-versus-cards-what-merchants-will-pay-under-the-new-mdr-regime-126091600504_1.html"
+  ]
+ },
+ "verify": {
+  "corrections": [
+   {
+    "name": "Opening / closing stock levels via API",
+    "was": "partial; 'no stock-level endpoint has ever been documented or shared by Petpooja', ERP would need report exports",
+    "now": "Closing stock per raw material per date IS pullable: POST https://api.petpooja.com/V1/thirdparty/get_stock_api/ (menuSharingCode + date) returns closing_json[] of {name, price, unit, qty, restaurant_id, category, sapcode}; date is honoured historically. Availability: available for daily closing stock (confidence medium, third-party evidence only). Ideal-vs-physical variance remains report-only / unverified.",
+    "reason": "Two independent integrators use it: TanmatraV2 documents it as 'probed live against outlet ... 2026-07-25' and explicitly corrects its own earlier belief that stock was not provisioned; a separate SAP ABAP integration (zcl_physical_int) calls the same endpoint. The original researcher relied on a single repo (OrderGenie) that simply never received this endpoint.",
+    "source_url": "https://github.com/bubsla-svg/TanmatraV2/blob/main/artifacts/api-server/src/lib/petpoojaInventory.ts"
+   },
+   {
+    "name": "Wastage data route",
+    "was": "available, 'Report only; no API route was found'",
+    "now": "Report confirmed (official blog). An API route probably exists too: a third-party SAP integration calls POST /V1/thirdparty/get_sales/ with slType='wastage' (from_date/to_date, refId paging). Treat API route as partial / low-medium confidence (single integrator, undocumented publicly).",
+    "reason": "Found independent integration code calling the endpoint; original search missed it.",
+    "source_url": "https://github.com/dineshraj901/ADT-Backup/blob/main/src/yinternal_transfer/zcl_wastage_init.clas.abap"
+   },
+   {
+    "name": "Stock transfers factory -> outlets (API route)",
+    "was": "'No dedicated transfer API has been shared publicly; transfers arrive inside the purchase feed' (is_transfer_only)",
+    "now": "Two routes seen: (1) receiver side: get_purchase rows flagged is_transfer_only (OrderGenie, TanmatraV2 confirm get_purchase, max ~1 month range, code 101 beyond); (2) sender side: get_sales with slType='transfer' returning sale_id, invoice no/date, sender/receiver, department and to_department, item lines with sap_code, hsn_code, qty, unit, price, weighted_price, taxes, batch/expiry, yield_qty. Availability stays available, confidence medium; all undocumented publicly - must be confirmed with Petpooja for the client's account.",
+    "reason": "Independent SAP ABAP integration shows a dedicated inventory 'sales/outward' feed covering internal transfers.",
+    "source_url": "https://github.com/dineshraj901/ADT-Backup/blob/main/src/yinternal_transfer/zcl_internal_transfer_int.clas.abap"
+   },
+   {
+    "name": "Aggregator source tag and aggregator order reference on relayed orders",
+    "was": "available / medium, 'exact API field carrying the platform name could not be verified publicly'",
+    "now": "Fields identified: Order.order_from ('POS' / 'Zomato' / 'Swiggy' ...), Order.order_from_id (aggregator order number), Order.sub_order_type. Present in Petpooja's real-time push webhook payload (event 'orderdetails') and as 'Order From' / 'Aggregator Order No' / 'PoS Invoice No' columns in the Online Order report. Confidence high for webhook/report routes; still UNVERIFIED for the T-1 pull API generic_get_orders (OrderGenie's types do not list it, but its Order type is open-ended).",
+    "reason": "Corroborated by a raw sample payload (BookyTech) and three further independent integrators (flaxhr, epic-poetry-cafe, jugaad-nights) plus a report-column mirror (restaurant_chatbot).",
+    "source_url": "https://github.com/BookyTech/Booky-backend/blob/master/sample.txt"
+   },
+   {
+    "name": "Access routes - missing real-time push webhook",
+    "was": "Only pull APIs (T-1), PO webhook, packaged integrations and report exports were listed",
+    "now": "Add a fourth extraction route: Petpooja pushes one JSON per bill on 'Save & Print' (event 'orderdetails') to a customer-supplied webhook URL. Payload: Restaurant{res_name,restID}, Customer{name,phone,address}, Order{orderID, order_type (Dine In/Pick Up/Delivery), payment_type (Cash/Card/Online/Other/Part Payment/Due), table_no, no_of_persons, discount_total, tax_total, round_off, core_total, total, created_on, order_from, order_from_id, sub_order_type, packaging_charge, delivery_charges, service_charge, status (Success/Cancelled)}, Tax[]{title,type,rate,amount}, Discount[], OrderItem[]{name,itemid,itemcode,price,quantity,total,discount,category_name,sap_code,specialnotes,addon[]}. So near-real-time sales in the ERP is technically feasible, not only T-1.",
+    "reason": "Seen in 4+ independent repos incl. a verbatim sample payload and a Power BI streaming bridge (hookpooja). Not in official public docs, so confidence medium.",
+    "source_url": "https://github.com/gurmeetflax/flaxhr/blob/main/supabase/migrations/20260514000009_petpooja_ingestion.sql"
+   },
+   {
+    "name": "Round-off and tips",
+    "was": "unclear / low, 'Not found in any public field list'",
+    "now": "Round-off: available (medium) - Order.round_off in push payload; 'Round Off' column in Growth Report Day Wise; round_off_amount in inventory feeds. Tips: still unclear - no evidence; do not show.",
+    "reason": "Found in sample payload and in a third-party parser of the Petpooja Growth Report.",
+    "source_url": "https://github.com/arishboteco/BotecoMasterDashboard/blob/main/uploads/parsers/growth_report_day_wise.py"
+   },
+   {
+    "name": "Table number / covers (pax)",
+    "was": "unclear / low, 'not confirmed in any report or API'",
+    "now": "partial / medium: table_no and no_of_persons exist in both the official inbound save_order schema (Apiary) and the push payload; 'Pax' / 'Covers' columns exist in report exports. Often 0/blank in practice (all QSR and delivery rows). Still low relevance for a QSR mock - omit or keep marginal.",
+    "reason": "The original statement was factually wrong about the API schema; Apiary blueprint lists table_no and no_of_persons.",
+    "source_url": "https://jsapi.apiary.io/apis/onlineorderingapisv210.apib"
+   },
+   {
+    "name": "Complimentary / NC bills",
+    "was": "unclear / low, 'no public Petpooja page naming an NC or void report was found'",
+    "now": "partial-to-available / medium: a 'Complimentary Orders Summary' export and a 'Waived Off' column in the Growth Report exist (third-party parser), and bills carry status 'Complimentary' in item-wise exports. 'Void' as a distinct report is still unverified; cancelled and modified bills are confirmed officially.",
+    "reason": "Independent parser code written against real Petpooja exports.",
+    "source_url": "https://github.com/arishboteco/BotecoMasterDashboard/blob/main/uploads/parsers/order_comp_summary.py"
+   },
+   {
+    "name": "Part-payment split across tenders",
+    "was": "unclear / low",
+    "now": "partial / medium-low: payment_type value 'Part Payment' is confirmed by two integrators and appears in exports; a part_payments[] array (payment_type, amount) is read by one webhook integrator. Tender split per part-payment is plausible but single-sourced.",
+    "reason": "New third-party evidence.",
+    "source_url": "https://github.com/SkyRich-Dev/epic-poetry-cafe/blob/main/artifacts/api-server/src/lib/petpoojaImporter.ts"
+   },
+   {
+    "name": "Packing / delivery / service charges",
+    "was": "partial / medium, 'exact pull-API field names are not verified'",
+    "now": "available / medium via push webhook (packaging_charge, delivery_charges, service_charge) and via reports ('Container Charge', 'Delivery Charge', 'Service Charge', 'GST on Service Charge' columns). Tax on packing/delivery charge per order is only evidenced in the inbound online-order schema. Still unverified in generic_get_orders.",
+    "reason": "Sample payload plus report-column evidence.",
+    "source_url": "https://github.com/BookyTech/Booky-backend/blob/master/sample.txt"
+   },
+   {
+    "name": "GST liability split on online orders (section 9(5))",
+    "was": "partial / medium, 'Not verified in reports or the pull API'",
+    "now": "available in reports / medium: Growth Report and Online Order report carry 'Online Tax Calculated', 'GST Paid by Merchant' and 'GST Paid by Ecommerce' columns, per order and per day. Note this is Petpooja's computed split from the relayed order, NOT proof of what the aggregator actually deposited.",
+    "reason": "Two independent mirrors of Petpooja report columns (BotecoMasterDashboard parser; restaurant_chatbot models / hackathon dataset).",
+    "source_url": "https://github.com/arishboteco/BotecoMasterDashboard/blob/main/uploads/parsers/growth_report_day_wise.py"
+   },
+   {
+    "name": "Discount split by funding party on aggregator orders",
+    "was": "unclear / low - show only under Swiggy/Zomato payout views",
+    "now": "partial / low-medium: Petpooja's Online Order report appears to carry separate 'Aggregator Discount' and 'Outlet Discount' columns per order (seen in two third-party mirrors of the export). Not in any official Petpooja page, and not in the push payload Discount[] (id/title/type/price only). Recommendation unchanged: attribute the funding split primarily to aggregator payout reports; if shown on a Petpooja-sourced view, caveat it.",
+    "reason": "New evidence, but unofficial and of uncertain provenance (one is a hackathon dataset with synthetic PII).",
+    "source_url": "https://github.com/anukrishna-tneural/restaurant_chatbot/blob/main/restaurant_api/chatbot/models.py"
+   },
+   {
+    "name": "Biller / cashier on the bill",
+    "was": "partial - 'not seen in the pull API fields'",
+    "now": "partial / medium: Employee-wise report confirmed officially; a 'biller' field is read from the push payload by one integrator and 'Biller' / 'Settled By' / 'Server Name' columns appear in exports (aggregator orders show an auto-accept pseudo-user). Still unverified in generic_get_orders.",
+    "reason": "Additional third-party evidence.",
+    "source_url": "https://github.com/SkyRich-Dev/epic-poetry-cafe/blob/main/artifacts/api-server/src/lib/petpoojaImporter.ts"
+   },
+   {
+    "name": "Variations and add-ons per item",
+    "was": "partial - only in inbound save_order schema",
+    "now": "partial-to-available / medium: push payload OrderItem carries addon[] (name, price, quantity) and item-wise exports carry a 'Variation' column. Unverified in generic_get_orders (OrderGenie lists no addon field).",
+    "reason": "Sample payload and integrator code.",
+    "source_url": "https://github.com/BookyTech/Booky-backend/blob/master/sample.txt"
+   },
+   {
+    "name": "Reconciliation module outputs",
+    "was": "'...commission and discount breakdown, pending payouts; outlet-wise or chain-wide'; net payout amount, payout date, pending payouts = partial",
+    "now": "Official page lists only: matched orders, status mismatches, amount variances (tax/discount/rounding), missing orders, per-order commission and discount view. 'Pending payouts', payout date, UTR, TDS, ads and penalties are NOT mentioned on the official page or blog. Downgrade payout-date / pending-payout tracking inside Petpooja to unclear; the mock must source these from aggregator payout reports + bank statement in our ERP.",
+    "reason": "Re-fetched the official page: 'you simply share your Zomato and Swiggy payout reports with Petpooja' and the five listed outputs; no mention of pending payouts. The cited blog also does not mention it.",
+    "source_url": "https://www.petpooja.com/poss/online-order-reconciliation"
+   },
+   {
+    "name": "Hourly / day-part sales summary",
+    "was": "available / medium - 'exact report layout was not verified'; cited https://www.petpooja.com/poss",
+    "now": "available / high for outlet-level hourly sales; the cited /poss page does NOT mention hourly - correct citations are Petpooja's blog ('Daily/Monthly/Hourly restaurant sales') and glossary ('Hourly or shift-wise breakdown'). Hourly by item or by channel is not an advertised report but is derivable because every bill/item row carries a timestamp (created_on) and order_from.",
+    "reason": "Wrong citation in original; claim itself corroborated by primary Petpooja sources.",
+    "source_url": "https://blog.petpooja.com/poss/how-to-track-and-use-your-restaurant-pos-data/"
+   },
+   {
+    "name": "Pull API date semantics and enablement",
+    "was": "'A call for date D returns D and D-1 ... one chain had it on only 6 of 18 outlets ... one integrator also needed a cookie'",
+    "now": "T-1 semantics corroborated two ways (OrderGenie: sending date X returns X-1 per Petpooja's docs; ETLapp PR #139: X returns X and X-1) and daily-resetting orderID confirmed for one account. The '6 of 18 outlets' detail is NOT in PR #139 and could not be verified - drop it. Credentials are issued per outlet (restID / menuSharingCode), so per-outlet enablement is still the safe assumption.",
+    "reason": "Re-read of PR #139 does not contain the 6-of-18 claim.",
+    "source_url": "https://github.com/ShivanshPande19/ETLapp/pull/139"
+   },
+   {
+    "name": "Petpooja Pay+ 'T+1 settlement'",
+    "was": "'Petpooja advertises T+1 settlement'",
+    "now": "Not corroborated on the cited Petpooja Finance article (it lists providers, provider charges next to final payout, missing-invoice flags; no settlement timing). Treat settlement timing as acquirer-dependent.",
+    "reason": "Re-fetched source does not contain the claim.",
+    "source_url": "https://blog.petpooja.com/industry-business-guides/petpooja-finance-money-layer-in-pos/"
+   },
+   {
+    "name": "Customer address / CRM fields",
+    "was": "Customer name and phone = available/high citing the CRM page; birthday/anniversary partial",
+    "now": "CRM page confirms phone numbers, purchase history, special notes and a pooled customer database from online/captain/website/in-house orders; it does not name birthday/anniversary (those are confirmed instead by Petpooja's POS-data blog under customer data reports, and DOB/anniversary columns appear in feedback exports). Keep name/phone available (when captured) but confidence medium-high, not high, for a QSR counter.",
+    "reason": "Citation mismatch; claim mostly stands.",
+    "source_url": "https://blog.petpooja.com/poss/how-to-track-and-use-your-restaurant-pos-data/"
+   }
+  ],
+  "added_data_points": [
+   {
+    "name": "Real-time per-bill push (webhook event 'orderdetails' on Save & Print): full bill JSON incl. items, taxes, discounts, charges, order_from",
+    "group": "order",
+    "availability": "available",
+    "via": "Petpooja push webhook to ERP URL (configured by Petpooja per outlet restID, optional static token)",
+    "granularity": "per order, near real time",
+    "confidence": "medium",
+    "notes": "Undocumented publicly; seen in 4+ independent integrations and a verbatim sample. Lets the mock legitimately show 'today so far' sales from Petpooja. Confirm availability/plan with Petpooja.",
+    "source_url": "https://github.com/BookyTech/Booky-backend/blob/master/sample.txt"
+   },
+   {
+    "name": "Aggregator order number mapped to POS invoice number (order_from_id / 'Aggregator Order No' <-> 'PoS Invoice No')",
+    "group": "order",
+    "availability": "available",
+    "via": "push webhook; Online Order report export",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "This is the join key our ERP needs to reconcile Petpooja orders with Swiggy/Zomato payout-report lines. Unverified in generic_get_orders.",
+    "source_url": "https://github.com/SkyRich-Dev/epic-poetry-cafe/blob/main/artifacts/api-server/src/lib/petpoojaImporter.ts"
+   },
+   {
+    "name": "Aggregator order status timeline in POS (received, accepted, marked ready, rider arrival, picked up, delivered, cancelled) and derived food-prep / delivery minutes",
+    "group": "operations_quality",
+    "availability": "partial",
+    "via": "Petpooja online order status report export (third-party dataset mirrors columns Received_Time, Accepted_Time, Mark_Ready_Time, Rider_Arrival_Time, Picked_up_Time, Delivered_Time, Food_Preparation_Time, Zomato/Swiggy_Delivery_Time)",
+    "granularity": "per online order",
+    "confidence": "low",
+    "notes": "Evidence is a hackathon dataset whose columns include 'Petpooja_Identifier' and 'Client_Sharing_Code'; provenance not official. Mark-ready depends on staff tapping 'food ready'. Official blog only confirms 'delivery status and time' in the Online Orders Summary.",
+    "source_url": "https://github.com/Suraj945gh/ai-sales-audit-system/blob/main/frontend/my-app/public/hackathon_dataset.csv"
+   },
+   {
+    "name": "Daily closing stock per raw material (name, unit, qty, price, category, SAP code) for any date",
+    "group": "inventory",
+    "availability": "available",
+    "via": "pull API POST /V1/thirdparty/get_stock_api/ (menuSharingCode + date) -> closing_json[]",
+    "granularity": "per raw material per day per outlet/kitchen",
+    "confidence": "medium",
+    "notes": "Two independent integrators. It is the system (book) closing balance; whether it reflects physical counts depends on the outlet doing stock-takes. No opening/variance fields in the response.",
+    "source_url": "https://github.com/bubsla-svg/TanmatraV2/blob/main/artifacts/api-server/src/lib/petpoojaInventory.ts"
+   },
+   {
+    "name": "Inventory outward feed: internal transfers and wastage entries (sender/receiver, department -> to_department, invoice no/date, item lines with qty, unit, price, weighted_price, HSN, SAP code, batch/expiry, yield_qty)",
+    "group": "inventory",
+    "availability": "partial",
+    "via": "pull API POST /V1/thirdparty/get_sales/ with slType = 'transfer' | 'wastage'",
+    "granularity": "per transfer / wastage document line",
+    "confidence": "low",
+    "notes": "Single third-party SAP integration; undocumented publicly. Good fit for factory -> outlet dispatch analytics, but promise it only after Petpooja confirms.",
+    "source_url": "https://github.com/dineshraj901/ADT-Backup/blob/main/src/yinternal_transfer/zcl_internal_transfer_int.clas.abap"
+   },
+   {
+    "name": "Growth Report Day Wise: orders, invoice range, My Amount, Discount, Net Sales, delivery/container/service charge, total tax, round off, waived off, total, payment-mode columns (Cash, Card, UPI, Wallet, Due Payment, Other[...]), order-type columns (Dine In, Pick Up, Delivery), Pax, Expenses, Online Tax Calculated, GST paid by merchant / ecommerce",
+    "group": "order",
+    "availability": "available",
+    "via": "Petpooja dashboard report export (.xlsx)",
+    "granularity": "per day per outlet",
+    "confidence": "medium",
+    "notes": "Column list from a third-party parser written against real exports. Payment-mode column names are outlet-configurable ('Other [G Pay]' etc.), so the ERP needs a mapping layer.",
+    "source_url": "https://github.com/arishboteco/BotecoMasterDashboard/blob/main/uploads/parsers/growth_report_day_wise.py"
+   },
+   {
+    "name": "Bill modification audit (amount from -> to, modified by, comment) and bill settlement timing (first print, settlement time, settled by)",
+    "group": "operations_quality",
+    "availability": "partial",
+    "via": "POS reports (bill modification / settlement exports)",
+    "granularity": "per bill",
+    "confidence": "low",
+    "notes": "Official page confirms 'bill modifications, discounted/cancelled orders, cash drawer operations' reports; the column detail comes from an unofficial dataset.",
+    "source_url": "https://www.petpooja.com/poss/reports-and-analytics"
+   },
+   {
+    "name": "Item master codes on sales and inventory lines (itemid, itemcode, sap_code, HSN)",
+    "group": "item",
+    "availability": "available",
+    "via": "push webhook OrderItem; inventory feeds; PO webhook",
+    "granularity": "per item",
+    "confidence": "medium",
+    "notes": "sap_code gives a stable cross-outlet item key if maintained - important because item/category names are free text per outlet.",
+    "source_url": "https://github.com/BookyTech/Booky-backend/blob/master/sample.txt"
+   },
+   {
+    "name": "Petty-cash style expenses entered at the POS ('Expenses' column)",
+    "group": "other",
+    "availability": "partial",
+    "via": "Growth Report export; cash drawer reports",
+    "granularity": "per day per outlet",
+    "confidence": "low",
+    "notes": "Only counter cash expenses staff choose to key in. Not rent/electricity/payroll. Do not use as the P&L expense source.",
+    "source_url": "https://github.com/arishboteco/BotecoMasterDashboard/blob/main/uploads/parsers/growth_report_day_wise.py"
+   },
+   {
+    "name": "Central kitchen production / batch yield for semi-finished recipes",
+    "group": "inventory",
+    "availability": "unclear",
+    "via": "POS inventory module (multi-stage recipes; central kitchen supplies 'raw material or semi-cooked items')",
+    "granularity": "per batch (unverified)",
+    "confidence": "low",
+    "notes": "Official pages confirm multi-stage recipes and semi-cooked supply via the central kitchen module, but no public evidence of a production-batch log, yield variance report or API. In the mock, show factory production batches/yield as ERP-captured data, not as a Petpooja feed.",
+    "source_url": "https://www.petpooja.com/poss/large-chain-restaurant-pos-software"
+   },
+   {
+    "name": "Rider name / phone string on aggregator orders",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "Online Order report 'Delivery status' column (e.g. 'Zomato - <rider> (<phone>)')",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Unofficial dataset only. Third-party personal data with no analytic value - keep out of the mock.",
+    "source_url": "https://github.com/Suraj945gh/ai-sales-audit-system/blob/main/frontend/my-app/public/hackathon_dataset.csv"
+   }
+  ],
+  "safe_to_show": [
+   "Petpooja as source of GROSS sales for all three channels: bill header (outlet, business date, timestamp, order type Dine In / Pick Up / Delivery, status Success / Cancelled / Complimentary, core total, discount total, tax total, round-off, grand total)",
+   "Channel tag per order from Petpooja (order_from = POS / Swiggy / Zomato) and the aggregator order number alongside the POS invoice number",
+   "Item-level lines: item, category, qty, unit price, line total, line discount; item-wise and category-wise sales per outlet and per channel; add-ons where used",
+   "Outlet-wise and consolidated (zone / city / brand) sales across all 5 outlets from the head-office view",
+   "Hourly / day-part sales per outlet (official report) and hourly by item or channel (derived from bill timestamps)",
+   "Payment mode per in-store bill: Cash / Card / UPI / Wallet / Other[...] / Due / Part Payment; aggregator orders as 'Online' tender",
+   "Day-end cash summary: cash collected vs sales, cash-drawer discrepancies",
+   "Tax breakup: CGST / SGST per order and item-wise tax report; for online orders the Petpooja-computed split 'GST paid by merchant' vs 'GST paid by e-commerce operator'",
+   "Packing (container) charge, delivery charge and service charge per order / per day",
+   "Discount totals per order and item; discounted-orders report with reason (in-store)",
+   "Cancelled orders with reason / approver / timestamp; bill modification report; complimentary (waived-off) totals",
+   "Aggregator order status as seen by the POS (delivered / cancelled / rejected) - count and gross value only",
+   "In-store customer name + phone on the minority of bills where captured; repeat / frequency / bill value for those identified own-channel customers only",
+   "Staff / biller-wise sales (Employee Wise Item Summary)",
+   "Inventory from Petpooja: raw materials, recipes (multi-stage), auto-consumption on sale, raw-material consumption and wastage report, low-stock alerts, daily closing stock per raw material",
+   "Purchases from Petpooja: supplier, invoice no/date, item lines, qty, unit, price, tax, total, payment status (get_purchase, max ~1 month per call)",
+   "Central kitchen / factory flows in Petpooja: outlet indents (stock requests), purchase orders, factory -> outlet and outlet -> outlet stock transfers with quantities and transfer value",
+   "Item in-stock / out-of-stock and store on/off as ACTIONS pushed from POS to Swiggy / Zomato (not as historical metrics)",
+   "Data freshness labels: 'T-1 daily sync' for pull-API data; 'near real time' only if the push webhook is assumed",
+   "Report export / scheduled email reports as the fallback ingestion route"
+  ],
+  "must_not_show": [
+   "Aggregator commission / service fee, platform or collection / payment-gateway fee, GST on those fees - as Petpooja data (belongs to Swiggy / Zomato payout reports)",
+   "Net payout amount, payout date, payout cycle status, pending payouts, UTR / bank reference - as Petpooja data",
+   "TDS u/s 194-O deducted by aggregators - as Petpooja data",
+   "GST actually deposited by Swiggy / Zomato under section 9(5) as a verified figure from Petpooja (Petpooja only shows its own computed liability split)",
+   "Aggregator ad spend, impressions, clicks, CTR, ROI; aggregator funnel (impressions -> menu opens -> cart -> orders) - as Petpooja data",
+   "Swiggy / Zomato ratings and reviews, complaints, customer refunds, cancellation penalties - as Petpooja data (Swiggy panel inside Petpooja is UI-only, no export; no Zomato equivalent)",
+   "Phone number or email of Swiggy / Zomato customers; new-vs-repeat, frequency, LTV or any cross-order identity for aggregator customers",
+   "Any analytics built on aggregator customer name or address",
+   "Rider name / phone, rider GPS or route, delivery distance",
+   "Footfall, walk-in conversion, abandoned in-store orders",
+   "Item-unavailable hours / store offline duration as a Petpooja metric (no toggle history report confirmed)",
+   "Rent, electricity, salaries, consumables and other overheads attributed to Petpooja (ERP / accounting layer owns these)",
+   "Audited / actual COGS or actual food-cost % attributed to Petpooja (it offers theoretical recipe cost only; actual needs physical stock-takes and purchase ledger)",
+   "Tips",
+   "Globally unique order ID from Petpooja (invoice numbers are per outlet and can reset daily; key on outlet + business date + invoice no, plus aggregator order no for online orders)",
+   "Own-feedback ratings, loyalty points, campaign performance as if included by default (separate Marketing Manager plan; metrics undocumented)",
+   "Card / UPI settlement amounts, MDR per transaction and bank-credit matching as Petpooja data unless the mock explicitly assumes Petpooja Pay+ integrated devices"
+  ],
+  "show_only_with_caveat": [
+   {
+    "name": "Any field labelled 'via Petpooja API' (order feed, purchases, transfers, closing stock, wastage)",
+    "caveat": "Petpooja's ERP-facing APIs (generic_get_orders, get_purchase, get_sales, get_stock_api, push / PO webhooks) are not publicly documented; field lists come from third-party integrators' code. They require the Growth plan (INR 20,000 / yr ex-tax, 'API Integration' / 'SAP/ERP Integration') and per-outlet credentials issued by Petpooja. Label as 'subject to Petpooja API enablement'; report export is the guaranteed fallback."
+   },
+   {
+    "name": "Live / today-so-far sales tiles sourced from Petpooja",
+    "caveat": "Pull API is T-1. Real-time needs the per-bill push webhook, which is unofficially evidenced only. Otherwise label tiles 'as of yesterday's close'."
+   },
+   {
+    "name": "Restaurant-funded vs aggregator-funded discount on a Petpooja-sourced view",
+    "caveat": "Petpooja's Online Order export appears to have 'Aggregator Discount' and 'Outlet Discount' columns, but this is unofficial evidence. Prefer sourcing the split from Swiggy / Zomato payout reports and label it so."
+   },
+   {
+    "name": "'GST paid by merchant' vs 'GST paid by e-commerce operator'",
+    "caveat": "This is Petpooja's computed split on relayed orders, not confirmation of tax deposited by the aggregator; the payout / tax report from the aggregator is the record for GSTR-3B 3.1.1(ii)."
+   },
+   {
+    "name": "Prep time / kitchen speed",
+    "caveat": "For aggregator orders it can be derived from accepted -> food-ready status timestamps (depends on staff tapping 'ready'; unofficial evidence). Station-level prep time needs the KDS add-on (Growth plan). Do not show for in-store counter bills without KDS."
+   },
+   {
+    "name": "Recipe-based food cost %, item margin, ideal consumption, variance",
+    "caveat": "Theoretical values that are only as good as recipe and raw-material-rate upkeep in Petpooja and regular physical counts; ideal-vs-physical variance has no evidenced API and would come from report exports."
+   },
+   {
+    "name": "Daily closing stock per raw material",
+    "caveat": "Book balance from Petpooja's stock API (third-party evidence); reflects physical stock only when outlets post stock-takes. No opening-stock or variance fields in the API response."
+   },
+   {
+    "name": "Wastage by raw material / outlet",
+    "caveat": "Official report exists; API route (get_sales slType=wastage) is single-sourced. Completeness depends on staff logging wastage."
+   },
+   {
+    "name": "Factory production batches, yields and cost per kg of semi-finished items",
+    "caveat": "Petpooja confirms multi-stage recipes and semi-cooked supply through the central kitchen module, but no production-batch / yield report is publicly evidenced. Present as ERP-captured (factory module) data, reconciled against Petpooja transfers."
+   },
+   {
+    "name": "In-store customer analytics (repeat rate, frequency, average bill)",
+    "caveat": "Covers only bills where a phone number was keyed in - a minority at a QSR counter - and excludes all Swiggy / Zomato customers. State the coverage % on the widget."
+   },
+   {
+    "name": "Commission / payout reconciliation view that mentions Petpooja",
+    "caveat": "Petpooja's reconciliation module (Growth plan) only works after the restaurant shares Swiggy / Zomato payout sheets each cycle; it is not an automatic feed. In our ERP the payout figures must be labelled 'from aggregator payout report', with Petpooja supplying only the gross-order side of the match."
+   },
+   {
+    "name": "Card vs UPI split and provider charges",
+    "caveat": "Accurate tender split and provider charges require Petpooja Pay+ with integrated EDC / QR (Paytm, Razorpay, Pine Labs, Mosambee, BharatPe). With a standalone bank EDC, UPI-on-EDC may be logged as 'Card' and no MDR data exists in Petpooja."
+   },
+   {
+    "name": "Complimentary / waived-off and part-payment figures",
+    "caveat": "Evidenced by third-party parsers of Petpooja exports rather than official pages; safe as report-export data, unverified in the pull API."
+   },
+   {
+    "name": "Staff / biller-wise sales",
+    "caveat": "Official report; aggregator orders are auto-accepted under a system pseudo-user, so biller analytics apply to in-store bills only."
+   },
+   {
+    "name": "Petpooja subscription cost in unit economics",
+    "caveat": "Pricing page shows INR 12,000 / 20,000 / 30,000 per year ex-tax but does not state that it is per outlet; per-outlet licensing is an assumption."
+   }
+  ],
+  "rate_corrections": [
+   "Petpooja pricing CONFIRMED on official page: Base INR 12,000, Operations Manager Growth INR 20,000, Scale INR 30,000; Marketing Manager Core/Growth/Scale INR 20,000/30,000/40,000, all per year ex-tax. 'API Integration', 'SAP/ERP Integration', 'Tally Integration', 'Zomato/Swiggy Reconciliation' and KDS sit in Growth and Scale. Per-outlet basis is NOT stated on the page. Report count is inconsistent across official pages (50+, 80+, 90+) - do not quote a number. https://www.petpooja.com/poss/pricing",
+   "Aggregator commission: the cited Petpooja blog URL (swiggy-zomato-commission-how-kitchens-stay-profitable) now serves an unrelated food-cost article, so the '18-25% Petpooja headline' is UNVERIFIABLE - drop it. Only surviving source is secondary: 25-27% single outlets, 18-22% for 10+ outlet chains (restaurantcoach.in, 2026). For a 5-outlet chain assume low-to-mid 20s and label it an assumption. https://restaurantcoach.in/zomato-swiggy-commission-rates-2026/",
+   "Swiggy 2% collection fee (Dec 2023) and Zomato ~1.84% payment mechanism fee: source pages returned 403; NOT re-verified in this review. Keep as medium/low confidence and present as configurable assumptions.",
+   "TDS u/s 194-O at 0.1% from 1 Oct 2024 (was 1%) and non-applicability of section 52 TCS to 9(5) restaurant services: CONFIRMED by a July 2026 guide citing CBIC Circular 167/23/2021. The renumbering to 'section 393(1) Table Sl. 8(v)' of the Income-tax Act 2025 was NOT re-verified (tax2win returned 403) - cite simply as 'section 194-O / corresponding provision of the Income-tax Act, 2025'. https://hellobooks.ai/guides/swiggy-zomato-reconciliation",
+   "UPI MDR: 0.4% on eligible P2M UPI above INR 2,000, cap INR 300, effective 15 October, attributed to NPCI - CONFIRMED by Business Today (16 Sep 2026); Business Standard copy returned 403, so single fetched source. It post-dates any historical mock period and QSR tickets are far below INR 2,000: keep UPI MDR at zero in mock data. Debit MDR confirmed: 0.40% (cap INR 200) small merchants / 0.90% (cap INR 1,000) others; QR 0.30% / 0.80%. Credit card: no RBI cap; '1.5-2.5%' is an unsourced typical range - label as assumption. https://www.businesstoday.in/latest/economy/story/upi-vs-debit-card-vs-credit-card-mdr-how-much-does-each-payment-method-cost-merchants-555836-2026-09-16",
+   "Zomato payout 'Mon-Sun settled by Thursday of following week': Zomato terms page timed out twice; NOT verified. Show 'weekly payout' generically without hard-coding the weekday, or caveat it.",
+   "Petpooja Pay+ 'T+1 settlement' is not on the cited page - remove; settlement timing is acquirer-dependent (Petpooja blog: cards usually next business day, UPI typically same day). https://blog.petpooja.com/finance-compliance/card-vs-upi-why-restaurant-payment-reports-never-match/"
+  ],
+  "notes": "Method: WebSearch budget was exhausted for this session, so I re-checked by fetching primary pages directly (petpooja.com, blog.petpooja.com, Apiary blueprint), Brave search via fetch (rate-limited after a few calls) and GitHub code search through the authenticated gh CLI. Blocked / unverifiable: UrbanPiper helpjuice (HTTP 402), Business Standard, YourStory and tax2win (403), Zomato terms (timeout). DuckDuckGo showed a CAPTCHA, which I did not attempt to pass.\n\nOverall verdict: the original researcher was appropriately cautious on money-side data (commission, payouts, TDS, ads, funnel, aggregator PII) and those deny-list items all stand - official Petpooja sources confirm that only the gross order reaches the POS and that reconciliation needs payout sheets shared manually. Where the original was WRONG was mostly in the other direction: it leaned on one GitHub repo (OrderGenie) and therefore under-reported what Petpooja exposes. Independent integrator code shows (a) a real-time per-bill push webhook with order_from / order_from_id / sub_order_type, charges, round-off, table/pax and add-ons; (b) a closing-stock API (get_stock_api) - directly contradicting 'no stock endpoint has ever been shared'; (c) an inventory outward feed (get_sales with slType transfer / wastage); and (d) report exports with 'GST paid by merchant / ecommerce', 'Waived Off', complimentary summary, and apparently aggregator-vs-outlet discount columns. None of this is in official public docs, so every API-sourced element should carry an 'API enablement to be confirmed with Petpooja (Growth plan)' label, with report export as the guaranteed fallback.\n\nCitation defects found: hourly report was cited to /poss, which does not mention it (the blog and glossary do); the Petpooja commission blog URL now serves a different article; 'pending payouts' and 'T+1 settlement' are not on the cited pages; the '6 of 18 outlets' detail is not in ETLapp PR #139.\n\nEvidence-quality warning: the hackathon dataset (Suraj945gh/ai-sales-audit-system and siblings) and restaurant_chatbot models mirror Petpooja report columns (they contain 'Petpooja_Identifier' and 'Client_Sharing_Code') but provenance is unofficial and the PII in it is visibly synthetic, so I used it only to move items from 'unclear' to 'partial / low', never to 'available'. It does not prove that real aggregator customer phones reach Petpooja; Medianama (Nov 2025) confirms masking was the norm and phone sharing was only an opt-in pilot, so aggregator customer PII stays on the deny-list.\n\nMockup guidance specific to the factory outlet: indents, POs, factory -> outlet transfers, purchases, closing stock and wastage can credibly be attributed to Petpooja's inventory / central kitchen module; production batches, yields, factory overheads and cost-per-kg should be presented as captured in our ERP. No files were written to the project; one CSV was downloaded to the session scratchpad for inspection only: C:\\Users\\Admin\\AppData\\Local\\Temp\\claude\\D--work-Jan-Pro-apps-Financera-CFO-Dashboard\\52b6b8ba-85c5-4f18-93c3-f88493749966\\scratchpad\\hack.csv"
+ }
+}

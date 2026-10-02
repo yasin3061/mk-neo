@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miya Kebabs ERP - preview</title>
+  <link rel="icon" href="data:,"> <!-- no image assets in the mockup; this also stops the favicon request -->
+
+  <!-- Stylesheets: load order fixed by docs/SPEC.md section 3 -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/charts.css">
+  <link rel="stylesheet" href="css/pages/overview.css">
+  <link rel="stylesheet" href="css/pages/revenue.css">
+  <link rel="stylesheet" href="css/pages/costs.css">
+  <link rel="stylesheet" href="css/pages/approvals.css">
+  <link rel="stylesheet" href="css/pages/vendors.css">
+  <link rel="stylesheet" href="css/pages/factory.css">
+  <link rel="stylesheet" href="css/pages/banking.css">
+  <link rel="stylesheet" href="css/pages/system.css">
+  <!-- one stylesheet per page so page authors never share a file -->
+  <link rel="stylesheet" href="css/pages/p-overview.css">
+  <link rel="stylesheet" href="css/pages/p-revenue-sales.css">
+  <link rel="stylesheet" href="css/pages/p-revenue-timeslots.css">
+  <link rel="stylesheet" href="css/pages/p-revenue-dishes.css">
+  <link rel="stylesheet" href="css/pages/p-revenue-audit.css">
+  <link rel="stylesheet" href="css/pages/p-revenue-orders.css">
+  <link rel="stylesheet" href="css/pages/p-costs-unit-economics.css">
+  <link rel="stylesheet" href="css/pages/p-costs-cogs.css">
+  <link rel="stylesheet" href="css/pages/p-costs-budget.css">
+  <link rel="stylesheet" href="css/pages/p-approvals-bills.css">
+  <link rel="stylesheet" href="css/pages/p-approvals-payments.css">
+  <link rel="stylesheet" href="css/pages/p-approvals-payables.css">
+  <link rel="stylesheet" href="css/pages/p-vendors.css">
+  <link rel="stylesheet" href="css/pages/p-factory-overview.css">
+  <link rel="stylesheet" href="css/pages/p-factory-production.css">
+  <link rel="stylesheet" href="css/pages/p-factory-inventory.css">
+  <link rel="stylesheet" href="css/pages/p-banking.css">
+  <link rel="stylesheet" href="css/pages/p-audit-trail.css">
+  <link rel="stylesheet" href="css/pages/p-data-sources.css">
+  <link rel="stylesheet" href="css/pages/p-system-rules.css">
+</head>
+<body>
+  <a class="mk-skip" href="#mk-content">Skip to content</a>
+
+  <div id="mk-app" class="mk-app">
+    <aside id="mk-sidebar" class="mk-sidebar" aria-label="Primary navigation"></aside>
+
+    <div class="mk-main">
+      <div id="mk-banner" class="mk-banner" role="status" hidden></div>
+      <header id="mk-topbar" class="mk-topbar"></header>
+      <div id="mk-filterbar" class="mk-filterbar" hidden></div>
+      <main id="mk-content" class="mk-content" tabindex="-1">
+        <div id="mk-page" class="mk-page"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Drawers, modals, popovers and toasts are appended here by MK.ui -->
+  <div id="mk-overlays" class="mk-overlays"></div>
+
+  <noscript>
+    <p class="mk-noscript">This preview needs JavaScript. Enable it in the browser and reload the page.</p>
+  </noscript>
+
+  <!-- Scripts: classic tags only, load order fixed by docs/SPEC.md section 3 -->
+  <script src="vendor/echarts.min.js"></script>
+  <script src="js/core/kernel.js"></script>
+
+  <script src="js/data/config.js"></script>
+  <script src="js/data/engine.js"></script>
+  <script src="js/data/sales.js"></script>
+  <script src="js/data/finance.js"></script>
+  <script src="js/data/factory.js"></script>
+  <script src="js/data/forecast.js"></script>
+  <script src="js/data/seed.js"></script>
+  <script src="js/data/workflow.js"></script>
+  <script src="js/data/insights.js"></script>
+
+  <script src="js/core/ui.js"></script>
+  <script src="js/core/charts.js"></script>
+  <script src="js/core/latency.js"></script>
+  <script src="js/core/filters.js"></script>
+  <script src="js/core/router.js"></script>
+
+  <script src="js/pages/overview.js"></script>
+  <script src="js/pages/revenue-sales.js"></script>
+  <script src="js/pages/revenue-timeslots.js"></script>
+  <script src="js/pages/revenue-dishes.js"></script>
+  <script src="js/pages/revenue-audit.js"></script>
+  <script src="js/pages/revenue-orders.js"></script>
+  <script src="js/pages/costs-unit-economics.js"></script>
+  <script src="js/pages/costs-cogs.js"></script>
+  <script src="js/pages/costs-budget.js"></script>
+  <script src="js/pages/approvals-bills.js"></script>
+  <script src="js/pages/approvals-payments.js"></script>
+  <script src="js/pages/approvals-payables.js"></script>
+  <script src="js/pages/vendors.js"></script>
+  <script src="js/pages/factory-overview.js"></script>
+  <script src="js/pages/factory-production.js"></script>
+  <script src="js/pages/factory-inventory.js"></script>
+  <script src="js/pages/banking.js"></script>
+  <script src="js/pages/audit-trail.js"></script>
+  <script src="js/pages/data-sources.js"></script>
+  <script src="js/pages/system-rules.js"></script>
+  <script src="js/pages/styleguide.js"></script>
+  <script src="js/pages/styleguide-charts.js"></script>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

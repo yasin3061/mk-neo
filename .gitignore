@@ -1,0 +1,8 @@
+# local tooling and editor files
+.claude/
+.vscode/
+.idea/
+node_modules/
+*.log
+.DS_Store
+Thumbs.db

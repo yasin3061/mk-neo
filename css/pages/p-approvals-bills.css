@@ -1,0 +1,233 @@
+/*
+ * Page styles: approvals-bills (Bills - tier one of the maker-checker). Tokens only (css/tokens.css); every selector is
+ * prefixed .pg-approvals-bills. Page-owned classes start with "ab-"; mk-* component classes are never restyled here.
+ * The review drawer, the bill form and the decision dialogs live outside the page root: their content sits in wrappers
+ * that carry the page class (.pg-approvals-bills.ab-drawer / .ab-form / .ab-actions / .ab-decide / .ab-headchip).
+ */
+
+/* ---- one-line purpose under the title */
+.pg-approvals-bills .ab-intro {
+  margin: 0;
+  max-width: 104ch;
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.pg-approvals-bills .ab-intro__who { color: var(--ink); }
+
+/* ---- KPI row: one tidy line of five */
+.pg-approvals-bills .ab-kpis {
+  display: grid; gap: var(--sp-3);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+/* ---- queue at a glance: chart + closer-look list.
+   Each card keeps its own height: a chart card cannot grow its plot (the kit fixes the plot box), so stretching one
+   to match the other would leave an empty strip inside it. The two are sized to land close to each other instead. */
+.pg-approvals-bills .ab-glance {
+  display: grid; gap: var(--sp-4);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: start;
+}
+.pg-approvals-bills .ab-cell { display: flex; flex-direction: column; min-width: 0; }
+.pg-approvals-bills .ab-cell > * { flex: 1 1 auto; }
+
+.pg-approvals-bills .ab-att { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.pg-approvals-bills .ab-att > li + li { border-top: 1px solid var(--grid); }
+.pg-approvals-bills .ab-att__row {
+  display: flex; flex-direction: column; gap: var(--sp-1);
+  width: calc(100% + 2 * var(--sp-2)); margin: 0 calc(-1 * var(--sp-2)); padding: var(--sp-2);
+  border: 0; border-radius: var(--radius-sm); background: transparent;
+  color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.pg-approvals-bills .ab-att__row:hover { background: var(--surface-2); }
+.pg-approvals-bills .ab-att__top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); min-width: 0; }
+.pg-approvals-bills .ab-att__title { display: flex; align-items: baseline; gap: var(--sp-2); min-width: 0; }
+.pg-approvals-bills .ab-att__vendor { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; font-size: var(--fs-md); }
+.pg-approvals-bills .ab-att__amt { flex: none; font-variant-numeric: tabular-nums; font-weight: 600; font-size: var(--fs-md); }
+.pg-approvals-bills .ab-att__meta { color: var(--ink-2); font-size: var(--fs-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pg-approvals-bills .ab-att__chips { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+.pg-approvals-bills .ab-cardfoot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); }
+.pg-approvals-bills .ab-cardfoot__more { display: inline-flex; align-items: center; gap: var(--sp-1); color: var(--ink-2); font-size: var(--fs-sm); }
+
+/* ---- shared small parts */
+.pg-approvals-bills .ab-mono { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: var(--fs-sm); letter-spacing: -0.01em; }
+.pg-approvals-bills .ab-muted { color: var(--ink-2); font-weight: 400; }
+.pg-approvals-bills .ab-small { font-size: var(--fs-sm); }
+.pg-approvals-bills .ab-strong { font-weight: 600; }
+.pg-approvals-bills .ab-inline { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); }
+.pg-approvals-bills .ab-dot {
+  flex: none; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ink-3);
+}
+.pg-approvals-bills .ab-unit { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.pg-approvals-bills .ab-linkbtn { padding: 0; border: 0; background: transparent; cursor: pointer; }
+
+/* ---- bill register: toolbar, quick filters, cells, pager */
+.pg-approvals-bills .ab-toolbar {
+  padding: 0 var(--sp-5);
+  box-shadow: inset 0 -1px 0 var(--grid);
+  overflow-x: auto;
+}
+.pg-approvals-bills .ab-toolbar__tabs { min-width: 0; }
+.pg-approvals-bills .ab-filters {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  border-bottom: 1px solid var(--grid);
+}
+.pg-approvals-bills .ab-filterchips { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); }
+.pg-approvals-bills .ab-filterchips:empty { display: none; }
+.pg-approvals-bills .ab-filters__why {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  margin-left: auto;
+  color: var(--ink-2); font-size: var(--fs-sm);
+}
+.pg-approvals-bills .ab-filters__why > svg { flex: none; color: var(--ink-3); }
+
+.pg-approvals-bills .ab-cell2 { display: flex; flex-direction: column; gap: 1px; min-width: 0; line-height: 1.3; }
+.pg-approvals-bills .ab-cell2__top { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pg-approvals-bills .ab-cell2__sub {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--ink-2); font-size: var(--fs-sm);
+}
+.pg-approvals-bills .ab-clip { max-width: 300px; }
+.pg-approvals-bills .ab-clip .ab-cell2__sub { display: block; }
+.pg-approvals-bills .ab-clip--inv { max-width: 150px; }
+.pg-approvals-bills .ab-late { display: inline-flex; align-items: center; gap: var(--sp-1); color: var(--st-critical-ink); font-weight: 600; }
+.pg-approvals-bills .ab-soon { display: inline-flex; align-items: center; gap: var(--sp-1); color: var(--st-warn-ink); }
+.pg-approvals-bills .ab-status { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.pg-approvals-bills .ab-flags { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+
+.pg-approvals-bills .ab-pager {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-5);
+  border-top: 1px solid var(--grid);
+  color: var(--ink-2); font-size: var(--fs-sm); font-variant-numeric: tabular-nums;
+}
+.pg-approvals-bills .ab-pager__controls { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.pg-approvals-bills .ab-pager__page { margin: 0 var(--sp-1) 0 var(--sp-3); white-space: nowrap; }
+
+/* ---- review drawer */
+.pg-approvals-bills.ab-headchip { display: inline-flex; align-items: center; flex: none; padding-top: 2px; }
+.pg-approvals-bills.ab-drawer { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; }
+.pg-approvals-bills .ab-sec { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-approvals-bills .ab-sec__head {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--grid);
+}
+.pg-approvals-bills .ab-sec__title { margin: 0; }
+
+.pg-approvals-bills .ab-ledger { width: 100%; border-collapse: collapse; font-size: var(--fs-md); }
+.pg-approvals-bills .ab-ledger th { padding: 6px var(--sp-3) 6px 0; font-weight: 400; text-align: left; vertical-align: top; }
+.pg-approvals-bills .ab-ledger td { padding: 6px 0; text-align: right; vertical-align: top; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pg-approvals-bills .ab-ledger__row + .ab-ledger__row th,
+.pg-approvals-bills .ab-ledger__row + .ab-ledger__row td { border-top: 1px solid var(--grid); }
+.pg-approvals-bills .ab-ledger__label { display: block; }
+.pg-approvals-bills .ab-ledger__sub { display: block; margin-top: 1px; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4; }
+.pg-approvals-bills .ab-ledger__row--total th,
+.pg-approvals-bills .ab-ledger__row--total td { border-top-color: var(--axis); }
+.pg-approvals-bills .ab-ledger__row--total .ab-ledger__label,
+.pg-approvals-bills .ab-ledger__row--total td { font-weight: 650; font-size: var(--fs-lg); }
+
+.pg-approvals-bills .ab-text p { margin: 2px 0 0; font-size: var(--fs-md); line-height: 1.5; overflow-wrap: anywhere; }
+.pg-approvals-bills .ab-files { display: inline-flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); min-width: 0; }
+.pg-approvals-bills .ab-file {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  max-width: 100%;
+  padding: 1px var(--sp-2);
+  border-radius: var(--radius-sm); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--ring);
+  font-size: var(--fs-sm); overflow-wrap: anywhere;
+}
+.pg-approvals-bills .ab-file > svg { flex: none; color: var(--ink-3); }
+.pg-approvals-bills .ab-file__x {
+  display: inline-grid; place-items: center;
+  width: 18px; height: 18px; margin-right: -4px; padding: 0;
+  border: 0; border-radius: 50%; background: transparent; color: var(--ink-2); cursor: pointer;
+}
+.pg-approvals-bills .ab-file__x:hover { background: var(--surface-3); color: var(--ink); }
+
+.pg-approvals-bills .ab-quiet {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0;
+  color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5;
+}
+.pg-approvals-bills .ab-quiet > svg { flex: none; margin-top: 3px; color: var(--ink-3); }
+.pg-approvals-bills .ab-quiet--ok > svg { color: var(--st-good-ink); }
+
+.pg-approvals-bills .ab-budget { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-approvals-bills .ab-budget__text { margin: 0; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+.pg-approvals-bills .ab-budget__ahead { display: flex; align-items: flex-start; gap: 6px; }
+.pg-approvals-bills .ab-budget__ahead > svg { flex: none; margin-top: 4px; color: var(--ink-3); }
+
+.pg-approvals-bills .ab-callout__lead { margin: 0 0 var(--sp-2); }
+.pg-approvals-bills .ab-callout__foot { margin: var(--sp-2) 0 0; font-weight: 600; }
+.pg-approvals-bills .ab-dups { display: flex; flex-direction: column; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
+.pg-approvals-bills .ab-dup {
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm); background: var(--surface); box-shadow: inset 0 0 0 1px var(--ring);
+}
+.pg-approvals-bills .ab-dup__top { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); }
+.pg-approvals-bills .ab-dup__amt { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 600; }
+.pg-approvals-bills .ab-dup__meta { margin-top: 2px; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; overflow-wrap: anywhere; }
+
+.pg-approvals-bills .ab-vendor { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-approvals-bills .ab-vendor__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-3); }
+.pg-approvals-bills .ab-vendor__name { display: flex; flex-direction: column; gap: 1px; min-width: 0; font-size: var(--fs-md); }
+.pg-approvals-bills .ab-vendor__name .ab-muted { font-size: var(--fs-sm); }
+.pg-approvals-bills .ab-vspend {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+  padding: var(--sp-3);
+  border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.pg-approvals-bills .ab-vspend__text { min-width: 0; }
+.pg-approvals-bills .ab-vspend__num { margin-top: 2px; font-size: var(--fs-lg); font-weight: 650; font-variant-numeric: tabular-nums; }
+.pg-approvals-bills .ab-vspend__num .ab-muted { font-size: var(--fs-sm); }
+.pg-approvals-bills .ab-vspend__spark { flex: none; display: inline-block; width: 112px; height: 32px; }
+.pg-approvals-bills .ab-vspend__spark svg { display: block; max-width: 100%; }
+
+/* ---- action bar (drawer and form footers): buttons, then the reason a blocked action is blocked */
+.pg-approvals-bills.ab-actions { flex: 1; display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-approvals-bills .ab-actions__row { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); }
+.pg-approvals-bills .ab-actions__buttons { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: var(--sp-2); margin-left: auto; }
+.pg-approvals-bills .ab-actions__next {
+  flex: 1; display: flex; align-items: flex-start; gap: var(--sp-2);
+  min-width: 0;
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-approvals-bills .ab-actions__next > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-approvals-bills .ab-actions__why {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45;
+}
+.pg-approvals-bills .ab-actions__why > svg { flex: none; margin-top: 3px; color: var(--ink-3); }
+
+/* ---- decision dialog */
+.pg-approvals-bills.ab-decide { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+
+/* ---- bill form */
+.pg-approvals-bills.ab-form { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-approvals-bills .ab-form__top:empty { display: none; }
+.pg-approvals-bills .ab-form__budget { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3); border-radius: var(--radius-sm); background: var(--surface-2); }
+.pg-approvals-bills .ab-payable {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.pg-approvals-bills .ab-payable__num { font-size: var(--fs-lg); font-weight: 650; font-variant-numeric: tabular-nums; }
+.pg-approvals-bills .ab-attach__row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); }
+.pg-approvals-bills .ab-files--edit { align-items: center; }
+
+/* ---- narrower windows */
+@media (max-width: 1439px) {
+  .pg-approvals-bills .ab-clip { max-width: 190px; }
+  .pg-approvals-bills .ab-clip--inv { max-width: 128px; }
+}
+@media (max-width: 1180px) {
+  .pg-approvals-bills .ab-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pg-approvals-bills .ab-glance { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 1023px) {
+  .pg-approvals-bills .ab-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

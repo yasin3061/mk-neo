@@ -1,0 +1,62 @@
+/*
+ * Factory economics (#/factory/overview). Tokens only (css/tokens.css); every selector is prefixed
+ * .pg-factory-overview. Page-owned classes start with "fo-"; mk-* component classes are used as they
+ * are and never restyled here.
+ */
+
+/* ---- header: purpose, month switch, period label, actions, notes */
+.pg-factory-overview .fo-head { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-factory-overview .fo-intro { margin: 0; max-width: 980px; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+
+.pg-factory-overview .fo-period {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius); background: var(--surface); box-shadow: 0 0 0 1px var(--ring);
+}
+.pg-factory-overview .fo-period__switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); min-width: 0; }
+.pg-factory-overview .fo-period__label { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); min-width: 0; font-size: var(--fs-md); }
+.pg-factory-overview .fo-period__label svg { flex: none; color: var(--ink-3); }
+.pg-factory-overview .fo-period__label strong { font-weight: 600; }
+.pg-factory-overview .fo-period__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+
+.pg-factory-overview .fo-notes { display: flex; flex-direction: column; gap: var(--sp-1); }
+.pg-factory-overview .fo-note {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 18px;
+}
+.pg-factory-overview .fo-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-factory-overview .fo-note > span { min-width: 0; }
+.pg-factory-overview .fo-note > .mk-btn { flex: none; }
+
+/* ---- KPI tiles: two even rows, source caption under the block */
+.pg-factory-overview .fo-kpiblock { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-factory-overview .fo-kpinote { margin: 0; }
+.pg-factory-overview .fo-kpiblock .mk-kpis { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1180px) {
+  .pg-factory-overview .fo-kpiblock .mk-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .pg-factory-overview .fo-kpiblock .mk-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---- rows of paired cards share a height; the cell wrapper carries the column span */
+.pg-factory-overview .fo-row { align-items: stretch; }
+.pg-factory-overview .fo-row > * { min-width: 0; }
+.pg-factory-overview .fo-cell { display: flex; flex-direction: column; min-width: 0; }
+.pg-factory-overview .fo-cell > * { flex: 1 1 auto; min-width: 0; }
+.pg-factory-overview .fo-block { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-factory-overview .fo-source-end { margin-top: auto; padding-top: var(--sp-3); }
+
+/* ---- diverging inline bar for the variance table (the kit has bars and heat cells, not a signed bar) */
+.pg-factory-overview .fo-divbar { display: flex; align-items: center; gap: var(--sp-2); justify-content: flex-end; }
+.pg-factory-overview .fo-divbar__track {
+  position: relative; flex: 1 1 auto; min-width: 48px; height: 8px;
+  border-radius: 2px; background: var(--surface-2);
+}
+.pg-factory-overview .fo-divbar__track::before {
+  content: ""; position: absolute; top: -2px; bottom: -2px; left: 50%; width: 1px; background: var(--axis);
+}
+.pg-factory-overview .fo-divbar__fill { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+.pg-factory-overview .fo-divbar__fill.is-pos { background: var(--div-pos-2); }
+.pg-factory-overview .fo-divbar__fill.is-neg { background: var(--div-neg-2); }
+.pg-factory-overview .fo-divbar__value { flex: none; min-width: 84px; text-align: right; font-variant-numeric: tabular-nums; }

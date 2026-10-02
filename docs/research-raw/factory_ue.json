@@ -1,0 +1,1079 @@
+{
+ "key": "factory_ue",
+ "research": {
+  "products": [
+   {
+    "product": "Marinated chicken tikka, red styles (Angara, Kashmiri, Changezi)",
+    "unit": "kg, in 1-2 kg vacuum or food-grade pouches, batch and use-by labelled",
+    "key_raw_materials": "Boneless chicken leg/thigh, hung curd, ginger-garlic paste, Kashmiri chilli, oil, lemon, house spice blend, salt",
+    "typical_yield_pct": "Marinated weight about 110-115% of raw boneless meat (practitioner estimate, no published source found). Tandoor/grill cooked yield 70-74% of raw boneless thigh and 72-75% for breast (USDA-derived planning figures).",
+    "shelf_life": "Raw poultry 1-2 days chilled. Vacuum-packed marinated chicken 3-4 days at 0-4 C, per an Indian meat brand. Use a 48-72 h use-by in the mock. Frozen at -18 C for longer holding.",
+    "notes": "Illustrative standard RM cost, computed from cited Hyperpure Mumbai prices with an assumed recipe, is about INR 265-290 per kg of marinated product. Adding conversion cost gives a transfer value of about INR 320-350 per kg. A menu aggregator (moderate confidence) shows Miya Kebabs' menu led by tikkas, shawarma, tawa gravies, tawa pulao, naan/roomali and hummus, so these SKUs should lead the factory list."
+   },
+   {
+    "product": "Marinated chicken malai / white tikka",
+    "unit": "kg, in 1-2 kg pouches",
+    "key_raw_materials": "Boneless chicken thigh/breast, fresh cream, processed cheese, cashew paste, curd, white pepper, cardamom, ginger-garlic paste",
+    "typical_yield_pct": "Same as red tikka: pickup about 110-115% (estimate), cooked yield 70-75%.",
+    "shelf_life": "48-72 h at 0-4 C. Dairy-rich marinades are usually run on the shorter side (practitioner estimate).",
+    "notes": "RM cost per kg is higher than red tikka because of cream (INR 237-249/L) and cheese (INR 539/kg)."
+   },
+   {
+    "product": "Chicken shawarma meat (marinated thigh, loose in pouches or pre-stacked cones)",
+    "unit": "kg (cones typically 5-10 kg)",
+    "key_raw_materials": "Boneless chicken leg/thigh, curd or vinegar, garlic, shawarma spice blend, oil, salt",
+    "typical_yield_pct": "Cooked shaved yield about 65-72% of raw marinated weight. Grilled chicken is typically about 72.5% and long-hold or smoked about 70%. Holding and shaving losses push shawarma to the lower end (estimate).",
+    "shelf_life": "48-72 h chilled at 0-4 C. Cones are often frozen at -18 C and thawed under refrigeration.",
+    "notes": "Illustrative standard RM cost about INR 260-275 per kg (computed). This is likely the highest-volume SKU for the factory."
+   },
+   {
+    "product": "Mutton seekh kebab mix",
+    "unit": "kg, in 1-2 kg pouches",
+    "key_raw_materials": "Mutton mince (keema), mutton fat, onion, green chilli, coriander, mint, ginger-garlic paste, spice blend",
+    "typical_yield_pct": "Mix weight about 105-110% of meat weight (estimate). Cooked yield about 70-75%, which is the general 20-30% cook loss with no mutton-specific source found.",
+    "shelf_life": "24-48 h chilled (mince carries the highest risk), or frozen at -18 C.",
+    "notes": "Illustrative RM cost about INR 640-680 per kg, computed from keema at INR 748/kg and fat at about INR 416/kg on Hyperpure."
+   },
+   {
+    "product": "Chicken seekh / kebab mince mix",
+    "unit": "kg",
+    "key_raw_materials": "Chicken mince, onion, herbs, spices, binding (cheese or roasted gram flour)",
+    "typical_yield_pct": "Cooked yield about 72-77% (estimate).",
+    "shelf_life": "24-48 h chilled, or frozen.",
+    "notes": "Chicken mince is INR 252/kg on Hyperpure. Illustrative RM cost about INR 250-270/kg."
+   },
+   {
+    "product": "Makhani (butter chicken) gravy base",
+    "unit": "kg or litre, in 2-5 kg cook-chill bags or tubs",
+    "key_raw_materials": "Tomato, butter, fresh cream, cashew paste, kasuri methi, spices, sugar, salt",
+    "typical_yield_pct": "Finished gravy about 55-65% of input weight after reduction (practitioner estimate).",
+    "shelf_life": "Cook-chill: up to 5 days at 0-3 C after blast chilling. Frozen much longer. FSSAI training material gives cold holding at 5 C or below and hot holding at 60 C or above.",
+    "notes": "Illustrative RM cost about INR 120-140 per kg. The cashew price was not fetched, so treat this figure as low confidence."
+   },
+   {
+    "product": "Onion-tomato masala base (tikka masala / Changezi / tawa gravies)",
+    "unit": "kg, in 2-5 kg bags",
+    "key_raw_materials": "Onion, tomato, ginger-garlic paste, oil, curd, whole and ground spices",
+    "typical_yield_pct": "About 50-60% of raw vegetable input after cooking down (estimate).",
+    "shelf_life": "Up to 5 days cook-chill at 0-3 C. Frozen for buffer stock.",
+    "notes": "The base is finished at the outlet with tikka pieces. Fixing the base recipe here is the main lever for taste consistency across outlets."
+   },
+   {
+    "product": "Tawa pulao / biryani masala concentrate (rice cooked at outlet)",
+    "unit": "kg",
+    "key_raw_materials": "Onion, tomato, spices, oil or ghee, stock, fried onions. Basmati is issued raw to outlets.",
+    "typical_yield_pct": "Basmati cooks to roughly 2.5-3x its dry weight (general culinary ratio, not sourced).",
+    "shelf_life": "3-5 days cook-chill.",
+    "notes": "The listed menu shows tawa pulao rather than dum biryani. Treat the biryani base as optional in the mock."
+   },
+   {
+    "product": "Toum (garlic sauce) and mayo-garlic shawarma sauce",
+    "unit": "kg, in 1-5 kg tubs",
+    "key_raw_materials": "Peeled garlic, refined oil, lemon juice and salt for toum. Eggless mayonnaise, garlic, vinegar for the mayo sauce.",
+    "typical_yield_pct": "About 97-99% (emulsion, negligible loss).",
+    "shelf_life": "Consumer storage guides give toum about 1-2 weeks refrigerated. A commissary would normally label 5-7 days (estimate). Mayo-based sauce 3-5 days chilled (estimate).",
+    "notes": "Illustrative RM cost: toum about INR 180-190/kg, mayo-garlic sauce about INR 115-140/kg, computed from Hyperpure prices."
+   },
+   {
+    "product": "Hummus",
+    "unit": "kg, in 1-2 kg tubs",
+    "key_raw_materials": "Kabuli chana, tahini, lemon, garlic, olive pomace oil, salt",
+    "typical_yield_pct": "Dried chickpeas roughly double in weight on soaking and cooking (estimate).",
+    "shelf_life": "Fresh or homemade 3-4 days at 4 C or below. Opened commercial hummus 4-7 days. Use a 3-day use-by in the mock.",
+    "notes": "No tahini price was found on Hyperpure Mumbai. RM cost about INR 110-150/kg is low confidence."
+   },
+   {
+    "product": "Green chutney (mint-coriander) and red chilli sauce",
+    "unit": "kg",
+    "key_raw_materials": "Coriander, mint, green chilli, lemon, curd, garlic, salt",
+    "typical_yield_pct": "Herb trim yield about 60-70% (estimate).",
+    "shelf_life": "2-3 days chilled (estimate).",
+    "notes": "Low value but a frequent stock-out item. Track it in the mock."
+   },
+   {
+    "product": "Naan / roomali / khubz dough balls (or par-baked khubz)",
+    "unit": "kg or pieces (dough balls of 100-130 g)",
+    "key_raw_materials": "Maida, atta, curd, yeast, sugar, oil, salt",
+    "typical_yield_pct": "Dough weight about 155-165% of flour weight (estimate).",
+    "shelf_life": "24-48 h chilled (estimate).",
+    "notes": "Illustrative RM cost about INR 33-38 per kg of dough, or about INR 4-4.5 per 120 g ball."
+   },
+   {
+    "product": "Fried onions (birista)",
+    "unit": "kg",
+    "key_raw_materials": "Onion, frying oil, salt",
+    "typical_yield_pct": "25-33% of raw onion weight: 1 kg of onion gives 250-330 g of birista (sourced).",
+    "shelf_life": "Ambient airtight about 2-4 weeks (estimate). Longer refrigerated.",
+    "notes": "Illustrative RM cost about INR 135-160/kg at APMC onion prices. Many commissaries buy birista ready-made."
+   },
+   {
+    "product": "Cut vegetables, salad kits and pickled vegetables",
+    "unit": "kg",
+    "key_raw_materials": "Onion, cabbage, cucumber, tomato, capsicum, lettuce, lemon, vinegar",
+    "typical_yield_pct": "Trim yield about 80-90% (estimate).",
+    "shelf_life": "Cut vegetables 24-48 h chilled. Pickles 2-4 weeks (estimate).",
+    "notes": "These are often left to outlets because of the short life. Include only a few SKUs in the mock."
+   },
+   {
+    "product": "Ginger-garlic paste and dry spice blends (tikka masala, shawarma spice, chaat masala)",
+    "unit": "kg",
+    "key_raw_materials": "Ginger, peeled garlic, oil, salt. Chilli, turmeric, coriander, cumin and whole spices for blends.",
+    "typical_yield_pct": "Paste about 95%. Blends about 98-99% after grinding loss (estimate).",
+    "shelf_life": "Paste 5-7 days chilled (estimate). Blends 3-6 months ambient.",
+    "notes": "Centralising the blends protects the recipe and standardises taste across outlets."
+   },
+   {
+    "product": "Butchery output (portioned boneless chicken, tandoori birds, trimmings to mince or stock)",
+    "unit": "kg",
+    "key_raw_materials": "Whole dressed birds or bulk boneless",
+    "typical_yield_pct": "Dressing percentage about 76-77% of live weight. Boneless skinless meat about 50-55% of live weight, or 70-75% of the dressed carcass.",
+    "shelf_life": "1-2 days chilled.",
+    "notes": "Most QSR commissaries buy boneless leg or breast directly, so in-house deboning is limited."
+   }
+  ],
+  "raw_material_prices": [
+   {
+    "item": "Chicken leg / thigh boneless",
+    "unit": "INR per kg",
+    "price_inr_low": 272,
+    "price_inr_high": 290,
+    "notes": "Hyperpure Mumbai, 18 Sep 2026: leg boneless 2 kg INR 545 (Huda brand INR 580), thigh boneless 2 kg INR 570. Delivered HoReCa price. A contracted poultry vendor is typically a little cheaper.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/chicken-eggs"
+   },
+   {
+    "item": "Chicken breast boneless",
+    "unit": "INR per kg",
+    "price_inr_low": 250,
+    "price_inr_high": 320,
+    "notes": "2 kg packs at INR 500-640 across fresh, chilled and frozen variants. The Mumbai page shows INR 531/2 kg fresh and INR 610/2 kg frozen.",
+    "source_url": "https://www.hyperpure.com/in/chicken-breast-boneless"
+   },
+   {
+    "item": "Chicken whole with skin / tandoori bird",
+    "unit": "INR per kg (whole) or per piece",
+    "price_inr_low": 200,
+    "price_inr_high": 200,
+    "notes": "Whole with skin INR 200/kg. Tandoori bird skinless 750-850 g INR 196/pc, 650-750 g INR 174/pc. A search snippet I could not verify put the India live-broiler farm-gate range at about INR 115-135/kg (May 2026). Do not show that figure as sourced.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/chicken-eggs"
+   },
+   {
+    "item": "Chicken curry cut / mince / wings",
+    "unit": "INR per kg",
+    "price_inr_low": 208,
+    "price_inr_high": 252,
+    "notes": "Curry cut 2 kg INR 422, mince 2 kg INR 504, wings with skin 2 kg INR 417.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/chicken-eggs"
+   },
+   {
+    "item": "Mutton boneless (goat)",
+    "unit": "INR per kg",
+    "price_inr_low": 948,
+    "price_inr_high": 1048,
+    "notes": "Fresh INR 948, frozen INR 1,047.9. Mumbai retail mutton is about INR 880/kg bone-in per todaypricerates.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/mutton-duck-and-lamb"
+   },
+   {
+    "item": "Mutton mince (keema)",
+    "unit": "INR per kg",
+    "price_inr_low": 748,
+    "price_inr_high": 785,
+    "notes": "Fresh INR 748, frozen INR 785.4. Mutton fat INR 207.9 per 500 g.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/mutton-duck-and-lamb"
+   },
+   {
+    "item": "Mutton curry cut / biryani cut",
+    "unit": "INR per kg",
+    "price_inr_low": 668,
+    "price_inr_high": 773,
+    "notes": "Fresh biryani cut INR 668, fresh curry cut INR 718, frozen curry cut INR 772.8.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/mutton-duck-and-lamb"
+   },
+   {
+    "item": "Basmati rice 1121 (biryani / pulao grade)",
+    "unit": "INR per kg (30 kg bags)",
+    "price_inr_low": 106,
+    "price_inr_high": 118,
+    "notes": "30 kg bags INR 3,179-3,553. Cheaper grades: 1121 sella INR 87/kg, tibar INR 66/kg, dubar INR 60/kg, staff rice INR 40-42/kg.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/rice-rice-products"
+   },
+   {
+    "item": "Refined cooking oil (15 L / 15 kg tins)",
+    "unit": "INR per litre or kg",
+    "price_inr_low": 167,
+    "price_inr_high": 189,
+    "notes": "Sunflower 15 L INR 2,837.10, soyabean 15 L INR 2,510.55, palmolein 15 kg INR 2,695.35.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/edible-oils"
+   },
+   {
+    "item": "Maida",
+    "unit": "INR per kg (30-50 kg bags)",
+    "price_inr_low": 38,
+    "price_inr_high": 45,
+    "notes": "30 kg bags INR 1,180-1,344. Fortune 50 kg INR 2,100.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/flours"
+   },
+   {
+    "item": "Chakki atta",
+    "unit": "INR per kg",
+    "price_inr_low": 36,
+    "price_inr_high": 45,
+    "notes": "30 kg bags INR 1,120-1,243. Besan INR 109/kg.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/flours"
+   },
+   {
+    "item": "Onion",
+    "unit": "INR per kg",
+    "price_inr_low": 21,
+    "price_inr_high": 57,
+    "notes": "Vashi APMC modal INR 2,300/quintal (16 Sep 2026) and Mumbai mandi INR 2,100/quintal, so wholesale is about INR 21-23/kg. Hyperpure lists Onion Large 5 kg at INR 285 (INR 57/kg), which looks high. Use INR 25-35/kg delivered in the mock. Onion prices are highly volatile.",
+    "source_url": "https://kisandeals.com/mandiprices/ONION/MAHARASHTRA/VASHI-NEW-MUMBAI"
+   },
+   {
+    "item": "Tomato",
+    "unit": "INR per kg",
+    "price_inr_low": 17,
+    "price_inr_high": 35,
+    "notes": "Mumbai APMC INR 1,700-3,000/quintal, average INR 2,500 (mid-September 2026). Hyperpure hybrid large is INR 70 per 2 kg.",
+    "source_url": "https://www.commodityonline.com/mandiprices/tomato/maharashtra/mumbai"
+   },
+   {
+    "item": "Garlic peeled / ginger",
+    "unit": "INR per kg",
+    "price_inr_low": 110,
+    "price_inr_high": 200,
+    "notes": "Peeled garlic INR 100 per 500 g on Hyperpure. Ginger is INR 88 per 500 g on Hyperpure and INR 110/kg wholesale at Vashi on 18 Sep 2026.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/fruits-vegetables"
+   },
+   {
+    "item": "Herbs and salad vegetables (Hyperpure delivered)",
+    "unit": "INR per kg unless stated",
+    "notes": "Green chilli INR 66/kg, coriander INR 80/kg, mint INR 100/kg, lemon INR 212/kg, cucumber INR 39/kg, green capsicum INR 42/kg, potato INR 20.6/kg, iceberg lettuce INR 50 per 300-400 g head.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/fruits-vegetables"
+   },
+   {
+    "item": "Curd / dahi (bulk)",
+    "unit": "INR per kg",
+    "price_inr_low": 71,
+    "price_inr_high": 98,
+    "notes": "1 kg pouches INR 71.4-82.95. Milky Mist set curd 5 kg INR 490.35.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/dairy"
+   },
+   {
+    "item": "Fresh cream",
+    "unit": "INR per litre",
+    "price_inr_low": 237,
+    "price_inr_high": 249,
+    "notes": "Amul 1 L INR 249, Madhusudan 1 L INR 237.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/dairy"
+   },
+   {
+    "item": "Butter (Amul, 500 g)",
+    "unit": "INR per kg",
+    "price_inr_low": 570,
+    "price_inr_high": 570,
+    "notes": "MRP INR 285 per 500 g from 22 Sep 2025 after the GST cut. No September 2026 price was fetched, so confidence is moderate. Fat spread or margarine is about INR 193-195/kg on Hyperpure.",
+    "source_url": "https://www.moneycontrol.com/news/business/companies/from-butter-to-ice-cream-amul-cuts-prices-on-700-products-after-gst-rate-reduction-13563230.html"
+   },
+   {
+    "item": "Paneer / processed cheese / mozzarella",
+    "unit": "INR per kg",
+    "price_inr_low": 293,
+    "price_inr_high": 539,
+    "notes": "Paneer INR 293-309, Amul processed cheese block INR 538.65, diced mozzarella INR 418-526.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/dairy"
+   },
+   {
+    "item": "Eggless mayonnaise (1 kg professional packs)",
+    "unit": "INR per kg",
+    "price_inr_low": 101,
+    "price_inr_high": 184,
+    "notes": "Frutin's INR 100.8, Veeba INR 126, Del Monte INR 183.75. Ketchup sachets are INR 63-96 per 100.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/sauces-seasoning"
+   },
+   {
+    "item": "Kabuli chana (chickpeas)",
+    "unit": "INR per kg",
+    "price_inr_low": 94.5,
+    "price_inr_high": 135,
+    "notes": "5 kg pack INR 472.5. 1 kg bold INR 135.45.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/pulses-and-millets"
+   },
+   {
+    "item": "Red chilli powder",
+    "unit": "INR per kg",
+    "price_inr_low": 322,
+    "price_inr_high": 402,
+    "notes": "Kashmiri chilli whole INR 582.75/kg. MDH Deggi Mirch 500 g INR 518.7.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/masala-salt-sugar"
+   },
+   {
+    "item": "Turmeric / coriander powder / cumin whole",
+    "unit": "INR per kg",
+    "price_inr_low": 248,
+    "price_inr_high": 312,
+    "notes": "Turmeric INR 248-297, coriander powder INR 275, cumin INR 305-312. MDH Kitchen King 500 g INR 414.75. Chaat masala 500 g INR 169-382. No prices were found for whole garam masala spices, sumac or zaatar.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/masala-salt-sugar"
+   },
+   {
+    "item": "Salt / sugar",
+    "unit": "INR per kg",
+    "price_inr_low": 27,
+    "price_inr_high": 67,
+    "notes": "Salt INR 27-31/kg. Sugar M30 5 kg INR 336.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/masala-salt-sugar"
+   },
+   {
+    "item": "Eggs",
+    "unit": "INR per tray of 30",
+    "price_inr_low": 192,
+    "price_inr_high": 201,
+    "source_url": "https://www.hyperpure.com/ind/mumbai/chicken-eggs"
+   },
+   {
+    "item": "Charcoal for tandoor",
+    "unit": "INR per kg",
+    "price_inr_low": 40,
+    "price_inr_high": 40,
+    "notes": "A single IndiaMART listing (Divyam Enterprises, Mumbai). Charcoal is mostly consumed at the outlets' tandoors, not at the factory.",
+    "source_url": "https://www.indiamart.com/proddetail/charcoal-22510041473.html"
+   },
+   {
+    "item": "Commercial LPG, 19 kg cylinder (Mumbai)",
+    "unit": "INR per cylinder",
+    "price_inr_low": 2691.5,
+    "price_inr_high": 3067.5,
+    "notes": "INR 2,701 on 18 Sep 2026. August INR 2,691.5, July INR 2,885.5, June INR 3,067.5, May INR 3,024 (up INR 993 that month). Prices have been very volatile in 2026.",
+    "source_url": "https://www.goodreturns.in/lpg-price-in-mumbai.html"
+   },
+   {
+    "item": "PNG (MGL, Mumbai)",
+    "unit": "INR per SCM",
+    "price_inr_low": 51.5,
+    "price_inr_high": 51.5,
+    "notes": "This is the DOMESTIC rate, after a rise of INR 1/SCM on 1 Sep 2026. No commercial PNG rate for restaurants or factories was found. Do not present a commercial PNG tariff as sourced.",
+    "source_url": "https://www.goodreturns.in/png-price.html"
+   },
+   {
+    "item": "Packaging and disposables (unit prices)",
+    "unit": "INR per piece unless stated",
+    "notes": "Round container with lid: 500 ml INR 6.9, 300 ml INR 5.8, 100 ml INR 2.8, 50 ml INR 1.85. Rectangular 500 ml INR 8.9. Butter paper 12x12 INR 0.85 per sheet. Aluminium foil 72 m roll INR 481. Kraft SOS bag INR 1.8-2.1. Wooden spoon INR 0.54-0.72. Pop tissues INR 24.78 per 100.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/packaging-material"
+   },
+   {
+    "item": "Olive pomace oil / jalapeno / black olives",
+    "unit": "INR per pack",
+    "notes": "Pomace olive oil 1 L INR 336. Jalapeno slices 2.9-3 kg INR 265.65. Sliced black olives 3-3.5 kg tin INR 743.4. No tahini listing was found.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/canned-imported-items"
+   }
+  ],
+  "cost_lines": [
+   {
+    "name": "Raw material consumption at the factory",
+    "category": "COGS",
+    "basis": "pct_of_sales",
+    "typical": 76,
+    "low": 70,
+    "high": 85,
+    "unit": "% of factory transfer value at full absorbed cost",
+    "notes": "This is a derived modelling figure, not a published benchmark. Restaurant food cost is typically 28-35% of revenue (MarginEdge). If 60-70% of outlet food cost is routed through the factory, factory raw material comes to about 20-24% of network net sales. Proteins should be about 60-70% of the factory's raw-material spend for this cuisine (estimate).",
+    "source_url": "https://www.marginedge.com/blog/the-complete-guide-to-commissary-cost-control-2026"
+   },
+   {
+    "name": "Rent: industrial gala, Andheri East / Saki Naka / JB Nagar",
+    "category": "occupancy",
+    "basis": "per_unit",
+    "typical": 100,
+    "low": 64,
+    "high": 125,
+    "unit": "INR per sq ft per month (carpet)",
+    "notes": "Listings: Saki Naka 1,800 sq ft at INR 120/sq ft; Saki Naka 2,000 sq ft at INR 2,50,000 (INR 125/sq ft); JB Nagar 750 sq ft carpet at INR 48,000 with a INR 2 lakh deposit (INR 64/sq ft). These are asking rents.",
+    "source_url": "https://www.99acres.com/factory-land-for-rent-in-andheri-east-mumbai-andheri-dahisar-ffid"
+   },
+   {
+    "name": "Rent: Turbhe MIDC (Navi Mumbai)",
+    "category": "occupancy",
+    "basis": "per_unit",
+    "typical": 60,
+    "low": 54,
+    "high": 83,
+    "unit": "INR per sq ft per month",
+    "notes": "Listings: 12,000 sq ft carpet at INR 6.5 lakh/month (INR 54/sq ft); a 300 sq ft gala at INR 25,000 (INR 83/sq ft). Turbhe is next to the Vashi APMC markets, which helps vegetable procurement.",
+    "source_url": "https://midcwala.com/properties/industrial-gala-for-rent-in-turbhe"
+   },
+   {
+    "name": "Rent: Bhiwandi warehouse-grade space",
+    "category": "occupancy",
+    "basis": "per_unit",
+    "typical": 20,
+    "low": 10,
+    "high": 24,
+    "unit": "INR per sq ft per month",
+    "notes": "Grade A INR 18-24 and older stock INR 10-14 (leasewarehouse.in, April 2026). A 3,000 sq ft unit was listed at INR 63,000. Bhiwandi is cheap but 35-50 km from the western-suburb outlets, so logistics cost and dispatch time go up.",
+    "source_url": "https://www.leasewarehouse.in/blog/post_detailsbyslug/bhiwandi-indias-number-one-logistics-hub-warehouse-guide-2026"
+   },
+   {
+    "name": "Rent: reference model (about 2,500 sq ft, Saki Naka / Andheri East)",
+    "category": "occupancy",
+    "basis": "monthly_fixed",
+    "typical": 225000,
+    "low": 160000,
+    "high": 312500,
+    "unit": "INR per month",
+    "notes": "Computed as 2,500 sq ft at INR 64-125 per sq ft. Maintenance and property tax are extra. The deposit of 3-6 months and the 5% annual escalation are assumptions.",
+    "source_url": "https://housing.com/commercial/rent/100376223-warehouse-for-rent-in-sakinaka-mumbai-for-rs-250000"
+   },
+   {
+    "name": "Electricity tariff: Adani Electricity Mumbai, FY 2026-27 (energy plus wheeling)",
+    "category": "utilities",
+    "basis": "per_unit",
+    "typical": 7.7,
+    "low": 7.64,
+    "high": 7.98,
+    "unit": "INR per kVAh (or kWh) before duty, FAC and tax on sale",
+    "notes": "From the official MERC MYT schedule (Case 211 of 2024). LT II Commercial 20-50 kW: INR 5.51 + 2.19 wheeling. Above 50 kW: INR 5.53 + 2.19. LT II (A) up to 20 kW: INR 5.70 + 2.28 per kWh, plus INR 475/month. LT III (B) Industry above 20 kW: INR 5.45 + 2.19. Time-of-day for FY 2026-27: minus 15% from 00:00 to 06:00; minus 15% from 09:00 to 17:00 in April-September and minus 25% in October-March; plus 20% from 17:00 to 24:00. Row labels were partly inferred because I extracted the PDF text myself. Third-party calculators quote electricity duty of 16-21% for commercial plus FAC and tax on sale, so the landed cost is roughly INR 10-12.5 per unit. Turbhe and Bhiwandi are served by MSEDCL and Torrent, whose tariffs I did not extract.",
+    "source_url": "https://www.adanielectricity.com/-/media/ElectricityFeature/ElectricityNew/PDFs/Regulatory/Adani_Electricity_Tariff_01Apr25.pdf"
+   },
+   {
+    "name": "Electricity demand charge (AEML, FY 2026-27)",
+    "category": "utilities",
+    "basis": "per_unit",
+    "typical": 300,
+    "low": 300,
+    "high": 400,
+    "unit": "INR per kVA of billing demand per month",
+    "notes": "INR 300/kVA for LT II (B) and (C) Commercial. INR 400/kVA for LT III (B) Industry. A central kitchen is billed LT Commercial unless the connection is classified industrial.",
+    "source_url": "https://www.adanielectricity.com/-/media/ElectricityFeature/ElectricityNew/PDFs/Regulatory/Adani_Electricity_Tariff_01Apr25.pdf"
+   },
+   {
+    "name": "Electricity: monthly bill, reference model",
+    "category": "utilities",
+    "basis": "monthly_fixed",
+    "typical": 110000,
+    "low": 70000,
+    "high": 160000,
+    "unit": "INR per month",
+    "notes": "This is a modelling assumption, not a sourced figure. It assumes 7,000-12,000 kWh per month for a walk-in chiller, walk-in freezer, blast chiller, exhaust, mixers and lighting, at about INR 10-12.5 all-in plus demand charges. The only consumption data point found is a 40 sq m freezer room at -18 C using about 600-900 kWh per month (vendor blog). Cold rooms run 24x7, so the bill is largely fixed and does not fall on low-volume days.",
+    "source_url": "https://www.flandcold.com/how-much-does-it-cost-to-run-a-cold-room-per-month-real-electricity-usage-data-by-size."
+   },
+   {
+    "name": "Cooking gas: commercial LPG 19 kg cylinder",
+    "category": "utilities",
+    "basis": "per_unit",
+    "typical": 2701,
+    "low": 2691.5,
+    "high": 3067.5,
+    "unit": "INR per 19 kg cylinder (Mumbai)",
+    "notes": "18 Sep 2026 price. The range shown is May-September 2026.",
+    "source_url": "https://www.goodreturns.in/lpg-price-in-mumbai.html"
+   },
+   {
+    "name": "Cooking gas: monthly, reference model",
+    "category": "utilities",
+    "basis": "monthly_fixed",
+    "typical": 95000,
+    "low": 65000,
+    "high": 135000,
+    "unit": "INR per month",
+    "notes": "Modelling assumption of 25-45 cylinders per month for gravies, frying and boiling. Tandoor charcoal is consumed at the outlets. Not a sourced benchmark.",
+    "source_url": "https://www.goodreturns.in/lpg-price-in-mumbai.html"
+   },
+   {
+    "name": "Production head / sous chef (1)",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "typical": 70000,
+    "low": 55000,
+    "high": 90000,
+    "unit": "INR per month gross",
+    "notes": "Mumbai sous chef band INR 55k-90k. Head chef INR 1-1.8 lakh if a senior culinary head is based at the factory.",
+    "source_url": "https://chefanandhub.com/blog/chef-salary-india-2026"
+   },
+   {
+    "name": "Chef de partie: butchery/marination and gravies/sauces (2)",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "typical": 35000,
+    "low": 25000,
+    "high": 45000,
+    "unit": "INR per month per person",
+    "source_url": "https://chefanandhub.com/blog/chef-salary-india-2026"
+   },
+   {
+    "name": "Commis / production cooks (4-5)",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "typical": 18500,
+    "low": 15876,
+    "high": 22000,
+    "unit": "INR per month per person",
+    "notes": "Commis band INR 15k-20k. Jooble's Mumbai average is INR 19,417. The statutory floor for Maharashtra Hotels and Restaurants, Zone I, July-December 2026, is skilled INR 15,876, semi-skilled INR 15,176 and unskilled INR 14,676 per month.",
+    "source_url": "https://wageindicator.org/en-in/work-in-india/minimum-wage/18640-maharashtra/18894-hotels-and-restaurants"
+   },
+   {
+    "name": "Helpers / cleaners / packers (3-4)",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "typical": 15500,
+    "low": 14676,
+    "high": 17500,
+    "unit": "INR per month per person",
+    "notes": "Anchored to the unskilled minimum wage of INR 14,676 (Zone I, July-December 2026).",
+    "source_url": "https://www.diligenthr.com/blogs/Maharashtra-Minimum-Wages-July-2026-to-December-2026"
+   },
+   {
+    "name": "Storekeeper, purchase/dispatch executive, QA and hygiene supervisor (1 each)",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "typical": 27000,
+    "low": 22000,
+    "high": 40000,
+    "unit": "INR per month per person",
+    "notes": "Practitioner estimate. No role-specific salary source was found. A FoSTaC-certified food safety supervisor is required at 1 per 25 food handlers (Velco Legal).",
+    "source_url": "https://velcolegalindia.com/blog/fssai-license-restaurant-chain-multiple-outlets"
+   },
+   {
+    "name": "Delivery drivers (1-2)",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "typical": 21500,
+    "low": 18000,
+    "high": 28000,
+    "unit": "INR per month per person",
+    "notes": "Mumbai tempo driver postings are INR 18k-23k. Driver pay typically runs INR 15k-28k, averaging INR 21,500.",
+    "source_url": "https://www.bookmyworkers.com/salary/mumbai/driver"
+   },
+   {
+    "name": "Employer on-costs (PF, ESIC, bonus) and staff meals",
+    "category": "people",
+    "basis": "pct_of_sales",
+    "typical": 17,
+    "low": 13,
+    "high": 22,
+    "unit": "% of gross wages (not of sales)",
+    "notes": "From general statutory knowledge, not fetched: employer PF about 13% including admin charges, ESIC 3.25% for wages up to INR 21,000, minimum bonus 8.33%. Staff meals and shared accommodation are common in Mumbai kitchens, at an assumed INR 2,500-4,000 per head. Verify before presenting as fact."
+   },
+   {
+    "name": "Refrigerated van rental",
+    "category": "logistics",
+    "basis": "monthly_fixed",
+    "typical": 35000,
+    "unit": "INR per month per vehicle",
+    "notes": "A single IndiaMART listing (Pioneer Refrigeration, Mumbai) for cold van rental at INR 35,000 per month. Whether driver and fuel are included is unclear. Low-to-moderate confidence.",
+    "source_url": "https://www.indiamart.com/proddetail/cold-van-rental-2849092227991.html"
+   },
+   {
+    "name": "Refrigerated vehicle purchase (alternative to rental)",
+    "category": "logistics",
+    "basis": "per_unit",
+    "typical": 1435000,
+    "low": 1400000,
+    "high": 1500000,
+    "unit": "INR per vehicle plus GST (capex)",
+    "notes": "Mahindra Bolero 10 ft reefer: chassis INR 8.65 lakh, insulated body INR 2.95 lakh, refrigeration unit INR 2.75 lakh.",
+    "source_url": "https://subzeroreefers.com/blog/refrigerated-truck-price-india-cost-breakdown"
+   },
+   {
+    "name": "Vehicle fuel, tolls, parking and maintenance",
+    "category": "logistics",
+    "basis": "monthly_fixed",
+    "typical": 25000,
+    "low": 18000,
+    "high": 35000,
+    "unit": "INR per month per vehicle",
+    "notes": "Modelling assumption of one daily multi-drop run of 60-90 km. CNG in Mumbai rose to INR 88/kg on 1 Sep 2026. No diesel price was fetched.",
+    "source_url": "https://www.business-standard.com/economy/news/mahanagar-gas-hikes-cng-rates-by-2-per-kg-domestic-png-by-1-scm-126083101559_1.html"
+   },
+   {
+    "name": "Repairs and equipment AMC (kitchen equipment, cold rooms, exhaust)",
+    "category": "repairs",
+    "basis": "annual",
+    "typical": 120000,
+    "low": 60000,
+    "high": 150000,
+    "unit": "INR per year",
+    "notes": "The Steelkraft guide puts AMC at INR 25k-60k per year for a cloud or small kitchen and INR 60k-1.5 lakh for a restaurant kitchen. Breakdown repairs are extra.",
+    "source_url": "https://steelkrafthospitality.com/resources/commercial-kitchen-cost-guide-india"
+   },
+   {
+    "name": "FSSAI licence for the factory premises",
+    "category": "admin & licences",
+    "basis": "annual",
+    "typical": 5000,
+    "low": 2000,
+    "high": 7500,
+    "unit": "INR per year",
+    "notes": "Official FoSCoS fees: Central licence INR 7,500 per year, Registration INR 100. Secondary sources put the State licence at INR 2,000-5,000 per year depending on category. A central kitchen supplying outlets within one state needs a State licence, and the Mumbai and Pune outlets are both in Maharashtra. Every premises needs its own licence, so 5 outlets plus the factory means 6 licences.",
+    "source_url": "https://foscos.fssai.gov.in/fee/SL"
+   },
+   {
+    "name": "Laboratory testing (products and water)",
+    "category": "admin & licences",
+    "basis": "annual",
+    "typical": 90000,
+    "low": 50000,
+    "high": 150000,
+    "unit": "INR per year",
+    "notes": "FSSAI requires food businesses to test products at least once every six months at a notified or NABL-accredited lab. Indicative charges per sample: microbiological panel INR 3,000-8,000 (Auriga) or INR 2,000-8,000 (Velco); FSSAI compliance package INR 10,000-30,000; water to IS 10500 INR 5,000-15,000. The annual total is computed for roughly 8-10 product families tested twice a year plus water.",
+    "source_url": "https://aurigaresearch.com/testing-charges"
+   },
+   {
+    "name": "Pest control AMC",
+    "category": "admin & licences",
+    "basis": "monthly_fixed",
+    "typical": 8000,
+    "low": 3000,
+    "high": 15000,
+    "unit": "INR per month",
+    "notes": "A vendor-quoted range for commercial pest control in Mumbai.",
+    "source_url": "https://superpestcontrol.in/commercial-pest-control-mumbai"
+   },
+   {
+    "name": "Water, drainage and wet-waste handling",
+    "category": "utilities",
+    "basis": "monthly_fixed",
+    "typical": 15000,
+    "low": 8000,
+    "high": 30000,
+    "unit": "INR per month",
+    "notes": "Low confidence: no verified rate was found. BMC is still weighing user fees for commercial bulk waste generators (Times of India, August 2026). Registration and four-way segregation became mandatory in May 2026. Label as an assumption in the mock.",
+    "source_url": "https://timesofindia.indiatimes.com/city/mumbai/bmc-plans-user-fee-on-bulk-waste-generators-as-swm-revenue-falls-short-of-target/articleshow/133385981.cms"
+   },
+   {
+    "name": "Production consumables and transfer packaging",
+    "category": "consumables",
+    "basis": "pct_of_sales",
+    "typical": 1.5,
+    "low": 1,
+    "high": 2.5,
+    "unit": "% of factory transfer value",
+    "notes": "Covers vacuum pouches, labels, crates, gloves, hairnets and cleaning chemicals. Modelling assumption. Unit-price references: 500 ml container INR 6.9, butter paper INR 0.85 per sheet, foil roll INR 481.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/packaging-material"
+   },
+   {
+    "name": "Depreciation: fit-out, equipment, cold chain and vehicle",
+    "category": "admin & licences",
+    "basis": "monthly_fixed",
+    "typical": 65000,
+    "low": 45000,
+    "high": 90000,
+    "unit": "INR per month",
+    "notes": "Derived figure. A 900-1,500 sq ft central kitchen costs INR 14-28 lakh (fit-out INR 4-7 lakh, heavy equipment INR 6-14 lakh, cold storage INR 2-4 lakh, exhaust and fire INR 1.5-2.5 lakh). A blast chiller plus walk-in chiller plus walk-in freezer set costs INR 8-16 lakh. Scaled to 2,500-3,000 sq ft, capex is about INR 45-70 lakh (assumption) plus a reefer at about INR 14.4 lakh, depreciated straight-line over 7-10 years.",
+    "source_url": "https://digitalcatapult.in/blog/restaurant-budget-calculator-india-2026"
+   },
+   {
+    "name": "Admin, insurance, software, telecom",
+    "category": "admin & licences",
+    "basis": "monthly_fixed",
+    "typical": 20000,
+    "low": 12000,
+    "high": 35000,
+    "unit": "INR per month",
+    "notes": "Practitioner estimate. No source."
+   },
+   {
+    "name": "Total factory conversion cost (all lines except raw material)",
+    "category": "COGS",
+    "basis": "pct_of_sales",
+    "typical": 6.5,
+    "low": 5,
+    "high": 9,
+    "unit": "% of network net sales (equal to about 18-28% of factory transfer value)",
+    "notes": "Derived by summing the lines above for a 5-outlet network with about INR 1.2-1.5 crore per month net sales and a Saki Naka-type location. That gives factory opex of about INR 9-13 lakh per month. At Bhiwandi rents it falls by about INR 1.5-2 lakh. For comparison, a US guide uses a 30% labour plus 10% overhead gross-up. Indian labour is cheaper and Mumbai rent is heavier. Sources agree a commissary only pays back at 3 or more outlets.",
+    "source_url": "https://www.useforcs.com/blog/commissary-kitchen-prime-cost"
+   }
+  ],
+  "kpis": [
+   {
+    "name": "Yield variance (by SKU and batch)",
+    "definition": "Actual output kg minus standard output kg for the actual input, divided by standard output. Also shown in INR at standard cost. Track separately for marination pickup, cooking or reduction yield, and butchery trim.",
+    "typical_range": "Target within +/-1-2% on proteins and investigate above 3% (practitioner). Supy gives a batch using 12% more raw material than the recipe as an example flag. Reference yields: grilled boneless chicken 70-75%, birista 25-33%."
+   },
+   {
+    "name": "Production plan adherence",
+    "definition": "Quantity produced divided by quantity planned, per SKU per day. The plan equals consolidated outlet indents plus buffer minus finished-goods stock.",
+    "typical_range": "95-100% (practitioner target, no published benchmark found)."
+   },
+   {
+    "name": "Dispatch fill rate (line and quantity)",
+    "definition": "Quantity or lines dispatched divided by quantity or lines indented by outlets, per dispatch run.",
+    "typical_range": "Target 97-99%. The B2B grocery benchmark is 96-99% (AisleStock). Supy's bad-day example is 14 of 18 lines accepted."
+   },
+   {
+    "name": "OTIF (on time, in full)",
+    "definition": "Deliveries that arrive inside the agreed window AND are complete, divided by total deliveries. Needs a dispatch timestamp and an outlet GRN timestamp captured in the ERP.",
+    "typical_range": "95% or above is the common target. Top performers reach 97-98% (Umbrex)."
+   },
+   {
+    "name": "Cost per kg / per portion against standard",
+    "definition": "Actual raw material plus conversion cost per kg of each finished or semi-finished SKU, compared with its standard cost card.",
+    "typical_range": "Illustrative standards computed from cited prices: marinated chicken tikka RM about INR 265-290/kg, mutton seekh mix about INR 640-680/kg, toum about INR 180-190/kg, naan dough about INR 33-38/kg."
+   },
+   {
+    "name": "Purchase price variance (PPV)",
+    "definition": "Actual purchase price minus standard price, multiplied by quantity purchased, by item and vendor. Chicken, onion, tomato, oil and LPG are the volatile items.",
+    "typical_range": "Show in INR and as % of purchases. Commercial LPG ranged from INR 2,691 to 3,068 per cylinder over May-September 2026."
+   },
+   {
+    "name": "Wastage %",
+    "definition": "Value of logged waste (trim beyond standard, spoilage, expiry, overproduction, damaged) divided by raw material consumed.",
+    "typical_range": "Restaurants discard 4-10% of food purchased (industry report). A controlled commissary should target about 1.5-3% (practitioner)."
+   },
+   {
+    "name": "Theoretical vs actual consumption variance",
+    "definition": "Actual raw material consumed (opening stock plus purchases minus closing stock) minus the theoretical consumption implied by production BOMs, as % of theoretical. The outlet-level equivalent uses POS recipe depletion against physical counts (the Petpooja method).",
+    "typical_range": "Under 2 percentage points signals good control (Supy). 2-5% is typical for restaurants (Vellin)."
+   },
+   {
+    "name": "Transfer discrepancy rate",
+    "definition": "Dispatch quantity or value against outlet-accepted GRN quantity or value: short, excess, damaged or temperature-rejected.",
+    "typical_range": "Target under 1% of transfer value. In Supy's example, unrecorded movements created a 6% phantom variance, about USD 9,800 on USD 164,000 per month."
+   },
+   {
+    "name": "Outlet stock-outs attributable to the factory",
+    "definition": "Count and duration of menu items unavailable at an outlet because a factory SKU was short-supplied or late. Capture it from outlet-reported shortages and the indent-versus-GRN gap, not from aggregator data.",
+    "typical_range": "Practitioner target of 0-2 incidents per outlet per week."
+   },
+   {
+    "name": "Capacity utilisation",
+    "definition": "Kg produced divided by rated kg capacity per shift, by section (butchery/marination, hot kitchen, sauces, bakery). Also cold-room fill %.",
+    "typical_range": "60-85% (practitioner). Above 90% sustained means a second shift or more capex."
+   },
+   {
+    "name": "Labour productivity and conversion cost per kg",
+    "definition": "Kg produced per labour hour, and non-RM factory cost divided by kg dispatched.",
+    "typical_range": "Derived reference: conversion cost about 18-28% of transfer value for a 5-outlet network."
+   },
+   {
+    "name": "Factory cost as % of network net sales",
+    "definition": "Total factory operating cost excluding raw material, divided by combined net sales of the outlets served.",
+    "typical_range": "About 5-9% (derived from this research's cost lines, not a published benchmark)."
+   },
+   {
+    "name": "Over- or under-absorption (factory P&L result)",
+    "definition": "Transfer value charged to outlets at standard cost, minus actual raw material consumed and actual conversion cost. In a cost-centre commissary it should sit near zero. The balance is the sum of price, yield, wastage and volume variances.",
+    "typical_range": "Within +/-2-3% of transfer value (practitioner)."
+   },
+   {
+    "name": "Inventory days on hand and stock ageing",
+    "definition": "Closing stock value divided by average daily consumption, by class, plus FEFO ageing buckets and the value expiring in the next 24, 48 and 72 h.",
+    "typical_range": "Fresh meat, dairy and vegetables 1-3 days; frozen 7-10 days; dry goods and packaging 15-30 days (practitioner)."
+   },
+   {
+    "name": "Expiry / FEFO write-offs",
+    "definition": "Value of batches written off past their use-by date, by SKU.",
+    "typical_range": "Target under 0.5% of production value (practitioner)."
+   },
+   {
+    "name": "Cold-chain compliance",
+    "definition": "% of dispatches and receipts with logged temperatures within limits, plus cold-room log completeness.",
+    "typical_range": "Chilled 5 C or below, frozen -18 C or below, hot-held 60 C or above (FSSAI FoSTaC manual). Target 100% logged."
+   },
+   {
+    "name": "Food safety compliance",
+    "definition": "Internal hygiene audit score, six-monthly lab test pass rate, pest-control visit completion, FoSTaC coverage.",
+    "typical_range": "Lab testing at least once every six months (FSSAI). 1 FoSTaC supervisor per 25 food handlers."
+   },
+   {
+    "name": "AP health (factory vendors)",
+    "definition": "Days payable outstanding, overdue payables by ageing bucket, % of MSME vendors paid within 45 days, and invoices pending maker or checker approval.",
+    "typical_range": "Ageing buckets of 0-7, 8-30, 31-60 and 60+ days are common in Indian restaurant vendor ledgers. Credit runs from COD or 7 days up to 30-45 days depending on relationship and volume (DineCard)."
+   }
+  ],
+  "transfer_pricing": [
+   {
+    "method": "Transfer at actual raw-material cost (plain stock transfer)",
+    "description": "Goods move from factory to outlets as an inventory transfer valued at ingredient cost only. Factory labour, rent and utilities stay in a separate factory cost centre. This is the default in POS inventory modules such as Petpooja's indent, transfer and recipe-deduction flow.",
+    "pros_cons": "Pros: simplest, and no internal invoicing within a single legal entity and GSTIN. Cons: outlet food cost and prime cost are understated and the factory shows as a pure loss centre (FORCS). Outlets have no incentive to indent carefully."
+   },
+   {
+    "method": "Full absorbed cost using a gross-up percentage",
+    "description": "Each transfer is valued at raw material plus a fixed percentage for factory labour and overhead. The FORCS example adds 30% labour and 10% overhead, which are US figures. For this model the derived equivalent is conversion cost of about 18-28% of transfer value.",
+    "pros_cons": "Pros: outlet P&Ls carry the true cost of what they consume and the factory nets to about zero. Cons: the percentage drifts from actuals when volume changes, so it needs a periodic true-up."
+   },
+   {
+    "method": "Periodic true-up allocation",
+    "description": "Transfers go out at RM cost during the week or month. Actual factory labour and overhead for the period are then allocated to outlets by each outlet's share of transfer value or kg.",
+    "pros_cons": "Pros: the factory always clears to exactly zero with no standard setting. Cons: an outlet's cost rises when other outlets buy less. It is hard to explain to outlet managers and delays outlet P&L close."
+   },
+   {
+    "method": "Standard cost / fixed internal price list, with variances held at the factory (recommended for the mock)",
+    "description": "Each SKU has a standard cost card: standard RM at standard price and yield, plus standard conversion cost per kg at budgeted volume, reviewed monthly or quarterly. Outlets are charged the standard price. The factory P&L then shows purchase price variance, yield/usage variance, wastage, labour and overhead spending variance and volume (absorption) variance. Fullguest and Supy both describe a price-list or fixed-pricing option alongside cost and markup.",
+    "pros_cons": "Pros: stable outlet food cost, clean accountability (outlets own usage, the factory owns price, yield and efficiency), and clear dashboards. Cons: needs maintained recipes or BOMs and disciplined stock counts. Standards must be refreshed when chicken, onion or LPG prices move sharply."
+   },
+   {
+    "method": "Cost-plus / markup (factory as profit centre, or supply to franchisees or a separate legal entity)",
+    "description": "The transfer price is production cost plus a markup and is posted as revenue for the kitchen and cost for the outlet. Supy's example invoices a USD 2.10 portion at USD 2.95. A franchise commissary margin is a contracted price embedded in supply prices (Terra Insight).",
+    "pros_cons": "Pros: needed when outlets are franchised or sit in a different entity or GSTIN, and it makes the factory's contribution visible. Cons: within one company it only shifts profit between pockets and inflates outlet food cost %. Different GSTINs make the transfer a taxable supply needing GST invoices."
+   },
+   {
+    "method": "GST and documentation overlay (India)",
+    "description": "Transfers between premises under the same GSTIN in the same state move on a delivery challan with no GST and are not a supply. That covers the factory and the Mumbai and Pune outlets if they sit in one entity in Maharashtra. Transfers between different GSTINs, or to franchisees, are taxable supplies needing tax invoices. An e-way bill applies above the consignment threshold. CAclubindia cites INR 50,000. Verify the Maharashtra intra-state threshold. Each premises, including the factory, needs its own FSSAI licence.",
+    "pros_cons": "In the mock, show a delivery challan or transfer note number on every dispatch. Do not show GST on internal transfers unless the client confirms separate GSTINs or franchise outlets."
+   },
+   {
+    "method": "Presenting factory unit economics when there are no external sales",
+    "description": "Show a cost-centre P&L. Notional revenue is transfer value at standard cost. Deduct actual RM consumed and conversion cost by line (people, rent, power, gas, logistics, repairs, compliance, depreciation) to reach over- or under-absorption. Alongside it show cost per kg by SKU, conversion cost per kg, factory cost as % of network net sales, yield and wastage variance in INR, and a make-versus-buy comparison against Hyperpure-type market prices. MarginEdge recommends tracking the total cost of goods produced against the transfer value of those goods.",
+    "pros_cons": "Avoid showing a factory 'profit margin' unless a cost-plus policy exists. The honest headline numbers are cost per kg, variance against standard, and % of network sales."
+   }
+  ],
+  "inventory_and_planning_practices": [
+   "Indent cycle (Petpooja describes indent, transfer, then recipe deduction): each outlet raises a daily indent by SKU, quantity and required date. Indents route through approval, and the factory sees one consolidated demand queue (Fullguest). 'Indent' and 'requisition' are the terms Indian staff expect.",
+   "Typical timing (practitioner, not sourced): indent cut-off after close at about 22:30-23:30, or mid-afternoon for next-day dispatch. Production runs the previous afternoon and early morning. Dispatch is 06:00-09:00 so outlets are stocked before lunch. A second top-up run is only for exceptions.",
+   "Par levels: each outlet holds a par per SKU, equal to average daily usage times cover days plus safety stock, with higher pars for weekends. The suggested indent is par minus current stock. Petpooja advertises low-stock alerts per outlet and a consolidated route plan when outlets raise orders on the central kitchen.",
+   "Daily production plan: the sum of approved indents, plus a buffer, minus finished-goods stock on hand, exploded through recipes (BOMs) into raw-material requirements and purchase orders. Production should run from recipes inside the system so that raw material is consumed and finished goods are yielded with batch and expiry applied automatically (Fullguest).",
+   "FEFO over FIFO for chilled goods. Every batch gets a batch ID, production date and use-by label. Picking consumes the nearest expiry first. Reference use-by windows for the mock: marinated chicken 48-72 h, seekh mix 24-48 h, cook-chill gravies up to 5 days at 0-3 C, hummus 3 days, toum 5-7 days, dough 24-48 h.",
+   "Cold chain: blast chill cooked products before storage. Store chilled at 5 C or below and frozen at -18 C or below. Dispatch in a reefer or insulated crates. Log temperature at dispatch and at outlet receipt. The outlet records a GRN with partial acceptance and short-ship reasons, and both locations' stock updates automatically (Supy).",
+   "Record every movement when it happens, not at month-end. Supy's example shows unrecorded transfers creating a 6% phantom variance. Fix the unit of measure per SKU (kg, not litres or pieces) so indents and transfers reconcile.",
+   "Stock counts (practitioner): daily for A-class proteins and dairy, weekly for everything else, and a monthly full count tied to the P&L close. Post the variance against theoretical consumption each week.",
+   "Recipe and yield standards: keep a yield test card per SKU (raw to trimmed to marinated to cooked) and re-test quarterly or when the vendor or specification changes. The standard cost card is the basis of the transfer price.",
+   "Procurement (practitioner, not sourced): chicken and mutton daily from 1-2 contracted halal suppliers on a weekly rate; vegetables daily from an APMC Vashi agent or aggregator; dairy on alternate days; dry goods, oil, rice and packaging weekly or fortnightly. Keep a second approved vendor for every A-class item and benchmark rates against a Hyperpure-type platform.",
+   "Data feasibility for the mock: all factory KPIs come from the company's own systems, which are Petpooja inventory (or the new ERP) for indents, production logs, GRNs, stock counts and waste logs. None come from Swiggy or Zomato. Fill rate and OTIF exist only if dispatch and receipt timestamps and quantities are captured. Temperature compliance exists only if logs are entered. Label these as ERP-captured data points, not integrations.",
+   "AP credit days by relationship (DineCard): new buyers get COD or 7 days. After 3-6 months of clean payment, 15-21 days. After 6 or more months, 30 days is standard. At INR 2 lakh or more per month per vendor, 30-45 days is negotiable. Mandi vendors are the least flexible and distributors the most. Post-dated cheques are often used to secure 15-30 days.",
+   "AP credit days by vendor type (practitioner pattern, not sourced, label as assumption): poultry and mutton suppliers deliver daily and settle weekly (7 days). APMC vegetable agents are cash or UPI, or weekly. Dairy distributors are advance or weekly. Grocery, oil, rice and spice wholesalers are 15-30 days. Packaging vendors are 30-45 days. LPG is paid on delivery. Rent is paid in advance by the 5th-10th. Utilities follow the monthly bill. Transport and AMC vendors are paid monthly at 15-30 days.",
+   "AP statutory points for the maker-checker flow (general knowledge, verify before presenting): payments to registered micro and small enterprises beyond 45 days (15 days with no written agreement) lose tax deductibility until paid under Section 43B(h), so flag MSME vendors and due dates. TDS is typical on rent (194-I), contractors and transport (194C), professional fees (194J), and goods purchases above the threshold (194Q). GST input credit is generally not available to restaurants on the 5% scheme, so vendor GST becomes a cost.",
+   "AP controls suited to a factory: three-way match of PO, GRN (weight-checked at receipt for meat) and invoice. Rate-contract validation for weekly chicken and mutton rates. Debit notes for short weight or quality rejection. Vendor ledger ageing of 0-7, 8-30, 31-60 and 60+ days, as used by Indian restaurant vendor-ledger tools. Weekly payment runs that the checker approves in a batch.",
+   "Research caveats: the WebSearch quota was exhausted, so I used direct page fetches and DuckDuckGo results in the browser pane. Prices are from 16-18 Sep 2026 unless stated. Amul butter is the September 2025 MRP. No sources were found for a commercial PNG tariff, a tahini price, water and waste charges, MSEDCL or Torrent tariffs for Turbhe and Bhiwandi, role salaries for storekeeper or QA, or any India-specific commissary cost benchmark. Every figure marked estimate, assumption, practitioner or derived is my own modelling and should be labelled as an assumption in the mock, not as market data. Miya Kebabs' outlet list and menu come from a third-party menu aggregator at moderate confidence. Confirm them with the client."
+  ],
+  "sources": [
+   "https://www.hyperpure.com/ind/mumbai/chicken-eggs",
+   "https://www.hyperpure.com/in/chicken-breast-boneless",
+   "https://www.hyperpure.com/ind/mumbai/mutton-duck-and-lamb",
+   "https://www.hyperpure.com/ind/mumbai/rice-rice-products",
+   "https://www.hyperpure.com/ind/mumbai/edible-oils",
+   "https://www.hyperpure.com/ind/mumbai/dairy",
+   "https://www.hyperpure.com/ind/mumbai/flours",
+   "https://www.hyperpure.com/ind/mumbai/fruits-vegetables",
+   "https://www.hyperpure.com/ind/mumbai/masala-salt-sugar",
+   "https://www.hyperpure.com/ind/mumbai/packaging-material",
+   "https://www.hyperpure.com/ind/mumbai/sauces-seasoning",
+   "https://www.hyperpure.com/ind/mumbai/pulses-and-millets",
+   "https://www.hyperpure.com/ind/mumbai/canned-imported-items",
+   "https://kisandeals.com/mandiprices/ONION/MAHARASHTRA/VASHI-NEW-MUMBAI",
+   "https://www.commodityonline.com/mandiprices/tomato/maharashtra/mumbai",
+   "https://ilovenavimumbai.com/vashi-apmc-live-vegetable-rates-today",
+   "https://market.todaypricerates.com/chicken-mutton-beef-fish-rate-in-Mumbai",
+   "https://www.moneycontrol.com/news/business/companies/from-butter-to-ice-cream-amul-cuts-prices-on-700-products-after-gst-rate-reduction-13563230.html",
+   "https://www.indiamart.com/proddetail/charcoal-22510041473.html",
+   "https://www.goodreturns.in/lpg-price-in-mumbai.html",
+   "https://www.goodreturns.in/png-price.html",
+   "https://www.business-standard.com/economy/news/mahanagar-gas-hikes-cng-rates-by-2-per-kg-domestic-png-by-1-scm-126083101559_1.html",
+   "https://www.adanielectricity.com/-/media/ElectricityFeature/ElectricityNew/PDFs/Regulatory/Adani_Electricity_Tariff_01Apr25.pdf",
+   "https://eb.billcalculator.in/adani-electricity-electricity-tariff-rates",
+   "https://electricbilltool.com/adanimumbai-unit-rate-calculator/",
+   "https://merc.gov.in/wp-content/uploads/2025/03/Press-Note_MSEDCL-MYT-Order_English.pdf",
+   "https://www.flandcold.com/how-much-does-it-cost-to-run-a-cold-room-per-month-real-electricity-usage-data-by-size.",
+   "https://www.hypercold.co.in/knowledge/cold-room-electricity-consumption",
+   "https://www.99acres.com/factory-land-for-rent-in-andheri-east-mumbai-andheri-dahisar-ffid",
+   "https://housing.com/commercial/rent/100376223-warehouse-for-rent-in-sakinaka-mumbai-for-rs-250000",
+   "https://www.realestateindia.com/mumbai-property/warehouse-godown-for-rent-in-mumbai-andheri-east.htm",
+   "https://www.99acres.com/manufacturing-unit-for-rent-in-turbhe-navi-mumbai-ffid",
+   "https://midcwala.com/properties/industrial-gala-for-rent-in-turbhe",
+   "https://www.leasewarehouse.in/blog/post_detailsbyslug/bhiwandi-indias-number-one-logistics-hub-warehouse-guide-2026",
+   "https://www.magicbricks.com/warehouse-godown-for-rent-in-bhiwandi-pppfr",
+   "https://wageindicator.org/en-in/work-in-india/minimum-wage/18640-maharashtra/18894-hotels-and-restaurants",
+   "https://www.diligenthr.com/blogs/Maharashtra-Minimum-Wages-July-2026-to-December-2026",
+   "https://chefanandhub.com/blog/chef-salary-india-2026",
+   "https://in.jooble.org/salary/commis-chef/Mumbai",
+   "https://www.bookmyworkers.com/salary/mumbai/driver",
+   "https://www.indiamart.com/proddetail/cold-van-rental-2849092227991.html",
+   "https://subzeroreefers.com/blog/refrigerated-truck-price-india-cost-breakdown",
+   "https://steelkrafthospitality.com/resources/commercial-kitchen-cost-guide-india",
+   "https://digitalcatapult.in/blog/restaurant-budget-calculator-india-2026",
+   "https://resalekitchen.com/blog/blast-chiller-freezer-india",
+   "https://foscos.fssai.gov.in/fee/SL",
+   "https://velcolegalindia.com/blog/fssai-license-fees-complete-guide-2026",
+   "https://velcolegalindia.com/blog/fssai-license-restaurant-chain-multiple-outlets",
+   "https://fssai.gov.in/food-testing",
+   "https://aurigaresearch.com/testing-charges",
+   "https://velcolegalindia.com/blog/fssai-food-testing-laboratory-nabl-guide",
+   "https://superpestcontrol.in/commercial-pest-control-mumbai",
+   "https://timesofindia.indiatimes.com/city/mumbai/bmc-plans-user-fee-on-bulk-waste-generators-as-swm-revenue-falls-short-of-target/articleshow/133385981.cms",
+   "https://chicken.foodnutrify.com/blog/raw-vs-cooked-chicken-weight",
+   "https://eathealthy365.com/how-to-calculate-chicken-yield-dressing-percentage",
+   "https://www.researchgate.net/figure/Dressing-percentage-carcass-yield-and-organs-weight-g-bird-of-broiler-birds-in_tbl2_374415368",
+   "https://foodiegarima.com/birista-perfect-crispy-fried-onions",
+   "https://blogs.meatigo.com/marinades/how-long-does-marinated-chicken-last-in-the-fridge",
+   "https://forkliftkitchen.com/chicken-shelf-life",
+   "https://novachef.co/blogs/insights/cook-serve-cook-chill-or-cook-freeze",
+   "https://fostac.fssai.gov.in/doc/Basic%20Catering%20English.pdf",
+   "https://shuncy.com/article/how-long-does-lebanese-garlic-sauce-last",
+   "https://productlifespans.com/blogs/food-beverage-shelf-life/how-long-does-hummus-last",
+   "https://www.marginedge.com/blog/the-complete-guide-to-commissary-cost-control-2026",
+   "https://fullguest.com/blog/central-kitchen-management-software",
+   "https://supy.io/blog/learn-central-kitchen-transfer-pricing-internal-invoicing",
+   "https://supy.io/blog/learn-commissary-kitchen-management",
+   "https://supy.io/blog/learn-central-kitchen-management-software",
+   "https://supy.io/blog/learn-theoretical-vs-actual-food-cost-variance",
+   "https://www.useforcs.com/blog/commissary-kitchen-prime-cost",
+   "https://qsr.pro/articles/commissary-kitchen-model-regional-chains",
+   "https://www.terra-insight.com/insights/restaurant-franchise-royalty-reconciliation-india/",
+   "https://blog.petpooja.com/procurement-cost-control/central-kitchen-management-multi-outlet-stock-guide",
+   "https://www.petpooja.com/poss/large-chain-restaurant-pos-software",
+   "https://www.caclubindia.com/articles/gst-on-inter-unit-or-inter-branch-supply-of-goods-or-services-45491.asp",
+   "https://taxguru.in/goods-and-service-tax/stock-transfers-gst-rules-compliance.html",
+   "https://restaurantdaily.ai/tools/inter-store-transfer",
+   "https://www.aptean.com/en-US/resources/industry-insights/blog/unlocking-key-metrics-for-food-manufacturing",
+   "https://umbrex.com/resources/company-analysis/supply-chain-logistics/on-time-in-full-delivery-rate",
+   "https://aislestock.com/fill-rate-benchmarks",
+   "https://www.restaurantkitchen.org/wp-content/uploads/2021/03/2021_86FoodWaste_Report_Update.pdf",
+   "https://vellinapp.com/blog/actual-vs-theoretical-food-cost",
+   "https://www.dinecard.in/blog/restaurant-food-supplier-payment-terms-credit-india",
+   "https://restaurantdaily.ai/tools/vendor-ledger",
+   "https://blog.lawmento.com/vendor-agreement-format-india",
+   "https://bestmenuhub.com/miya-kebabs-menu"
+  ]
+ },
+ "verify": {
+  "corrections": [
+   {
+    "item": "Outlet food-cost band vs transfer at full absorbed cost (core consistency check)",
+    "was": "Factory RM = 20-24% of network net sales (60-70% of a 28-35% food cost), PLUS conversion cost of 6.5% of net sales on top, with outlets charged full absorbed standard cost and still assumed to run 30-36% food cost.",
+    "now": "These three cannot all hold. With factory RM at 20-24% + conversion ~8% + outlet-direct purchases (the other 30-40% of outlet RM, i.e. 10-13% of sales), outlet food cost comes to ~38-45% of net sales, outside the 30-36% band. Pick ONE basis for the mock. Basis A (closest to how Indian QSRs report): transfer at standard RM cost; outlet food cost 28-33% (pure RM) + packaging 3-5% + a separately shown 'factory/commissary allocation' of 6-8% of net sales. Basis B (full absorbed transfer price): outlet food cost 30-36% INCLUDING factory conversion, which forces pure RM down to ~24-28% of net sales, factory RM to ~14-17% of network net sales (not 20-24%), and RM share of transfer value to ~62-68% (not 76%).",
+    "reason": "Arithmetic on the researcher's own lines; the 76% RM share was derived by applying an RM-only food-cost benchmark (MarginEdge 28-35%) and then stacking conversion on top, which double counts against the 30-36% target.",
+    "source_url": "https://www.marginedge.com/blog/the-complete-guide-to-commissary-cost-control-2026"
+   },
+   {
+    "item": "Total factory conversion cost as % of network net sales",
+    "was": "Typical 6.5% (5-9%) of network net sales; 18-28% of transfer value.",
+    "now": "Summing the researcher's own typical lines gives ~INR 10.7 lakh/month (rent 2.25 + power 1.10 + gas 0.95 + people ~4.57 incl. 17% on-costs + logistics 0.60 + AMC 0.10 + lab/pest/FSSAI 0.16 + water 0.15 + depreciation 0.65 + admin 0.20) plus consumables ~0.5 lakh = ~INR 11.2 lakh. On INR 1.2-1.5 crore network sales that is 7.5-9.3%, typical ~8%, not 6.5%. Either show ~8% or right-size the factory for the mock (about 1,800-2,000 sq ft, 12-13 staff, ~INR 8.5-9.5 lakh/month) to land at 6.5-7%. Rule for the mock: factory non-RM cost should be sized to 6-8% of whatever network sales figure the outlet data uses; if outlets are modelled at INR 15-18 lakh/month each, this factory (INR 10.7 lakh) would be 12-14% of sales and look uneconomic.",
+    "reason": "Internal arithmetic check. The INR 1.2-1.5 crore network sales (INR 24-30 lakh per outlet per month) is itself an unsourced assumption at the high end for a kebab QSR outlet."
+   },
+   {
+    "item": "Menu price assumption used for the food-cost check",
+    "was": "Typical menu prices INR 180-350 per dish (orchestrator assumption); researcher did not test SKU costs against menu prices.",
+    "now": "The only menu source found (third-party aggregator, moderate confidence) shows Miya Kebabs priced well above that: chicken shawarma INR 300, chicken tikkas INR 365-540, chicken seekh INR 350-400, mutton seekh INR 550, butter chicken INR 390-600, tawa pulao INR 350-560, hummus INR 290-300, naan INR 55-85. Dish-level check at full absorbed transfer cost (RM + ~INR 70/kg conversion): chicken tikka 6 pc (~220 g marinated) costs ~INR 96 incl. accompaniments and delivery packaging = 32% at INR 300, 26% at INR 365. Shawarma roll (~160 g marinated) ~INR 75 = 37% at INR 200, 31% at INR 240, 25% at INR 300. Mutton seekh (~200 g mix at ~INR 730/kg) ~INR 166 = 47% at INR 350 but 30% at INR 550. Butter chicken ~INR 140 = 40% at INR 350, 33% at INR 420. So the researcher's cost/kg figures ARE consistent with 30-36% food cost, but only if mock menu prices are roughly: rolls >= INR 240, tikkas >= INR 300, gravies >= INR 400, mutton items >= INR 480-550. A flat INR 180-350 menu would push mutton and gravy dishes to 40-50% food cost.",
+    "reason": "Independent dish-level build-up from verified Hyperpure prices; menu from bestmenuhub (needs client confirmation). Portion weights are my assumptions.",
+    "source_url": "https://bestmenuhub.com/miya-kebabs-menu"
+   },
+   {
+    "item": "Conversion cost absorption method (per kg vs % gross-up)",
+    "was": "Tikka note adds ~INR 55-60/kg conversion (RM 265-290 -> transfer 320-350, about 21% on RM), while the cost lines imply conversion of 18-28% of transfer value (= 22-39% gross-up on RM).",
+    "now": "Use one method. Recommended: a standard conversion rate per kg (about INR 60-75/kg at ~15,000 kg/month dispatched) or per labour-hour, not a % of RM. A % gross-up overcharges high-RM SKUs: mutton seekh mix would transfer at ~INR 870/kg under a 32% gross-up vs ~INR 730/kg under per-kg absorption, while dough and gravies would be undercharged.",
+    "reason": "Internal inconsistency between the product notes and the cost-line section; per-kg/per-hour absorption is standard costing practice."
+   },
+   {
+    "item": "Makhani gravy RM cost",
+    "was": "INR 120-140 per kg (low confidence, cashew price not fetched).",
+    "now": "INR 150-200 per kg. Hyperpure Mumbai today: broken cashew INR 620-790/kg (SSP Kani 619.5, baby bits 688.8-780), Amul cream INR 249/L, butter INR 570-630/kg, tomato INR 35/kg. A typical 10 kg batch (9 kg tomato, 0.5-0.7 kg cashew, 0.6 kg butter, 0.6 L cream, oil, GG paste, Kashmiri chilli, kasuri methi) costs ~INR 1,300-1,650 for ~8-9 kg output. Absorbed transfer ~INR 220-270/kg.",
+    "reason": "Recomputed with the cashew price the researcher lacked. Recipe ratios are my assumption, so keep labelled illustrative.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/dry-fruits-and-nuts"
+   },
+   {
+    "item": "Refined oil price unit",
+    "was": "INR 167-189 'per litre or kg'.",
+    "now": "Per litre INR 163-189 (soyabean 15 L INR 2,510.55; sunflower 15 L INR 2,837.10; palmolein 15 kg = 16.48 L INR 2,695.35). Per kg INR 180-219 (13 kg tins: sunflower INR 2,645-2,852 = INR 203-219/kg; soyabean INR 2,342.55 = INR 180/kg; palmolein 13 kg INR 2,439 = INR 188/kg). Recipe cards costed by weight should use the per-kg figure; toum becomes ~INR 190-210/kg.",
+    "reason": "Litre and kg were conflated; oil density ~0.91.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/edible-oils"
+   },
+   {
+    "item": "Chicken whole with skin price unit",
+    "was": "Whole with skin INR 200/kg.",
+    "now": "INR 200 per PIECE of 900-1,100 g (about INR 180-220/kg). Also on the same page and missed: chicken trimmings 2 kg INR 336 (INR 168/kg, relevant for seekh/mince) and chicken whole leg 2 kg INR 414. All other chicken, mutton, dairy, rice, flour, masala, mayo, chana and packaging prices I re-fetched on 18 Sep 2026 matched the researcher's figures.",
+    "reason": "Listing is per piece, not per kg.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/chicken-eggs"
+   },
+   {
+    "item": "Butchery yield (boneless meat from whole bird)",
+    "was": "Boneless skinless meat about 50-55% of live weight, or 70-75% of dressed carcass.",
+    "now": "Downgrade to unclear and do not show as a KPI standard. General industry knowledge puts boneless skinless meat nearer 40-45% of live weight and roughly 55-62% of a dressed carcass; I found no citable Indian source either way. Make-vs-buy implication (computed): whole bird at ~INR 200/kg divided by ~0.58 yield = ~INR 345/kg before labour and by-product credit, versus bought boneless leg at INR 272-290/kg, so in-house deboning is uneconomic and the butchery SKU should be dropped or limited to portioning bought boneless meat.",
+    "reason": "The cited sources support dressing % (76-77% of live) but not the boneless figures; the numbers given look overstated.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/chicken-eggs"
+   },
+   {
+    "item": "Marination pickup and shawarma cooked yield",
+    "was": "Marinated weight 110-115% of raw meat; shawarma cooked yield 65-72%.",
+    "now": "Widen and keep labelled as assumptions: pickup 110-130% (a hung-curd tikka marinade of ~240 g per kg of meat gives ~124%; 110-115% is more typical of thin/tumbled marinades). RM cost per kg of marinated tikka still lands at ~INR 260-290 either way (my recomputation: INR 322-345 of inputs over 1.24 kg = INR 260-278/kg). Shawarma yield 60-72%. Grilled boneless thigh 70-74% / breast 72-75% is corroborated by the cited page, which itself only loosely attributes to USDA.",
+    "reason": "No published source exists for either number from the researcher or from my checks; recipe arithmetic suggests a wider pickup range.",
+    "source_url": "https://chicken.foodnutrify.com/blog/raw-vs-cooked-chicken-weight"
+   },
+   {
+    "item": "E-way bill threshold for factory-to-outlet transfers",
+    "was": "CAclubindia cites INR 50,000; 'verify the Maharashtra intra-state threshold'.",
+    "now": "Maharashtra intra-state threshold is INR 1,00,000 per consignment (INR 50,000 applies to inter-state). A daily outlet dispatch of roughly INR 15,000-35,000 will not trigger an e-way bill; a delivery challan is the right document for same-GSTIN transfers. Same-GSTIN/delivery-challan treatment confirmed.",
+    "reason": "Verified on ClearTax state-wise table.",
+    "source_url": "https://cleartax.in/s/eway-bill-gst-rules-compliance"
+   },
+   {
+    "item": "TDS / 43B(h) section references in the AP maker-checker flow",
+    "was": "TDS under 194-I, 194C, 194J, 194Q and MSME disallowance under Section 43B(h).",
+    "now": "The Income-tax Act, 2025 came into force on 1 April 2026 and repealed the 1961 Act, so a mock dated September 2026 should not print 1961-Act section numbers. Use descriptive labels ('TDS - rent', 'TDS - contractor/transport', 'TDS - professional', 'MSME 45-day payment flag'). I could not verify the new section mapping (TDS is reportedly consolidated under s.393), so do not print new numbers either. Also note the MSME 45-day protection covers micro and small manufacturers/service providers; most mandi agents and wholesalers are traders, so the flag should apply to a minority of factory vendors (moderate confidence, not re-verified).",
+    "reason": "Statutory change after the researcher's 'general knowledge' cut.",
+    "source_url": "https://en.wikipedia.org/wiki/Income-tax_Act,_2025"
+   },
+   {
+    "item": "Commercial LPG price history and monthly gas cost",
+    "was": "Range INR 2,691.5-3,067.5 (May-Sep 2026); monthly gas cost typical INR 95,000.",
+    "now": "Add the full 2026 series from the same source: Jan 1,642.5; Feb 1,692; Mar 1,836; Apr 2,031; May 3,024 (+993); Jun 3,067.5; Jul 2,885.5; Aug 2,691.5; Sep 2,701. At ~35 cylinders/month the factory gas bill is ~INR 57,000-71,000 in Jan-Apr and ~INR 94,000-107,000 from May. Any 6-12 month trend in the mock must show this step change (it is a good PPV story for the dashboard). Single source; I could not reach IOCL to cross-check.",
+    "reason": "The INR 95,000 typical is only valid from May 2026; earlier months would be overstated by ~40%.",
+    "source_url": "https://www.goodreturns.in/lpg-price-in-mumbai.html"
+   },
+   {
+    "item": "Electricity tariff (AEML FY 2026-27)",
+    "was": "Row labels 'partly inferred' from PDF text; central kitchen billed LT Commercial unless classified industrial.",
+    "now": "Confirmed from my own extraction of the official MERC schedule (Case 211 of 2024): LT II(A) 0-20 kW INR 475/month + 5.70 + 2.28 per kWh; LT II(B) 20-50 kW INR 300/kVA + 5.51 + 2.19 per kVAh; LT II(C) >50 kW INR 300/kVA + 5.53 + 2.19; LT III(A) INR 475/month + 5.55 + 2.28; LT III(B) >20 kW INR 400/kVA + 5.45 + 2.19. ToD: -15% 00:00-06:00, -15% (Apr-Sep)/-25% (Oct-Mar) 09:00-17:00, +20% 17:00-24:00. Addition: the LT III Industry applicability list explicitly includes 'Food (including seafood and meat) Processing units' and 'Cold Storages', so an industrial classification for the factory is plausible. Two third-party calculators I checked contradict the official schedule and each other (INR 12.30+1.35 vs INR 11.20/13.30), so do not use them; the all-in INR 10-12.5/unit and the INR 1.1 lakh monthly bill remain assumptions (my load build-up gives ~6,000-9,000 kWh, i.e. ~INR 75,000-1,10,000).",
+    "reason": "Primary-source verification; third-party sites unreliable.",
+    "source_url": "https://www.adanielectricity.com/-/media/ElectricityFeature/ElectricityNew/PDFs/Regulatory/Adani_Electricity_Tariff_01Apr25.pdf"
+   },
+   {
+    "item": "Butter price",
+    "was": "INR 570/kg (Amul 500 g MRP INR 285, Sept 2025).",
+    "now": "INR 570-630/kg. Hyperpure Mumbai on 18 Sep 2026 lists Amul salted butter 100 g at INR 63 (INR 630/kg) and Milky Mist butter blisters at INR 708.75/kg; no 500 g pack was listed.",
+    "reason": "The 2025 MRP is a year old and current small-pack pricing is higher.",
+    "source_url": "https://www.hyperpure.com/ind/mumbai/dairy"
+   },
+   {
+    "item": "Onion delivered price for the mock",
+    "was": "Use INR 25-35/kg delivered (Vashi modal INR 23/kg; Hyperpure INR 57/kg 'looks high').",
+    "now": "Widen to INR 25-55/kg and treat as volatile. Vashi modal INR 2,300/quintal (16 Sep 2026) is confirmed, but the same page shows the Mumbai Onion-Potato Market at INR 3,200-5,000/quintal, and Hyperpure's INR 285 per 5 kg re-fetched the same. Birista RM cost moves to ~INR 135-200/kg accordingly.",
+    "reason": "Conflicting signals across three sources; the low end alone is not safe.",
+    "source_url": "https://kisandeals.com/mandiprices/ONION/MAHARASHTRA/VASHI-NEW-MUMBAI"
+   },
+   {
+    "item": "Employer on-costs and staff meals",
+    "was": "17% (13-22%) of gross wages, covering PF, ESIC, bonus AND staff meals.",
+    "now": "Split into two lines. Statutory on-costs: staff earning up to INR 21,000 carry ~24.6% (PF ~13% incl. admin, ESIC 3.25%, minimum bonus 8.33%); higher-paid staff usually have PF capped on a INR 15,000 base (~INR 1,950/month) and no ESIC/bonus; blended ~13-15% of the INR 3.9 lakh gross wage bill. Staff meals/accommodation at INR 2,500-4,000 per head for ~15 staff adds another ~INR 40,000-60,000 (10-15% of gross wages). Combined ~24-28%, so 17% is understated if meals are inside it. Rates are general statutory knowledge, not re-verified after the November 2025 labour codes.",
+    "reason": "Arithmetic on the researcher's own headcount and wage lines."
+   },
+   {
+    "item": "FORCS gross-up percentages",
+    "was": "FORCS example 'adds 30% labour and 10% overhead' to raw material.",
+    "now": "In the FORCS worked example the 30% and 10% are percentages of the product line's SALES (USD 66 ingredients on USD 300 sales becomes USD 186 prime cost, 62%), not mark-ups on raw-material cost. Do not reuse as an RM gross-up.",
+    "reason": "Misread of the source.",
+    "source_url": "https://www.useforcs.com/blog/commissary-kitchen-prime-cost"
+   },
+   {
+    "item": "FSSAI licence cost basis",
+    "was": "Annual fee INR 2,000-7,500 (State licence INR 2,000-5,000 per year).",
+    "now": "Fee levels corroborated (Registration INR 100; State manufacturer INR 3,000-5,000; Central INR 7,500) but the same secondary source claims licences applied for after 1 April 2026 are perpetual with a one-time fee. I could not confirm this on FoSCoS (page is script-rendered for me too). Immaterial in value; show one small 'licences and compliance' line and do not label it 'annual renewal'. One licence per premises (5 outlets + factory = 6) and 1 FoSTaC supervisor per 25 handlers are corroborated.",
+    "reason": "Unresolved conflict between annual and perpetual validity.",
+    "source_url": "https://velcolegalindia.com/blog/fssai-license-fees-complete-guide-2026"
+   },
+   {
+    "item": "Factory logistics cost and outlet geography",
+    "was": "One daily multi-drop run of 60-90 km; fuel, tolls and maintenance INR 25,000/month per vehicle.",
+    "now": "Valid only if all five mock outlets sit in the Mumbai western suburbs/island city. The aggregator's outlet list is Fort, Khar/Bandra, Oshiwara, Kalyan (about 45-50 km one way from Saki Naka) and two Pune outlets (about 150 km), plus Nashik. A loop including Kalyan is ~110-130 km/day; Pune cannot be served by a daily chilled run at this cost and would need an alternate-day frozen run or a local prep kitchen. Either pick five Mumbai-region outlets for the mock or raise logistics to ~INR 45,000-60,000/month and show Pune separately. Reefer rental INR 35,000/month (single IndiaMART listing, driver/fuel unclear) and Bolero reefer capex INR 14.35 lakh are corroborated as quoted.",
+    "reason": "Distance assumption does not match the observed outlet footprint.",
+    "source_url": "https://bestmenuhub.com/miya-kebabs-menu"
+   }
+  ],
+  "red_flags": [
+   "Headline inconsistency: the researcher's model (factory RM 20-24% of sales + conversion on top + outlet-direct purchases) implies outlet food cost of ~38-45%, not 30-36%. The mock data generator must fix the basis first (RM-only food cost with a separate factory allocation line, or full absorbed transfer price with pure RM at ~24-28%).",
+   "Menu prices: the only available menu source shows Miya Kebabs at INR 300-600 for mains (shawarma INR 300, mutton seekh INR 550), not INR 180-350. At INR 180-350, mutton and gravy dishes would show 40-50% food cost using verified raw-material prices. Confirm the menu with the client or price the mock dishes at the observed levels.",
+   "Network sales of INR 1.2-1.5 crore/month (INR 24-30 lakh per outlet) is unsourced and at the high end. Factory conversion cost must be scaled to 6-8% of whatever sales figure the outlet dataset uses, otherwise the factory will look either trivially cheap or uneconomic.",
+   "Every yield number except grilled chicken (70-75%), birista (25-33%) and dressing % is an estimate with no published source: marinade pickup, shawarma yield, gravy reduction, dough yield, herb trim, mutton seekh cook loss. Show them in the mock as 'standard (set by client)' fields, never as industry benchmarks.",
+   "Boneless-meat butchery yields (50-55% of live, 70-75% of carcass) look overstated and are unsupported; drop in-house butchery yield from the mock or mark it illustrative.",
+   "All cost-line monthly totals (electricity INR 1.1 lakh, gas INR 95k, water INR 15k, admin INR 20k, depreciation INR 65k, consumables 1.5%) and all KPI target ranges labelled 'practitioner' are modelling assumptions. No India-specific commissary cost benchmark exists in the sources; do not display any 'industry benchmark' line for factory cost %.",
+   "Commercial LPG jumped from INR 2,031 (Apr 2026) to INR 3,024 (May 2026); a flat gas cost across the mock's monthly history would be wrong. Single source (Goodreturns), not cross-checked against IOCL.",
+   "Third-party electricity bill calculators for AEML contradict the official MERC schedule and each other; use only the official schedule for base rates and label the all-in rate as an estimate. Turbhe (MSEDCL) and Bhiwandi (Torrent) tariffs were not verified by anyone.",
+   "Statutory labels are time-sensitive: Income-tax Act 2025 is in force from 1 April 2026 (old TDS and 43B(h) section numbers are obsolete) and new labour codes apply from November 2025. Use descriptive labels without section numbers.",
+   "Do not show as sourced: commercial PNG tariff (only the domestic INR 51.5/SCM was found), tahini price, live-broiler farm-gate rate (INR 115-135 unverified snippet), water/waste charges, storekeeper/QA salaries, charcoal (single IndiaMART listing at INR 40/kg), reefer rental inclusions.",
+   "Hyperpure onion at INR 57/kg vs Vashi mandi INR 23/kg vs Mumbai Onion-Potato Market INR 32-50/kg: vegetable standards are unreliable to within a factor of two; keep onion/tomato as visibly volatile PPV items.",
+   "Outlet geography: Kalyan and Pune outlets break the 60-90 km daily-run assumption; the factory logistics line and OTIF story depend on which five outlets the mock uses.",
+   "Data feasibility: every factory KPI (yield variance, fill rate, OTIF, cold-chain logs, wastage, absorption) exists only if captured in the new ERP/Petpooja inventory module by staff. None comes from Swiggy or Zomato, and Petpooja inventory usage by this client is unconfirmed. Label them 'ERP-captured', not 'integrated'.",
+   "I could not run web searches (session quota exhausted) and search-engine pages returned CAPTCHAs or junk; verification was by direct fetch of the cited pages plus a local text extraction of the official AEML tariff PDF. Rent listings (99acres/housing.com returned errors), lab-test charges, pest-control quotes and depreciation capex sources were not re-verified."
+  ],
+  "confidence_overall": "medium",
+  "internal_consistency_check": "Raw-material prices: verified. SKU RM costs recompute correctly from them (tikka INR 260-290/kg, mutton seekh mix ~INR 640-680/kg, chicken seekh INR 250-270, dough INR 33-38, toum ~INR 190-210, hummus ~INR 130-160; makhani gravy corrected up to INR 150-200). Factory opex lines sum to ~INR 10.7-11.2 lakh/month, not the 6.5% stated: on INR 1.35 crore network sales that is ~8%. P&L as the researcher built it: factory RM 20-24% of sales (INR 27-32 lakh) + conversion ~8% (INR 11 lakh) = transfer value 28-32% of sales; add outlet-direct purchases of 10-13% and outlet food cost is 38-45%, which breaks the 30-36% target. A coherent version for the mock (full absorbed basis, INR 1.35 crore/month network): outlet food cost 33% = factory transfers 21.5% (INR 29 lakh) + direct purchases 11.5% (INR 15.5 lakh); factory transfer value INR 29 lakh = RM ~INR 19.5 lakh (67%) + conversion ~INR 9.5 lakh (33%, ~7% of network sales, needs a slightly smaller factory than specified); factory result = cost centre at zero margin with over/under-absorption within +/-2-3% of transfer value; implied pure RM across the network ~26% of net sales, implied outlet gross margin after food ~67%. That 26% RM is achievable only at the observed Miya Kebabs price points (shawarma ~INR 300, tikka INR 365+, mutton seekh INR 550): dish-level absorbed food cost then runs 25-33%. At INR 180-350 prices the same costs give 31-38% on chicken rolls/tikkas and 40-50% on mutton and gravy dishes. Alternative coherent version (RM-only transfer): outlet food cost 29-32% RM + packaging 3-5% + factory allocation 7-8% shown as its own line. Volume sanity: ~INR 19-20 lakh factory RM with 60-70% protein = ~4,500-5,000 kg chicken-equivalent/month, ~30-33 kg per outlet per day, ~170-190 protein portions per outlet per day, consistent with ~INR 90,000/day outlet sales at INR 450-500 per order. Staffing of ~15 for ~400-500 kg/day output (~30 kg per person-day) is plausible.",
+  "notes": "What stands after re-checking (fetched 18 Sep 2026): all Hyperpure Mumbai prices quoted for chicken, mutton, dairy, oils, rice, flours, vegetables, masalas, mayo, chana and packaging matched exactly; independent retail check shows Mumbai boneless chicken INR 270/kg and mutton INR 860/kg (todaypricerates, 11 Sep 2026), consistent with Hyperpure. Hyperpure decimals are exact 1.05x / 1.18x multiples (e.g. 538.65 = 513 x 1.05; 689.12 = 584 x 1.18), so listed prices appear GST-inclusive, which is the correct cost basis for a 5%-no-ITC restaurant (inference, not stated on the site). Also verified: Maharashtra Hotels and Restaurants minimum wages Zone I Jul-Dec 2026 (INR 14,676 / 15,176 / 15,876); Mumbai chef salary bands; reefer rental and Bolero reefer capex figures; DineCard credit-term ladder; Supy USD 2.10 -> 2.95 and 6% phantom variance examples; MarginEdge 28-35% food cost; same-GSTIN delivery-challan rule; AEML official tariff rows.\n\nAdditions the researcher missed: (1) cheaper protein options on Hyperpure (chicken trimmings INR 168/kg; Australian mutton mince INR 480/kg, sheep not goat) are useful for a make-vs-buy or PPV panel; (2) cashew prices (broken INR 620-790/kg) now available for gravy costing; (3) LPG Jan-Apr 2026 series; (4) AEML industrial tariff explicitly covers food/meat processing units and cold storages; (5) chicken price seasonality (Shravan dip, festive/summer spikes) and the Ramzan demand peak (roughly mid-Feb to mid-Mar 2026) should shape monthly factory volumes and PPV in the mock. These seasonality points are common industry knowledge, not sourced, so label as assumptions.\n\nFactory-screen allow-list (safe to show, all ERP-captured): standard cost card per SKU with RM and conversion split; production plan vs actual; indent vs dispatch vs outlet GRN with delivery-challan number; batch/use-by and FEFO ageing; yield and wastage variance against client-set standards; PPV by item against a standard price; cost-centre P&L with over/under-absorption; conversion cost per kg; factory cost as % of network sales; vendor ageing and maker-checker queue. Deny-list: any 'industry benchmark' for commissary cost %, yields or wastage presented as market data; a factory 'profit margin' (unless a cost-plus policy is confirmed); GST on internal transfers; e-way bill numbers on routine dispatches; 1961-Act section numbers; commercial PNG tariff, tahini price, farm-gate broiler rate; anything implying Swiggy/Zomato or an existing Petpooja inventory integration feeds factory data. Caveats: menu and outlet list need client confirmation; all yields are client-set standards; vegetable and LPG standards need monthly refresh; electricity all-in rate and monthly utility totals are estimates; network sales scale drives every factory percentage.\n\nScratch script used only for reading the tariff PDF: C:\\Users\\Admin\\AppData\\Local\\Temp\\claude\\D--work-Jan-Pro-apps-Financera-CFO-Dashboard\\52b6b8ba-85c5-4f18-93c3-f88493749966\\scratchpad\\pdftext.js (no project files written or edited)."
+ }
+}

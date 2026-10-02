@@ -1,0 +1,157 @@
+/*
+ * Page styles: revenue-orders (Recent orders). Tokens only (css/tokens.css); every selector is prefixed
+ * .pg-revenue-orders. Page-owned classes start with "ro-"; mk-* component classes are never restyled here.
+ * The order drawer lives outside the page root: its content sits in a wrapper that carries the page class
+ * (.pg-revenue-orders.ro-overlay) so the same rules apply there.
+ */
+
+/* ---- one-line purpose under the title */
+.pg-revenue-orders .ro-intro {
+  margin: 0;
+  max-width: 132ch;
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.pg-revenue-orders .ro-intro__period { color: var(--ink); font-weight: 600; white-space: nowrap; }
+
+/* ---- KPI row: one tidy line of five (the kit's auto-fit row would orphan a tile at 1280px) */
+.pg-revenue-orders .ro-kpiblock { min-width: 0; }
+.pg-revenue-orders .ro-kpiblock > .ro-source-flat { margin-top: var(--sp-2); }
+.pg-revenue-orders .ro-kpis {
+  display: grid; gap: var(--sp-3);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.pg-revenue-orders .ro-tileline { display: inline-flex; align-items: flex-start; gap: var(--sp-1); }
+.pg-revenue-orders .ro-tileline__lead { flex: none; display: inline-flex; align-items: center; min-height: 17px; }
+
+/* ---- paired blocks: both cards of the row take the height of the taller one */
+.pg-revenue-orders .ro-cell { display: flex; flex-direction: column; min-width: 0; }
+.pg-revenue-orders .ro-cell > * { flex: 1; }
+
+/* entity dot: the colour arrives as a token name through the style attribute, never as a literal */
+.pg-revenue-orders .ro-dot {
+  flex: none; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ink-3);
+}
+.pg-revenue-orders .ro-dot--lead { margin-right: 6px; }
+
+/* ---- where the fee figures stand */
+.pg-revenue-orders .ro-fs { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-revenue-orders .ro-fs__item { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-revenue-orders .ro-fs__item + .ro-fs__item { padding-top: var(--sp-4); border-top: 1px solid var(--grid); }
+.pg-revenue-orders .ro-fs__head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 var(--sp-2); }
+.pg-revenue-orders .ro-fs__head .ro-dot { align-self: center; }
+.pg-revenue-orders .ro-fs__name { font-size: var(--fs-md); font-weight: 600; }
+.pg-revenue-orders .ro-fs__doc { color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-revenue-orders .ro-fs__text { margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5; }
+
+.pg-revenue-orders .ro-note {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0;
+  color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5;
+}
+.pg-revenue-orders .ro-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-revenue-orders .ro-note__link { white-space: nowrap; }
+
+/* ---- orders card: toolbar, table cells, pager */
+.pg-revenue-orders .ro-toolbar {
+  display: flex; align-items: flex-end; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4);
+  padding: 0 var(--sp-5);
+  box-shadow: inset 0 -1px 0 var(--grid);
+}
+.pg-revenue-orders .ro-toolbar__tabs { flex: 1; min-width: 0; }
+.pg-revenue-orders .ro-toolbar__right { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); padding-bottom: var(--sp-1); }
+.pg-revenue-orders .ro-toolbar__day:empty { display: none; }
+
+.pg-revenue-orders .ro-mono { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: var(--fs-sm); letter-spacing: -0.01em; }
+.pg-revenue-orders .mk-xs .ro-mono { font-size: var(--fs-xs); }
+.pg-revenue-orders .ro-when, .pg-revenue-orders .ro-id { line-height: 1.3; }
+/* the amount above its basis: the figure stays on screen at 1280px, and the row is no taller than the two-line cells beside it */
+.pg-revenue-orders .ro-fee { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 1px; line-height: 1.3; white-space: nowrap; }
+.pg-revenue-orders .ro-fee__mark { line-height: 1.4; }
+
+.pg-revenue-orders .ro-pager {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-5);
+  border-top: 1px solid var(--grid);
+  color: var(--ink-2); font-size: var(--fs-sm); font-variant-numeric: tabular-nums;
+}
+.pg-revenue-orders .ro-pager__controls { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.pg-revenue-orders .ro-pager__page { margin: 0 var(--sp-1) 0 var(--sp-3); white-space: nowrap; }
+.pg-revenue-orders .ro-source-flat { margin-top: 0; }
+/* a third-width card is narrower than the kit's one-line source captions: let them wrap there instead of overflowing */
+.pg-revenue-orders .ro-source-wrap > span { white-space: normal; border-radius: var(--radius-sm); }
+
+/* ---- order drawer */
+.pg-revenue-orders.ro-overlay { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; }
+.pg-revenue-orders .ro-meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); }
+.pg-revenue-orders .ro-meta__value { margin-left: auto; font-size: var(--fs-lg); white-space: nowrap; }
+.pg-revenue-orders .ro-meta__label { color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-revenue-orders .ro-lines { display: flex; flex-direction: column; gap: var(--sp-1); }
+.pg-revenue-orders .ro-lines p { margin: 0; }
+
+.pg-revenue-orders .ro-sec { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-revenue-orders .ro-sec__head {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--grid);
+}
+.pg-revenue-orders .ro-sec__title { margin: 0; }
+.pg-revenue-orders .ro-stack { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+
+/* label / amount lines of the amounts and the fee block */
+.pg-revenue-orders .ro-ledger { width: 100%; border-collapse: collapse; font-size: var(--fs-md); }
+.pg-revenue-orders .ro-ledger th {
+  padding: 6px var(--sp-3) 6px 0;
+  font-weight: 400; text-align: left; vertical-align: top;
+}
+.pg-revenue-orders .ro-ledger td {
+  padding: 6px 0;
+  text-align: right; vertical-align: top; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.pg-revenue-orders .ro-ledger__tag { display: inline-flex; margin-left: var(--sp-2); vertical-align: middle; }
+.pg-revenue-orders .ro-ledger__row + .ro-ledger__row th,
+.pg-revenue-orders .ro-ledger__row + .ro-ledger__row td { border-top: 1px solid var(--grid); }
+.pg-revenue-orders .ro-ledger__label { display: block; }
+.pg-revenue-orders .ro-ledger__sub { display: block; margin-top: 1px; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4; }
+.pg-revenue-orders .ro-ledger__row--total th,
+.pg-revenue-orders .ro-ledger__row--total td { border-top-color: var(--axis); }
+.pg-revenue-orders .ro-ledger__row--total .ro-ledger__label,
+.pg-revenue-orders .ro-ledger__row--total td { font-weight: 650; }
+.pg-revenue-orders .ro-ledger__row--memo .ro-ledger__label,
+.pg-revenue-orders .ro-ledger__row--memo td { color: var(--ink-2); font-style: italic; }
+
+/* status timeline of an aggregator order */
+.pg-revenue-orders .ro-steps { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.pg-revenue-orders .ro-step { position: relative; display: flex; gap: var(--sp-3); padding-bottom: var(--sp-3); }
+.pg-revenue-orders .ro-step:last-child { padding-bottom: 0; }
+.pg-revenue-orders .ro-step::before {
+  content: ""; position: absolute; left: 9px; top: 20px; bottom: 0;
+  width: 1px; background: var(--grid);
+}
+.pg-revenue-orders .ro-step:last-child::before { display: none; }
+.pg-revenue-orders .ro-step__dot {
+  position: relative; flex: none; display: grid; place-items: center;
+  width: 19px; height: 19px; border-radius: 50%;
+  background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--ring-strong);
+  color: var(--ink-2);
+}
+.pg-revenue-orders .ro-step--done .ro-step__dot { background: var(--st-good-soft); box-shadow: inset 0 0 0 1px var(--st-good); color: var(--st-good-ink); }
+.pg-revenue-orders .ro-step--stop .ro-step__dot { background: var(--st-critical-soft); box-shadow: inset 0 0 0 1px var(--st-critical); color: var(--st-critical-ink); }
+.pg-revenue-orders .ro-step__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pg-revenue-orders .ro-step__line { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); font-size: var(--fs-md); line-height: 19px; }
+.pg-revenue-orders .ro-step--off .ro-step__label { color: var(--ink-2); }
+.pg-revenue-orders .ro-step__time { font-weight: 600; }
+.pg-revenue-orders .ro-step__detail { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+.pg-revenue-orders .ro-step__detail strong { color: var(--ink); font-weight: 600; }
+
+/* ---- narrower windows */
+@media (max-width: 1180px) {
+  .pg-revenue-orders .ro-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pg-revenue-orders .ro-pair > * { grid-column: span 12; }
+}
+@media (max-width: 1023px) {
+  .pg-revenue-orders .ro-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

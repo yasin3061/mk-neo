@@ -1,0 +1,5 @@
+/*
+ * Page styles: system group.
+ * Only layout that is specific to these screens belongs here. Colours come from css/tokens.css
+ * (var(--token)); shared components live in css/components.css. Prefix selectors with .pg-system-.
+ */

@@ -1,0 +1,79 @@
+/* Page styles: revenue-timeslots (Time slots). Tokens only (css/tokens.css); every selector is prefixed .pg-revenue-timeslots */
+
+/* one-line purpose under the title: what the page answers, the period and how the business day is cut */
+.pg-revenue-timeslots .ts-intro {
+  margin: 0;
+  max-width: 120ch;
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.pg-revenue-timeslots .ts-intro__period { color: var(--ink); font-weight: 600; }
+
+/* KPI row: six tiles on one line at desktop widths (the kit's auto-fit row would orphan the sixth at 1280px) */
+.pg-revenue-timeslots .ts-kpiblock { min-width: 0; }
+.pg-revenue-timeslots .ts-kpis {
+  display: grid;
+  gap: var(--sp-3);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+@media (max-width: 1180px) {
+  .pg-revenue-timeslots .ts-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .pg-revenue-timeslots .ts-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* a chart and a table card side by side share one height */
+.pg-revenue-timeslots .ts-cell { display: flex; flex-direction: column; min-width: 0; }
+.pg-revenue-timeslots .ts-cell > * { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 1180px) {
+  .pg-revenue-timeslots .ts-weekgrid > .ts-cell { grid-column: 1 / -1; }
+}
+
+/* below a flush table: reading note and source tag */
+.pg-revenue-timeslots .ts-tablefoot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-2) var(--sp-5) var(--sp-4);
+  box-shadow: inset 0 1px 0 var(--grid);
+}
+.pg-revenue-timeslots .ts-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  margin: var(--sp-1) 0 0;
+  max-width: 130ch;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.pg-revenue-timeslots .ts-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+
+/* peak-hour table: trading hours under the outlet name, and the day as a strip of sixteen hour cells */
+.pg-revenue-timeslots .ts-hours { margin-top: 2px; padding-left: var(--sp-4); white-space: nowrap; }
+.pg-revenue-timeslots .ts-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(8px, 1fr);
+  gap: 2px;
+  min-width: 142px;
+  max-width: 240px;
+  height: 20px;
+}
+.pg-revenue-timeslots .ts-strip__cell { border-radius: 2px; background: var(--seq-100); }
+.pg-revenue-timeslots .ts-strip__cell.is-closed { background: transparent; box-shadow: inset 0 0 0 1px var(--grid); }
+
+/* prep time: the explanation shown when the selection holds no aggregator order with status times */
+.pg-revenue-timeslots .ts-prep-empty {
+  margin: var(--sp-2) 0 0;
+  max-width: 110ch;
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+
+/* two-line column header (measure on top, basis below) so the weekday table fits its card without sideways scroll */
+.pg-revenue-timeslots .ts-th2 { display: inline-block; padding: var(--sp-1) 0; line-height: 1.25; text-align: inherit; }
+.pg-revenue-timeslots .ts-th2__sub { font-weight: 400; }

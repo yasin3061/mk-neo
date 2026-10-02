@@ -1,0 +1,66 @@
+/*
+ * Budget tracking (#/costs/budget). Tokens only (css/tokens.css); every selector is prefixed .pg-costs-budget.
+ * The category drawer is mounted outside the page root: its content sits in a wrapper that carries the page class.
+ * Page-owned classes start with "bg-"; mk-* component classes are used as they are and never restyled here.
+ */
+
+/* ---- header: purpose, unit tabs, month switch, notes */
+.pg-costs-budget .bg-head { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-costs-budget .bg-intro { margin: 0; max-width: 980px; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+.pg-costs-budget .bg-intro strong { color: var(--ink); font-weight: 600; }
+.pg-costs-budget .bg-locked { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+
+.pg-costs-budget .bg-period {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius); background: var(--surface); box-shadow: 0 0 0 1px var(--ring);
+}
+.pg-costs-budget .bg-period__switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); min-width: 0; }
+.pg-costs-budget .bg-period__label { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); font-size: var(--fs-md); }
+.pg-costs-budget .bg-period__label svg { flex: none; color: var(--ink-3); }
+.pg-costs-budget .bg-period__label strong { font-weight: 600; }
+
+.pg-costs-budget .bg-notes { display: flex; flex-direction: column; gap: var(--sp-1); }
+.pg-costs-budget .bg-note {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; max-width: 1100px; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5;
+}
+.pg-costs-budget .bg-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-costs-budget .bg-note > span { min-width: 0; }
+.pg-costs-budget .bg-note .mk-btn { flex: none; margin-top: -3px; }
+.pg-costs-budget .bg-note .mk-estimate { flex: none; }
+.pg-costs-budget .bg-note--chart { margin-top: var(--sp-2); }
+
+/* ---- KPI tiles with the source caption under the block */
+.pg-costs-budget .bg-kpiblock { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-costs-budget .bg-kpis { display: grid; gap: var(--sp-3); grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.pg-costs-budget .bg-kpis--6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.pg-costs-budget .bg-kpis .mk-tile { min-width: 0; }
+.pg-costs-budget .bg-source-flat { margin-top: 0; }
+.pg-costs-budget .bg-source-end { margin-top: auto; padding-top: var(--sp-3); }
+
+/* ---- tables */
+.pg-costs-budget .bg-line { display: flex; align-items: flex-start; gap: var(--sp-2); min-width: 0; max-width: 260px; }
+.pg-costs-budget .bg-line .mk-legend-dot { flex: none; margin-top: 5px; }
+.pg-costs-budget .bg-line__text { min-width: 0; }
+.pg-costs-budget .bg-line__name, .pg-costs-budget .bg-line__sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pg-costs-budget .bg-line__name { font-weight: 550; }
+.pg-costs-budget .bg-line__sub { color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-costs-budget .bg-row-over td:first-child { box-shadow: inset 3px 0 0 var(--st-critical); }
+.pg-costs-budget .bg-tablecard .mk-meter { min-width: 120px; }
+.pg-costs-budget .bg-est { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.pg-costs-budget .bg-foot { margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5; }
+.pg-costs-budget .mk-card__foot .bg-foot + .bg-foot { margin-top: var(--sp-1); }
+
+/* ---- drawer: the bills behind a line (wrapper with the page class, mounted outside the page root) */
+.pg-costs-budget.bg-drawer { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.pg-costs-budget .bg-drawer__block { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-costs-budget .bg-subhead { margin: 0; color: var(--ink-2); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.pg-costs-budget.bg-drawer__hint { display: inline-flex; align-items: center; gap: 6px; margin-right: auto; min-width: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4; }
+.pg-costs-budget.bg-drawer__hint svg { flex: none; color: var(--ink-3); }
+
+/* ---- narrower windows */
+@media (max-width: 1180px) {
+  .pg-costs-budget .mk-grid--12 > * { grid-column: span 12; }
+  .pg-costs-budget .bg-kpis, .pg-costs-budget .bg-kpis--6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

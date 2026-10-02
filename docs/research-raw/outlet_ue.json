@@ -1,0 +1,912 @@
+{
+ "key": "outlet_ue",
+ "research": {
+  "cost_lines": [
+   {
+    "name": "Food cost / COGS (raw material incl. factory transfers)",
+    "category": "COGS",
+    "basis": "pct_of_sales",
+    "low": 28,
+    "typical": 33,
+    "high": 38,
+    "unit": "% of net food sales (ex-GST, after restaurant-funded discounts)",
+    "notes": "Indian restaurant target band 28-35%; QSR/cloud kitchen ~28-30%; above 38% is a red flag; gap >3 pts between theoretical and actual food cost signals waste/theft. Meat-heavy kebab/shawarma menus sit at upper end (32-36% is my estimate). Listed QSR gross margins 67-75% imply food+packaging 25-33%. Compute on NET sales after discounts, otherwise aggregator margins are overstated.",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "name": "Delivery packaging (containers, foil, butter paper, bags, cutlery, stickers)",
+    "category": "packaging",
+    "basis": "per_order",
+    "low": 8,
+    "typical": 16,
+    "high": 25,
+    "unit": "INR per delivery order",
+    "notes": "Sources: Rs 8-22/order (Rs 15 in worked example); Rs 15-25/order; or 5-8% of order value for cloud kitchens. Rolls/shawarma at low end, biryani/kebab platters at high end.",
+    "source_url": "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india"
+   },
+   {
+    "name": "In-store takeaway packaging",
+    "category": "packaging",
+    "basis": "per_order",
+    "low": 4,
+    "typical": 7,
+    "high": 12,
+    "unit": "INR per in-store order",
+    "notes": "ASSUMPTION (no source found) - wrap + bag only; low confidence."
+   },
+   {
+    "name": "Zomato commission (base)",
+    "category": "aggregator fees",
+    "basis": "pct_of_channel_sales",
+    "low": 18,
+    "typical": 23,
+    "high": 28,
+    "unit": "% of Zomato order value (net of restaurant discount; ex customer GST)",
+    "notes": "Negotiated per brand/city. 18% GST is charged on top (non-creditable for 5% restaurants) so effective ~21-33%. One secondary source claims Zomato computes on subtotal+packaging ex-GST while Swiggy includes GST in base - unverified, low confidence.",
+    "source_url": "https://menumanager.in/zomato-swiggy-commission-rates-2026-complete-breakdown/"
+   },
+   {
+    "name": "Swiggy commission (base)",
+    "category": "aggregator fees",
+    "basis": "pct_of_channel_sales",
+    "low": 17,
+    "typical": 23,
+    "high": 28,
+    "unit": "% of Swiggy order value",
+    "notes": "Ranges quoted: 17-25% (MenuManager), 18-28% (SpiceAdvisors), 15-30% (Petpooja blog snippet). Plus 18% GST.",
+    "source_url": "https://www.spiceadvisors.in/post/swiggy-vs-zomato-commission-structure-what-every-restaurant-must-know-in-2025"
+   },
+   {
+    "name": "Payment gateway / collection fee (aggregators)",
+    "category": "aggregator fees",
+    "basis": "pct_of_channel_sales",
+    "low": 1.8,
+    "typical": 2,
+    "high": 2.5,
+    "unit": "% of order value collected online",
+    "notes": "Shown as separate deduction line in payout statements; 18% GST on top.",
+    "source_url": "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india"
+   },
+   {
+    "name": "GST @18% on aggregator commission, PG fee and ads (non-creditable)",
+    "category": "aggregator fees",
+    "basis": "per_unit",
+    "low": 18,
+    "typical": 18,
+    "high": 18,
+    "unit": "% of aggregator fees (approx 4.5-6% of channel sales)",
+    "notes": "Becomes a pure cost because restaurant is on 5% GST without ITC.",
+    "source_url": "https://hellobooks.ai/guides/swiggy-zomato-reconciliation"
+   },
+   {
+    "name": "Aggregator ads / visibility (Zomato Ads, Swiggy Ads CPC)",
+    "category": "marketing",
+    "basis": "pct_of_channel_sales",
+    "low": 3,
+    "typical": 5,
+    "high": 9,
+    "unit": "% of aggregator channel sales",
+    "notes": "Active bidders spend 4-9% of aggregator revenue. Minimum budgets ~Rs 400/day (Zomato) and ~Rs 500/day (Swiggy). CPC Rs 3-18; cost-per-order for QSR & biryani Rs 40-65; ROAS target 4-6x. Deducted from weekly payout. NRAI members have alleged unapproved ad/discount deductions (useful 'exceptions' storyline).",
+    "source_url": "https://creatorcity.in/blog/zomato-ads-vs-swiggy-ads-restaurants-india/"
+   },
+   {
+    "name": "Restaurant-funded discounts on aggregators",
+    "category": "aggregator fees",
+    "basis": "pct_of_channel_sales",
+    "low": 5,
+    "typical": 10,
+    "high": 20,
+    "unit": "% of aggregator menu GMV",
+    "notes": "Worked monthly example in source shows 17.5% of menu GMV for a promo-heavy brand (e.g. Rs 100 off above Rs 399). Healthy net realisation after discount+commission+PG+ads+packaging = 52-62% of menu price; below 50% structurally loss-making. Typical 10% is my mid-case.",
+    "source_url": "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india"
+   },
+   {
+    "name": "Customer complaint refunds / cancellation adjustments",
+    "category": "aggregator fees",
+    "basis": "pct_of_channel_sales",
+    "low": 0.3,
+    "typical": 0.8,
+    "high": 2,
+    "unit": "% of aggregator channel sales",
+    "notes": "Line item exists in settlement reports (source); magnitude is an ASSUMPTION, low confidence.",
+    "source_url": "https://hellobooks.ai/guides/swiggy-zomato-reconciliation"
+   },
+   {
+    "name": "Rent (see area_rents for per-sq-ft by locality)",
+    "category": "occupancy",
+    "basis": "monthly_fixed",
+    "low": 30000,
+    "typical": 140000,
+    "high": 350000,
+    "unit": "INR/month ex-GST",
+    "notes": "Low = Kalyan ~300 sq ft @ Rs 100; typical = Andheri W ~400 sq ft @ Rs 350; high = Bandra W ~500 sq ft @ Rs 700. Benchmarks: rent 8-15% of sales, healthy 10-12%, premium locations 15-20%. Deposit 3-6 months (often more in Mumbai); typical escalation ~5% p.a. (general practice, unsourced).",
+    "source_url": "https://www.scai.in/wp-content/uploads/2024/05/india-mumbai-retail-q1-2024-final.pdf"
+   },
+   {
+    "name": "GST on commercial rent (non-creditable)",
+    "category": "occupancy",
+    "basis": "per_unit",
+    "low": 18,
+    "typical": 18,
+    "high": 18,
+    "unit": "% of rent",
+    "notes": "Forward charge if landlord registered; RCM if landlord unregistered. Either way no ITC for a 5% restaurant so it is a P&L cost.",
+    "source_url": "https://www.lawcrux.com/data5t/gt/gtillu/itc_225.htm"
+   },
+   {
+    "name": "CAM / society maintenance and property-tax pass-through",
+    "category": "occupancy",
+    "basis": "monthly_fixed",
+    "low": 2000,
+    "typical": 6000,
+    "high": 15000,
+    "unit": "INR/month",
+    "notes": "ASSUMPTION - no source found for high-street shops; malls/food courts are much higher per sq ft. Low confidence."
+   },
+   {
+    "name": "Electricity tariff - Mumbai (Adani/Tata Power/BEST) LT-II(a) Commercial up to 20 kW",
+    "category": "utilities",
+    "basis": "per_unit",
+    "low": 7.98,
+    "typical": 8,
+    "high": 8.68,
+    "unit": "INR/kWh (energy+wheeling) plus fixed Rs 475/month, before duty/ToSE/FAC",
+    "notes": "MERC MYT orders 28-Mar-2025. AEML: FY25-26 8.65 (5.72+2.93), FY26-27 7.98 (5.70+2.28). Tata Power: FY25-26 8.68 (5.92+2.76), FY26-27 8.00 (5.60+2.40). BEST: FY25-26 8.65 (6.55+2.10), FY26-27 7.99 (6.17+1.82). Fixed charge Rs 475/month all three. Above 20 kW: Rs 300/kVA demand + ~7.65-7.70/kVAh. Add electricity duty (21% commercial per secondary sources; one site says 16% - conflict, medium confidence) + Tax on Sale of Electricity 34.04 paise/unit in Mumbai + FAC. All-in approx Rs 10-10.5/kWh in FY26-27. No GST on electricity.",
+    "source_url": "https://merc.gov.in/wp-content/uploads/2025/03/Press-Note_MYT-Order_AEML_English.pdf"
+   },
+   {
+    "name": "Electricity tariff - MSEDCL (Kalyan, Pune) LT-II(A) Non-Residential 0-20 kW",
+    "category": "utilities",
+    "basis": "per_unit",
+    "low": 10.11,
+    "typical": 10.11,
+    "high": 10.37,
+    "unit": "INR/kWh (energy+wheeling) plus fixed Rs 520-540/month, before duty/ToSE/FAC",
+    "notes": "MERC review order Case 75 of 2025 (superseded the March-2025 order which had shown 7.84): FY25-26 from 1-Jul-2025 = 8.90+1.47 = 10.37, fixed Rs 520; FY26-27 = 8.51+1.60 = 10.11, fixed Rs 540. 20-50 kW: Rs 550/kVA + 13.92/kVAh (FY26-27). ToSE 19.04 paise/unit in MSEDCL city areas (a ToSE revision circular dated 15-Apr-2026 exists - not read). All-in approx Rs 12-12.7/kWh. So Kalyan/Pune power is ~20% dearer per unit than Mumbai city.",
+    "source_url": "https://www.mahadiscom.in/consumer/wp-content/uploads/2025/06/Order_Case-No.75-of-2025.pdf"
+   },
+   {
+    "name": "Electricity - typical monthly bill, 300-500 sq ft QSR",
+    "category": "utilities",
+    "basis": "monthly_fixed",
+    "low": 18000,
+    "typical": 32000,
+    "high": 55000,
+    "unit": "INR/month",
+    "notes": "DERIVED: assumes 1,800-4,500 kWh/month (AC, exhaust, 2-3 freezers, visi-cooler, electric shawarma/grill optional) x all-in Rs 10-12.5/kWh. kWh is my assumption; tariff is sourced. Utilities benchmark 3-5% of sales (warning >7%).",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "name": "Electricity tariff - factory / central kitchen on LT-III Industrial (AEML)",
+    "category": "utilities",
+    "basis": "per_unit",
+    "low": 7.65,
+    "typical": 7.83,
+    "high": 8.53,
+    "unit": "INR/kWh or kVAh before duty",
+    "notes": "AEML LT-III(a) up to 20 kW: 8.53 (FY25-26), 7.83 (FY26-27), fixed Rs 475/month; LT-III(b) >20 kW: Rs 400/kVA + 8.27 (FY25-26) / 7.65 (FY26-27) per kVAh. Only applies if the factory has an industrial connection; cold rooms/blast chillers make factory power a major line.",
+    "source_url": "https://merc.gov.in/wp-content/uploads/2025/03/Press-Note_MYT-Order_AEML_English.pdf"
+   },
+   {
+    "name": "Commercial LPG 19 kg cylinder - Mumbai",
+    "category": "utilities",
+    "basis": "per_unit",
+    "low": 1531.5,
+    "typical": 2701,
+    "high": 3067.5,
+    "unit": "INR per 19 kg cylinder",
+    "notes": "Mumbai price history: 2025 ranged 1,531.5 (Sep/Dec-25) to 1,756 (Jan-25); Jan-26 1,642.5; Feb-26 1,692; Mar-26 1,836; Apr-26 2,031; May-26 3,024; Jun-26 3,067.5; Aug-26 2,691.5; Sep-26 ~2,701. 2026 spike attributed to West Asia crisis. Strong storyline: gas cost per outlet up ~70% YoY. Commercial LPG carries 18% GST (non-creditable; general knowledge).",
+    "source_url": "https://www.bankbazaar.com/gas-connection/commercial-gas-price-india.html"
+   },
+   {
+    "name": "LPG - typical monthly spend per outlet",
+    "category": "utilities",
+    "basis": "monthly_fixed",
+    "low": 16000,
+    "typical": 27000,
+    "high": 45000,
+    "unit": "INR/month (at Sep-2026 prices)",
+    "notes": "DERIVED: assumes 6-15 cylinders/month for gas tandoor/griller + shawarma burners (assumption); at 2025 prices the same volume was ~Rs 10,000-25,000."
+   },
+   {
+    "name": "PNG commercial (Mahanagar Gas) alternative to LPG",
+    "category": "utilities",
+    "basis": "per_unit",
+    "low": 60,
+    "typical": 60,
+    "high": 60,
+    "unit": "INR per SCM",
+    "notes": "LOW CONFIDENCE: Rs 60/SCM commercial from a secondary price-tracker page labelled 2025; likely higher now - MGL raised domestic PNG to Rs 53/SCM on 1-Sep-2026 citing costly spot RLNG. MGL does not publish commercial slabs on the pages I could reach.",
+    "source_url": "https://mylpg.co.in/mahanagar-gas-price/"
+   },
+   {
+    "name": "Charcoal for tandoor/sigri",
+    "category": "utilities",
+    "basis": "monthly_fixed",
+    "low": 6000,
+    "typical": 15000,
+    "high": 25000,
+    "unit": "INR/month",
+    "notes": "ASSUMPTION - no price source found (search budget exhausted). Roughly 8-15 kg/day at Rs 40-60/kg. Low confidence; zero if outlet only finishes factory-made kebabs on gas/electric grill."
+   },
+   {
+    "name": "Water",
+    "category": "utilities",
+    "basis": "monthly_fixed",
+    "low": 1000,
+    "typical": 2500,
+    "high": 5000,
+    "unit": "INR/month",
+    "notes": "BMC commercial/industrial water charge Rs 50 per 1,000 litres (vs Rs 6 residential); 8% hike proposed but not implemented as of 2025. Volume (1-2 kL/day) is my assumption; often bundled in society maintenance or bought by tanker.",
+    "source_url": "https://www.freepressjournal.in/mumbai/mumbai-bmc-plans-water-tax-hike-for-2025-26-amid-rising-expenditure-proposal-under-legal-review"
+   },
+   {
+    "name": "Outlet payroll (gross wages, 8-12 staff)",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "low": 140000,
+    "typical": 210000,
+    "high": 300000,
+    "unit": "INR/month",
+    "notes": "Built from role table in staffing. Floor is Maharashtra minimum wage for Hotels & Restaurants, Zone I, 1-Jul-2026 to 31-Dec-2026: unskilled 14,676; semi-skilled 15,176; skilled 15,876 (basic + special allowance 8,176). Labour benchmarks: 18-25% / 20-30% of sales for restaurants generally; QSR with commissary can run 12-18% (my estimate).",
+    "source_url": "https://wageindicator.org/salary/minimum-wage/india/18640-maharashtra/18894-hotels-and-restaurants"
+   },
+   {
+    "name": "EPF employer contribution (12% + ~1% EDLI/admin)",
+    "category": "people",
+    "basis": "per_unit",
+    "low": 12,
+    "typical": 13,
+    "high": 13,
+    "unit": "% of PF wages (basic+DA, statutory ceiling Rs 15,000)",
+    "notes": "Max ~Rs 1,950/employee/month at ceiling. New uniform wage definition (Labour Codes, from Nov/Dec 2025) requires wages to be at least 50% of gross, widening the PF/ESI base. 1% EDLI+admin split is general knowledge.",
+    "source_url": "https://www.sgcms.com/regulatory-updates/impact-on-pf-esi-applicability-on-employees-due-to-uniform-definition-of-wages-w-e-f-december-2025/"
+   },
+   {
+    "name": "ESIC employer contribution",
+    "category": "people",
+    "basis": "per_unit",
+    "low": 3.25,
+    "typical": 3.25,
+    "high": 3.25,
+    "unit": "% of gross wages for employees earning up to Rs 21,000/month",
+    "notes": "Employee share 0.75%. Most outlet staff fall under the Rs 21,000 ceiling.",
+    "source_url": "https://esic.gov.in/contribution"
+   },
+   {
+    "name": "Statutory bonus + gratuity accrual",
+    "category": "people",
+    "basis": "per_unit",
+    "low": 8.33,
+    "typical": 10,
+    "high": 13,
+    "unit": "% of basic wages",
+    "notes": "General knowledge (Payment of Bonus Act min 8.33%; gratuity ~4.81%) - no source fetched; usually paid at Diwali, so show a bonus spike in Oct/Nov."
+   },
+   {
+    "name": "Staff meals",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "low": 10000,
+    "typical": 18000,
+    "high": 28000,
+    "unit": "INR/month",
+    "notes": "ASSUMPTION - Rs 60-100 per staff per day for 8-10 staff. Common practice in Mumbai kitchens; no source. Low confidence."
+   },
+   {
+    "name": "Staff accommodation (shared room for migrant kitchen staff)",
+    "category": "people",
+    "basis": "monthly_fixed",
+    "low": 0,
+    "typical": 20000,
+    "high": 40000,
+    "unit": "INR/month",
+    "notes": "ASSUMPTION - common practice, no source. Often one shared flat serves 2 nearby outlets. Low confidence."
+   },
+   {
+    "name": "Housekeeping and kitchen consumables (tissue paper, cleaning chemicals, gloves, hairnets, foil, garbage bags)",
+    "category": "consumables",
+    "basis": "monthly_fixed",
+    "low": 6000,
+    "typical": 12000,
+    "high": 22000,
+    "unit": "INR/month",
+    "notes": "ASSUMPTION ~0.7-1.2% of sales; no specific source. Sits inside the 3-5% 'miscellaneous' benchmark.",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "name": "Local / brand marketing (non-aggregator: social, flyers, influencer, own-app offers)",
+    "category": "marketing",
+    "basis": "pct_of_sales",
+    "low": 0.5,
+    "typical": 1.5,
+    "high": 3,
+    "unit": "% of net sales",
+    "notes": "Total marketing benchmark 2-5% of revenue (warning >8%); aggregator ads are shown separately above.",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "name": "Repairs and maintenance (equipment, refrigeration, exhaust, plumbing, electrical)",
+    "category": "repairs",
+    "basis": "pct_of_sales",
+    "low": 1,
+    "typical": 1.5,
+    "high": 3,
+    "unit": "% of net sales",
+    "notes": "Benchmark 1-2% of revenue; warning above 4%. Make it lumpy in mock data (e.g. a compressor failure month).",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "name": "Pest control (monthly service, commercial kitchen)",
+    "category": "repairs",
+    "basis": "monthly_fixed",
+    "low": 1500,
+    "typical": 2500,
+    "high": 4000,
+    "unit": "INR/month",
+    "notes": "Mumbai provider quotes commercial-kitchen monthly service from Rs 2,000/month (monthly needed due to humidity); AMC billing gives 25-40% saving vs one-off. 18% GST non-creditable.",
+    "source_url": "https://aksfacilities.in/pest-control-cost-in-mumbai-complete-price-guide-2025/"
+   },
+   {
+    "name": "Waste disposal (wet waste pickup, used cooking oil, grease trap cleaning)",
+    "category": "repairs",
+    "basis": "monthly_fixed",
+    "low": 800,
+    "typical": 2000,
+    "high": 4000,
+    "unit": "INR/month",
+    "notes": "ASSUMPTION - no source found. Low confidence."
+   },
+   {
+    "name": "POS subscription (Petpooja) per outlet",
+    "category": "technology",
+    "basis": "annual",
+    "low": 10000,
+    "typical": 25000,
+    "high": 40000,
+    "unit": "INR/year per outlet + 18% GST",
+    "notes": "Petpooja does not publish prices. User-reported: ~Rs 10,000 first year / Rs 7,500 renewal for base billing; tiers roughly Rs 10k/20k/40k per year; with inventory, KDS, online-ordering integration Rs 25-40k/year. A competitor blog (DineOpen) claims Rs 36k-1.44 lakh/year - treat as outlier/biased. Hardware one-time Rs 15-50k.",
+    "source_url": "https://servyn.in/guides/petpooja-software-price-comparison/"
+   },
+   {
+    "name": "Internet + phone",
+    "category": "technology",
+    "basis": "monthly_fixed",
+    "low": 800,
+    "typical": 1500,
+    "high": 2500,
+    "unit": "INR/month",
+    "notes": "ASSUMPTION - broadband + backup SIM/dongle for aggregator tablets; no source."
+   },
+   {
+    "name": "Card / UPI MDR on in-store (Petpooja) sales",
+    "category": "technology",
+    "basis": "pct_of_channel_sales",
+    "low": 0.1,
+    "typical": 0.35,
+    "high": 0.9,
+    "unit": "% of in-store sales",
+    "notes": "UPI P2M has been zero-MDR; a new regime effective 15-Oct-2026 levies 0.4% only on UPI P2M transactions above Rs 2,000 (capped Rs 300) - QSR tickets are below that so UPI stays ~free. Debit card up to 0.9%; credit card 1.5-2.5%. Blended rate depends on card share (assume 10-20% cards).",
+    "source_url": "https://www.businesstoday.in/personal-finance/story/upi-mdr-vs-cards-is-upi-still-cheaper-for-merchants-despite-the-new-charges-on-rs2000-payments-556078-2026-09-17"
+   },
+   {
+    "name": "FSSAI licence (per outlet)",
+    "category": "admin & licences",
+    "basis": "annual",
+    "low": 2000,
+    "typical": 5000,
+    "high": 7500,
+    "unit": "INR/year",
+    "notes": "State licence Rs 2,000-5,000/year. Secondary sources say thresholds were revised from 1-Apr-2026 (state licence for turnover Rs 1.5-50 crore at Rs 5,000/year; licences now perpetual with annual fee + annual return). Not verified on FoSCoS primary page - medium confidence. Factory needs its own (manufacturing) licence.",
+    "source_url": "https://myfssai.in/fssai-license-fees-structure-2026-complete-cost-breakdown/"
+   },
+   {
+    "name": "Other licences and renewals (Shops & Establishment, BMC health licence u/s 394, trade licence, fire NOC/compliance, signage, weights & measures) incl. consultant fees",
+    "category": "admin & licences",
+    "basis": "annual",
+    "low": 8000,
+    "typical": 25000,
+    "high": 60000,
+    "unit": "INR/year",
+    "notes": "LOW CONFIDENCE - BMC fee schedule PDF exists but amounts not extracted; one source puts fire NOC fee ~Rs 2,000. BMC health licence can be issued for up to 5 years. Treat as a lumpy annual/renewal cost.",
+    "source_url": "https://www.mcgm.gov.in/irj/portal/anonymous/qltabmohlic?guest_user=english"
+   },
+   {
+    "name": "Music licence (PPL / IPRS / Novex) - only if music is played",
+    "category": "admin & licences",
+    "basis": "annual",
+    "low": 0,
+    "typical": 15000,
+    "high": 40000,
+    "unit": "INR/year",
+    "notes": "UNVERIFIED ASSUMPTION - could not research tariffs (search budget exhausted). Suggest showing as zero for takeaway-format outlets or omitting."
+   },
+   {
+    "name": "Insurance (fire, burglary, equipment, public liability, cash-in-transit)",
+    "category": "admin & licences",
+    "basis": "annual",
+    "low": 6000,
+    "typical": 15000,
+    "high": 30000,
+    "unit": "INR/year",
+    "notes": "ASSUMPTION - no source found. Low confidence."
+   },
+   {
+    "name": "Petty cash / miscellaneous (local conveyance, tips, small purchases, printing)",
+    "category": "admin & licences",
+    "basis": "monthly_fixed",
+    "low": 4000,
+    "typical": 8000,
+    "high": 15000,
+    "unit": "INR/month",
+    "notes": "Benchmark: miscellaneous 3-5% of revenue in total (warning >7%) - this line plus consumables, licences, insurance should stay inside that.",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "name": "Depreciation - kitchen equipment and fit-out",
+    "category": "depreciation",
+    "basis": "monthly_fixed",
+    "low": 8000,
+    "typical": 18000,
+    "high": 35000,
+    "unit": "INR/month",
+    "notes": "DERIVED from capex: small QSR (200-400 sq ft) interiors Rs 2-4 lakh + equipment Rs 2-4 lakh + POS/signage ~Rs 0.4-1.1 lakh; medium (400-800 sq ft) interiors Rs 5-10 lakh + equipment Rs 4-8 lakh. Depreciate over ~5 years (lease term) - my assumption. Capitalise GST since no ITC. Shawarma machine Rs 22,500-29,700 (IndiaMART, Dec-2025). Total project cost incl. deposit and working capital Rs 10-20 lakh small / Rs 20-40 lakh medium; break-even 8-14 months.",
+    "source_url": "https://www.dineopen.com/blog/how-to-start-qsr-india.html"
+   },
+   {
+    "name": "Factory-to-outlet logistics (daily chilled delivery run, allocated per outlet)",
+    "category": "logistics",
+    "basis": "monthly_fixed",
+    "low": 10000,
+    "typical": 20000,
+    "high": 35000,
+    "unit": "INR/month per outlet",
+    "notes": "ASSUMPTION - no source found. Pune outlets (if served from a Mumbai factory) would cost materially more; consider whether Pune has its own prep kitchen."
+   }
+  ],
+  "benchmarks": [
+   {
+    "metric": "Monthly net sales per small kebab/rolls QSR outlet",
+    "value": "Rs 7.5-21 lakh/month (approx Rs 25,000-70,000/day); suggested mock spread: Kalyan 9-11 L, Baner 11-14 L, Fort 12-15 L, Koregaon Park 14-18 L, Andheri W 18-22 L, Bandra W 20-26 L",
+    "notes": "ESTIMATE bounded by sourced anchors: cloud kitchen target Rs 4-8 L/month; Pizza Hut India ADS Rs 31-35k/day (~Rs 10 L/month); KFC India ADS Rs 90-110k/day (~Rs 27-33 L/month); Popeyes ~Rs 95k/day.",
+    "source_url": "https://inve.money/blog/how-to-analyse-a-qsr-restaurant-company"
+   },
+   {
+    "metric": "Orders per day",
+    "value": "80-220 per outlet across channels (cloud-kitchen benchmark 50-100 per brand; below 30 is danger; break-even 80-120/day)",
+    "notes": "Outlet-level range is my estimate from sales / AOV.",
+    "source_url": "https://www.dineopen.com/blog/cloud-kitchen-guide-2026"
+   },
+   {
+    "metric": "Average order value",
+    "value": "Delivery Rs 300-500 (typical ~Rs 380); in-store rolls/shawarma tickets Rs 180-300 (assumption)",
+    "notes": "Delivery AOV sourced; in-store is my assumption.",
+    "source_url": "https://tech4serve.com/cloud-kitchen-unit-economics-mastering-costs-and-delivery-for-profitable-growth-in-india/"
+   },
+   {
+    "metric": "Channel mix",
+    "value": "QSR average 35-45% of revenue from delivery platforms; Sapphire KFC FY26: 44% delivery / 33% dine-in / 23% takeaway; Domino's ~75% delivery. For a small Mumbai kebab QSR assume 55-70% aggregator (Zomato slightly > Swiggy) and 30-45% Petpooja in-store/takeaway",
+    "notes": "Last sentence is an assumption. Fort should skew to weekday lunch/in-store; Kalyan and Baner skew delivery.",
+    "source_url": "https://www.dineopen.com/blog/how-to-start-qsr-india.html"
+   },
+   {
+    "metric": "Food cost %",
+    "value": "28-35% target; QSR ~28-30%; >38% red flag; meat-heavy kebab menu 32-36% (estimate)",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "metric": "Gross margin (listed QSR)",
+    "value": "65-75%: Westlife 67.6-72%, Sapphire KFC 74.4%",
+    "source_url": "https://inve.money/blog/how-to-analyse-a-qsr-restaurant-company"
+   },
+   {
+    "metric": "Labour %",
+    "value": "18-25% (Restaurant India) / 20-30% (DineOpen) of sales for restaurants generally; QSRs need 30-40% less labour than full service - use 12-18% at outlet level when a central factory does prep (estimate)",
+    "source_url": "https://www.restaurantindia.in/article/what-really-sells-in-a-restaurant-kitchen-today.16975"
+   },
+   {
+    "metric": "Occupancy (rent) %",
+    "value": "8-15% of sales; healthy 10-12%; premium locations 15-20%; >18% warning. Example: Rs 10 L/month restaurant with Rs 3 L Mumbai rent nets ~2% vs 26% in Jaipur at Rs 60k rent",
+    "notes": "Remember 18% GST on rent is an extra cost on top.",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "metric": "Utilities %",
+    "value": "3-5% (DineOpen) / 4-7% (Restaurant India); expect 5-7% for a gas+charcoal kebab outlet in 2026 given LPG spike",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "metric": "Prime cost (food + labour)",
+    "value": "Should not exceed 65%; optimal 55-60%",
+    "source_url": "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html"
+   },
+   {
+    "metric": "Aggregator net realisation",
+    "value": "52-62% of menu price is healthy after discount + commission + PG fee + ads + packaging; <50% structurally loss-making. Worked Rs 8 L GMV month: discounts 17.5%, commission 19%, PG 1.7%, ads 4.4%, packaging 4% -> 53.5% net",
+    "notes": "Before food cost. Flag any SKU under 18% contribution.",
+    "source_url": "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india"
+   },
+   {
+    "metric": "Outlet-level EBITDA %",
+    "value": "Listed QSR restaurant-level: 15-20% (KFC India 16.3-16.9%; Devyani targets 20%+ at ADS Rs 1.05-1.10 L; Pizza Hut ~0.8% to -3.3%; Devyani own brands ~9%). Independents: EBITDA 8-18%; QSR net 15-25% claimed by vendor blogs; sample cloud-kitchen P&L 13.7%",
+    "notes": "For the mock: 1 star outlet at 16-18%, 2-3 at 8-14%, 1 marginal/loss-making (high rent or heavy discounting) is believable. Corporate-level margin is ~10 pts lower than store-level in listed QSRs (27% vs 17% per one analysis).",
+    "source_url": "https://thedailybrief.zerodha.com/p/qsr-dominos-kfc-pizzahut-recovery-parmesan-cheese-bank-loan-italy"
+   },
+   {
+    "metric": "Sanity check - typical-case P&L (my arithmetic, not a source)",
+    "value": "Rs 15 L menu sales (60% aggregator): discounts ~0.9-1.1 L -> net ~13.9-14.1 L; food 33% ~4.6 L; packaging ~0.55 L; aggregator commission+PG+GST+ads ~2.9 L; rent 1.4 L + GST 0.25 L; utilities ~0.77 L; people ~2.7 L; other ~1.0 L -> roughly break-even. At Rs 20 L sales same outlet earns ~6-8%; at food cost 30% and discounts 8% it reaches ~12-14%",
+    "notes": "Shows that typical values across ALL lines simultaneously give a thin outlet; tune rent/sales ratio, food cost and discount depth per outlet to land in the 8-18% band."
+   },
+   {
+    "metric": "Setup capex and payback",
+    "value": "Small QSR 200-400 sq ft: Rs 10-20 L all-in; medium 400-800 sq ft: Rs 20-40 L; break-even 8-14 months (own brand)",
+    "source_url": "https://www.dineopen.com/blog/how-to-start-qsr-india.html"
+   },
+   {
+    "metric": "Aggregator payout mechanics",
+    "value": "Net settlement usually weekly; statement lines: commission + 18% GST, payment gateway fee, ads/visibility, packaging programme charges, complaint/refund adjustments, TDS u/s 194-O at 0.1% of gross; 5% food GST is retained and paid by the platform u/s 9(5) and never reaches the restaurant",
+    "source_url": "https://hellobooks.ai/guides/swiggy-zomato-reconciliation"
+   },
+   {
+    "metric": "Research limitations",
+    "value": "WebSearch budget ran out mid-task; items marked ASSUMPTION (charcoal, CAM, staff meals/accommodation, consumables, waste, insurance, music licence, internet, logistics, month-end effect, weekday multipliers) have no citation and should be treated as placeholders. C&W retail PDFs for 2025-26 were blocked (403); rent anchors are C&W Q1-2024 (Mumbai) and Q3-2023 (Pune) plus Sept-2026 portal listings."
+   }
+  ],
+  "area_rents": [
+   {
+    "area": "Bandra West (Linking Road / Hill Road / Pali - Mumbai)",
+    "rent_psf_month_low": 320,
+    "rent_psf_month_high": 900,
+    "typical_qsr_size_sqft": "250-500",
+    "notes": "C&W MarketBeat Q1-2024 prime ground-floor asking rent Linking Road Rs 850/sf/month (+9.7% YoY); 2021 band was Rs 750-900; portal listings: Linking Road frontage Rs 1,000-1,200, general Bandra West Rs 320 (500 sf), Rs 500 (1,000 sf), Rs 706 (1,700 sf). A QSR in a side lane would pay ~Rs 400-550. Carpet-area basis.",
+    "source_url": "https://www.scai.in/wp-content/uploads/2024/05/india-mumbai-retail-q1-2024-final.pdf"
+   },
+   {
+    "area": "Andheri West (Lokhandwala / Four Bungalows / DN Nagar - Mumbai)",
+    "rent_psf_month_low": 130,
+    "rent_psf_month_high": 610,
+    "typical_qsr_size_sqft": "300-600",
+    "notes": "C&W Q1-2024 Lokhandwala Andheri Rs 430/sf/month (+7.5% YoY). Listings Sept-2026: Lokhandwala Complex Rs 400-611; Four Bungalows Rs 185-333; other Andheri W Rs 120-275; DN Nagar 330 sf at Rs 55,000 (~Rs 167). Typical for QSR ~Rs 300-400.",
+    "source_url": "https://www.squareyards.com/rent/shops-for-rent-in-lokhandwala-complex-andheri-mumbai"
+   },
+   {
+    "area": "Fort / Kala Ghoda (South Mumbai, BEST/Tata Power area)",
+    "rent_psf_month_low": 390,
+    "rent_psf_month_high": 630,
+    "typical_qsr_size_sqft": "250-500",
+    "notes": "C&W Q1-2024 Fort Rs 560/sf/month (+17.9% YoY); 2021 band Rs 450-500; listings: Fort 1,100 sf at Rs 6.9 L (Rs 627), Kala Ghoda 1,800 sf at Rs 7 L (Rs 389). Office-district demand: strong weekday lunch, weak Sundays.",
+    "source_url": "https://www.squareyards.com/rent/shops-for-rent-in-fort-mumbai"
+   },
+   {
+    "area": "Kalyan West (Khadakpada / Rambaug - MSEDCL area)",
+    "rent_psf_month_low": 65,
+    "rent_psf_month_high": 150,
+    "typical_qsr_size_sqft": "250-500",
+    "notes": "Listings: Khadakpada 445 sf at Rs 40,000 (Rs 90), 240 sf at Rs 22,000 (Rs 92), 200 sf carpet at Rs 22,000 (Rs 110); wider Kalyan W Rs 45-150. Typical ~Rs 100. (C&W quotes Thane main street at Rs 300 for comparison.)",
+    "source_url": "https://www.squareyards.com/rent/shops-for-rent-in-kalyan-west-thane"
+   },
+   {
+    "area": "Pune - Koregaon Park",
+    "rent_psf_month_low": 145,
+    "rent_psf_month_high": 350,
+    "typical_qsr_size_sqft": "300-900",
+    "notes": "C&W Pune Retail Q3-2023 main-street asking Rs 280-350/sf/month (+12% YoY then); portal listings lower: 895 sf at Rs 1.75 L (Rs 195), 384 sf at Rs 55,000 (Rs 143). Typical for QSR ~Rs 220-280.",
+    "source_url": "https://www.scai.in/wp-content/uploads/2023/12/Cushman-Wakefield-Retail-in-Pune-Q3-2023.pdf"
+   },
+   {
+    "area": "Pune - Baner / Balewadi",
+    "rent_psf_month_low": 90,
+    "rent_psf_month_high": 295,
+    "typical_qsr_size_sqft": "300-900",
+    "notes": "C&W Q3-2023 Baner-Balewadi Rs 160-220/sf/month; Sept-2026 listings mostly Rs 140-185 for 250-450 sf shops, outliers Rs 67-294 (Blue Pearl 425 sf at Rs 1.25 L = Rs 294). Typical ~Rs 170.",
+    "source_url": "https://www.squareyards.com/rent/shops-for-rent-in-baner-pune"
+   }
+  ],
+  "staffing": [
+   {
+    "role": "Outlet manager / shift in-charge",
+    "headcount_typical": "1",
+    "monthly_cost_inr_low": 25000,
+    "monthly_cost_inr_high": 45000,
+    "notes": "Glassdoor Mumbai: restaurant manager avg ~Rs 39-43k/month; assistant restaurant manager ~Rs 35.5k. Small QSR pays lower end. Above ESIC ceiling if >Rs 21k."
+   },
+   {
+    "role": "Cashier / counter and order-taker (runs Petpooja + aggregator tablets)",
+    "headcount_typical": "1-2",
+    "monthly_cost_inr_low": 15200,
+    "monthly_cost_inr_high": 20000,
+    "notes": "Indeed Mumbai cashier avg Rs 18,861; QSR chain ads Rs 16-17k. Floor = semi-skilled min wage Rs 15,176 (Zone I, Jul-Dec 2026)."
+   },
+   {
+    "role": "Tandoor / kebab cook (skilled)",
+    "headcount_typical": "1-2",
+    "monthly_cost_inr_low": 18000,
+    "monthly_cost_inr_high": 30000,
+    "notes": "Quikr entry-level tandoor postings Rs 13-16k (now below the Rs 15,876 skilled minimum wage); experienced tandooriyas Rs 22-30k. Usually gets meals + accommodation on top."
+   },
+   {
+    "role": "Shawarma cook / roll maker",
+    "headcount_typical": "1-2",
+    "monthly_cost_inr_low": 15900,
+    "monthly_cost_inr_high": 30000,
+    "notes": "Mumbai postings: Rs 15-20k (Mira Road), Rs 20-25k (Dec-2025), Rs 20-30k (experienced)."
+   },
+   {
+    "role": "Kitchen helper / packer",
+    "headcount_typical": "2-3",
+    "monthly_cost_inr_low": 14700,
+    "monthly_cost_inr_high": 17000,
+    "notes": "Indeed avg helper Maharashtra Rs 12,756 (informal market) but compliant floor is unskilled min wage Rs 14,676 from 1-Jul-2026."
+   },
+   {
+    "role": "Cleaner / utility (dishwash, housekeeping)",
+    "headcount_typical": "1",
+    "monthly_cost_inr_low": 14700,
+    "monthly_cost_inr_high": 16000,
+    "notes": "Unskilled minimum wage floor Rs 14,676 (Zone I)."
+   },
+   {
+    "role": "Own delivery rider (for direct/Petpooja phone orders)",
+    "headcount_typical": "0-2",
+    "monthly_cost_inr_low": 16000,
+    "monthly_cost_inr_high": 24000,
+    "notes": "ASSUMPTION for salaried rider; add fuel/bike allowance ~Rs 3-5k. Reference: platform gig riders gross Rs 26-38k + incentives but bear their own fuel (Vahan). Most small QSRs rely on aggregator fleets; keep to 0-1 per outlet."
+   },
+   {
+    "role": "Employer statutory add-ons (all roles)",
+    "headcount_typical": "n/a",
+    "notes": "EPF 12% + ~1% EDLI/admin on PF wages (ceiling Rs 15,000 -> max ~Rs 1,950/head); ESIC 3.25% on gross up to Rs 21,000; statutory bonus min 8.33%; gratuity accrual ~4.81%; works out to roughly 13-17% on top of gross for Rs 15-21k staff. Labour Codes wage definition (>=50% of gross counted as wages) applies from Nov/Dec 2025. Maharashtra LWF and professional tax are small/employee-borne (general knowledge)."
+   },
+   {
+    "role": "Factory / central kitchen roles (production chef, butchers, marination and kebab-forming staff, packers, store-keeper, dispatch driver, QA/hygiene)",
+    "headcount_typical": "no sourced data",
+    "notes": "No specific source found. Use same minimum-wage floor (Zone I) for helpers/packers and the skilled-cook range above for production cooks; supervisor/production chef similar to or above outlet manager. Factory unit economics should be shown as cost per kg / per portion produced and transfer-priced to outlets."
+   }
+  ],
+  "demand_patterns": [
+   "Time of day: dinner is the peak window - Swiggy 2025 data shows dinner orders ~32% higher than lunch; the 3-7 pm snack window is dominated by burgers, rolls and pizzas; midnight-2 am ordering is growing, led by chicken burgers and biryani. Suggested mock split for a kebab/shawarma QSR (assumption): lunch 12-3 pm ~20-25%, snack 4-7 pm ~15%, dinner 7-11 pm ~45-50%, late night 11 pm-1:30 am ~10-15%. Fort outlet should be lunch-heavy on weekdays and weak on Sundays.",
+   "Day of week: platforms confirm weekends, festivals, sporting events and late nights carry materially higher volumes, but I found no published weekday/weekend ratio. Assumption for mock: Mon-Thu = 1.0, Fri ~1.15, Sat ~1.35, Sun ~1.3. In Hindu-majority catchments (Kalyan, Baner) many households avoid non-veg on Mondays/Tuesdays/Thursdays/Saturdays - show a mild dip on one or two of those days (low confidence on magnitude).",
+   "Shravan + Ganeshotsav (biggest negative for a Maharashtra non-veg brand): Devyani blamed 'vegetarian days' (Sawan/Shravan, Ganpati) for KFC ADS falling from Rs 104k to Rs 96k (about -8% QoQ) in Q2 FY25 and said the effect is widening geographically; Sapphire KFC SSSG -3% partly on Navratri timing. Thane vendors sold 15-20 chickens/day during Ganeshotsav vs 50-60 on the Sunday after Anant Chaturdashi. Mock guidance: -10 to -20% in Kalyan/Baner, -5 to -10% in Bandra/Fort/Andheri, then a +20-30% rebound weekend right after visarjan. Dates (general knowledge, verify): Shravan (amanta) 25-Jul to 23-Aug-2025 and ~13-Aug to 11-Sep-2026; Ganesh Chaturthi 27-Aug-2025 and ~14-Sep-2026; Anant Chaturdashi 6-Sep-2025 and ~25-Sep-2026.",
+   "Navratri: nine days of reduced meat eating - another -5 to -15% dip (22-Sep to 1-Oct-2025; ~11-20 Oct-2026, verify). Paryushan and occasional civic meat-sale ban days also hurt (low confidence, not researched). Diwali week itself is weak for delivery QSR on the main day and strong on surrounding weekends (assumption).",
+   "Ramadan / Eid (positive for a Mughlai kebab brand): Swiggy saw +34% orders in the 5:30-7 pm iftar window, biryani +15% vs regular months, haleem ~15x, phirni/malpua +80%, with Mumbai among the top cities for iftar sweets. Pattern to mock: daytime lunch softer in Muslim-dominant catchments, sharp iftar spike, strong late-night/sehri orders, peak on Eid. Net month uplift +5-15% is my assumption. Dates (verify): Ramadan ~2-30 Mar-2025, ~19-Feb to 19-Mar-2026; Eid-ul-Fitr ~31-Mar-2025, ~20/21-Mar-2026; Bakri Eid ~27/28-May-2026.",
+   "Monsoon (June-September): heavy-rain days lift delivery orders 15-30% (one Mumbai operator reports +10-15%) and AOV 15-25%, while walk-ins fall; rider shortages cause longer delivery times and cancellations, and extreme waterlogging days can collapse both channels. Show higher aggregator share, more cancellations/refunds and soggy-packaging complaints in July-August; Petpooja walk-in sales down.",
+   "IPL (late March to end May): Swiggy IPL-2026 food orders +32% vs IPL-2025; peaks around 7:56-8:12 pm (5,200-6,200 orders/minute on playoff/final nights); Domino's/Pizza Hut reported +15-20% on match days; Mumbai among top-3 cities; chicken biryani and chicken snacks lead. Mock: +10-20% delivery on match evenings, bigger on weekends and Mumbai Indians games.",
+   "Month-end / salary cycle: no published data found. Assumption: days 1-10 of the month +5-8% and the last week -5-8%, stronger effect in Kalyan than Bandra. Low confidence.",
+   "Peak single days: New Year's Eve (Zomato reported NYE order volumes +45% YoY), Eid, IPL final, India cricket matches, first rain-heavy weekend. Trough days: Ganesh Chaturthi day, Anant Chaturdashi (road closures), Mahashivratri, Ashadhi Ekadashi, election/dry days (assumption).",
+   "Cost-side seasonality to mirror in the P&L: commercial LPG in Mumbai jumped from ~Rs 1,640 (Jan-2026) to ~Rs 3,070 (Jun-2026) and was ~Rs 2,700 in Sep-2026; chicken prices typically soften in Shravan (-4% to -25% in sources) and firm up right after; electricity peaks April-June and October (AC load); statutory bonus paid around Diwali; tomato/onion spikes in monsoon."
+  ],
+  "tax_notes": [
+   "Restaurant service by a standalone outlet is taxed at 5% GST WITHOUT input tax credit (18% with ITC only for 'specified premises' - hotels with room tariff >= Rs 7,500). Miya Kebabs therefore cannot claim ITC on anything used for the restaurant business.",
+   "Consequence: every input GST becomes a P&L cost - 18% on rent, aggregator commission, payment-gateway fees and ads, POS/software, pest control, repairs, professional fees, commercial LPG and most packaging; 5-18% embedded in food inputs; 18% on capex (capitalise it into the asset cost and depreciate). Model these expense lines GROSS of GST. Example: Rs 1.4 L rent costs Rs 1.652 L; 23% commission costs 27.1%.",
+   "If the landlord is unregistered, the registered restaurant pays 18% on commercial rent under reverse charge (RCM) in cash - still no ITC, so the cost is identical but it shows up in GSTR-3B as an RCM liability.",
+   "Aggregator orders - Section 9(5) CGST (since 1-Jan-2022): Swiggy/Zomato are deemed suppliers, collect the 5% GST from the customer and pay it themselves. The restaurant does not charge or pay GST on these orders, does not receive that GST in its payout, and reports the taxable value in GSTR-3B Table 3.1.1(ii). GST TCS u/s 52 does not apply to these restaurant supplies (CBIC Circular 167/23/2021). So the mock's aggregator revenue must be shown net of GST, and 'GST payable' should arise only on Petpooja in-store/takeaway/own-delivery sales.",
+   "In-store (Petpooja) sales: outlet charges 5% GST (2.5% CGST + 2.5% SGST) and pays it fully in cash since no ITC is available to offset. A useful dashboard tile: GST liability = 5% x in-store net sales; aggregator sales = Rs 0 liability (paid by ECO).",
+   "TDS u/s 194-O: aggregators deduct 0.1% of GROSS sales (reduced from 1% w.e.f. 1-Oct-2024; 5% if no PAN). It is not an expense - it is a tax credit visible in Form 26AS, to be shown as 'TDS receivable' in payout reconciliation. (A secondary source indicates the provision is renumbered under the new Income-tax Act, 2025 from 1-Apr-2026 - verify with the client's CA.)",
+   "Payout reconciliation identity to respect in mock data: Net payout = order value (ex-GST, after restaurant-funded discount) - commission - PG fee - 18% GST on those fees - ads (+18% GST) - refund/complaint adjustments - TDS 0.1%. Settlements are typically weekly.",
+   "GST 2.0 (56th GST Council, effective 22-Sep-2025) cut rates on several food inputs (e.g. packaged paneer and Indian breads to nil; cheese, butter/ghee-type dairy, nuts, sauces to 5%) and raised aerated/sugary drinks to 40% - slightly lowers embedded tax in COGS after Sept-2025, raises cost of soft drinks sold. Restaurant output rate stays 5% without ITC. Local delivery services supplied through e-commerce operators were also brought under 9(5) at 18% - this affects the platforms' delivery fee, not the restaurant's P&L.",
+   "Electricity carries no GST but does carry Maharashtra electricity duty (21% for commercial per most sources; one site shows 16% - verify) and Tax on Sale of Electricity (34.04 paise/unit in Mumbai, 19.04 paise in MSEDCL city areas) - both are costs.",
+   "Factory/central kitchen: if it is the same legal entity and GSTIN, transfers to outlets are internal stock movements and the factory's input GST is likewise blocked (it is used for the 5%-without-ITC restaurant supply). If the factory were a separate entity selling to outlets, its sales would attract GST at product rates and the outlets still could not claim ITC - a structuring question for the client's CA; do not assert either structure in the mock.",
+   "Payroll compliance: EPF 12% employer (+~1% EDLI/admin) on wages up to Rs 15,000; ESIC 3.25% employer / 0.75% employee up to Rs 21,000 gross; Maharashtra minimum wages for Hotels & Restaurants revised half-yearly (Zone I from 1-Jul-2026: unskilled 14,676 / semi-skilled 15,176 / skilled 15,876); Labour Code wage definition (wages >= 50% of gross) applies from Nov/Dec-2025."
+  ],
+  "sources": [
+   "https://merc.gov.in/wp-content/uploads/2025/03/Press-Note_MYT-Order_AEML_English.pdf",
+   "https://www.tatapower.com/regulatory/licence-area-mumbai/regulatory-filings/distribution-business-schedule-of-electricity-tariff/Final-MYT-Order-TPC-D-Case-No.-210-of-2024.pdf",
+   "https://merc.gov.in/wp-content/uploads/2025/03/Press-Note_MYT-Order_BEST_English.pdf",
+   "https://www.mahadiscom.in/consumer/wp-content/uploads/2025/06/Order_Case-No.75-of-2025.pdf",
+   "https://www.hrawi.com/(S(ecgvxkqnnngmltkotnjrevx1))/pdf/Press-Note_MYT-Order_MSEDCL_English-2.pdf",
+   "https://www.freepressjournal.in/mumbai/mumbai-committee-to-amend-electricity-duty-and-tax-on-sale-acts",
+   "https://www.mahadiscom.in/wp-content/uploads/2026/04/Commercial-Circular-354_Revision-in-Rate-of-ToSE_15-04-2026-F.Rv_.pdf",
+   "https://thediscombill.com/tariffs/maharashtra/msedcl/",
+   "https://www.bankbazaar.com/gas-connection/commercial-gas-price-india.html",
+   "https://www.karmactive.com/commercial-lpg-price-hike-september-2026-19kg-cylinder-domestic-unchanged/",
+   "https://www.internationalnewsandviews.com/mumbai-cng-price-today-september-1-2026-png-mgl-407698-2/",
+   "https://mylpg.co.in/mahanagar-gas-price/",
+   "https://www.freepressjournal.in/mumbai/mumbai-bmc-plans-water-tax-hike-for-2025-26-amid-rising-expenditure-proposal-under-legal-review",
+   "https://menumanager.in/zomato-swiggy-commission-rates-2026-complete-breakdown/",
+   "https://blog.petpooja.com/growth-scaling/swiggy-zomato-commission-how-kitchens-stay-profitable/",
+   "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india",
+   "https://www.spiceadvisors.in/post/swiggy-vs-zomato-commission-structure-what-every-restaurant-must-know-in-2025",
+   "https://creatorcity.in/blog/zomato-ads-vs-swiggy-ads-restaurants-india/",
+   "https://www.outlookbusiness.com/news/restaurants-allege-zomato-swiggy-charge-them-for-ads-discounts-without-consent",
+   "https://hellobooks.ai/guides/swiggy-zomato-reconciliation",
+   "https://taxguru.in/goods-and-service-tax/gst-restaurant-services-zomato-swiggy-etc-reporting-gstr-3b.html",
+   "https://blog.tdsman.com/2025/09/section-194o-tds-on-payments-by-e-commerce-operators-to-participants/",
+   "https://taxgarden.in/blog/tds-on-ecommerce-payments-section-194o-393-guide-india-fy-2026-27",
+   "https://cleartax.in/s/impact-gst-food-services-restaurant-business",
+   "https://www.lawcrux.com/data5t/gt/gtillu/itc_225.htm",
+   "https://www.dineopen.com/blog/restaurant-profit-margins-india-guide.html",
+   "https://www.dineopen.com/blog/cloud-kitchen-guide-2026",
+   "https://www.dineopen.com/blog/how-to-start-qsr-india.html",
+   "https://tech4serve.com/cloud-kitchen-unit-economics-mastering-costs-and-delivery-for-profitable-growth-in-india/",
+   "https://www.restaurantindia.in/article/what-really-sells-in-a-restaurant-kitchen-today.16975",
+   "https://inve.money/blog/how-to-analyse-a-qsr-restaurant-company",
+   "https://thedailybrief.zerodha.com/p/qsr-dominos-kfc-pizzahut-recovery-parmesan-cheese-bank-loan-italy",
+   "https://ruthlesspascal.substack.com/p/the-terrible-economics-of-qsrs-in",
+   "https://www.storyboard18.com/brand-marketing/festive-season-rise-in-vegetarian-days-dent-kfc-indias-performance-in-q2-devyani-international-48529.htm",
+   "https://www.freepressjournal.in/mumbai/thane-non-veg-sales-surge-as-crowds-return-to-markets-after-anant-chaturdashi",
+   "https://www.storyboard18.com/advertising/biryani-reigns-this-ramzan-with-close-to-6-million-orders-28829.htm",
+   "https://www.storyboard18.com/trending/biryani-tops-indias-food-orders-again-as-swiggy-logs-93-million-plates-in-2025-86559.htm",
+   "https://www.businesstoday.in/latest/trends/story/from-rs20205-thalis-to-rs214061-restaurant-bills-swiggy-reveals-how-much-india-spent-during-this-ipl-season-534494-2026-06-02",
+   "https://www.restaurantindia.in/article/why-rainy-days-mean-bigger-restaurant-bills.16926",
+   "https://inc42.com/buzz/zomato-records-45-yoy-surge-in-order-volumes-on-new-years-eve/",
+   "https://wageindicator.org/salary/minimum-wage/india/18640-maharashtra/18894-hotels-and-restaurants",
+   "https://labourlawhelp.com/maharashtra-minimum-wages/",
+   "https://esic.gov.in/contribution",
+   "https://www.sgcms.com/regulatory-updates/impact-on-pf-esi-applicability-on-employees-due-to-uniform-definition-of-wages-w-e-f-december-2025/",
+   "https://empxtrack.com/blog/esi-pf-statutory-compliance/",
+   "https://www.workindia.in/jobs/shawarma_maker-mira_road-mumbai-5102250/",
+   "https://www.quikr.com/jobs/tandoor-chef+mumbai+zwqxj4157493934",
+   "https://in.indeed.com/career/cashier/salaries/Mumbai--Maharashtra",
+   "https://in.indeed.com/career/helper/salaries/Maharashtra",
+   "https://www.glassdoor.co.in/Salaries/mumbai-restaurant-manager-salary-SRCH_IL.0,6_IM1070_KO7,25.htm",
+   "https://www.vahan.co/blog/delivery-boy-job-india-career-salary-guide/",
+   "https://www.scai.in/wp-content/uploads/2024/05/india-mumbai-retail-q1-2024-final.pdf",
+   "https://www.scai.in/wp-content/uploads/2023/12/Cushman-Wakefield-Retail-in-Pune-Q3-2023.pdf",
+   "https://www.cushmanwakefield.com/en/india/insights/marketbeat-india/mumbai-marketbeat",
+   "http://businessnewsthisweek.com/business/khan-market-retail-rentals-correct-8-17-kala-ghoda-bandra-linking-road-rentals-by-5-10-in-a-year/",
+   "https://www.squareyards.com/rent/shops-for-rent-in-lokhandwala-complex-andheri-mumbai",
+   "https://www.squareyards.com/rent/shops-for-rent-in-linking-road-mumbai",
+   "https://www.squareyards.com/rent/shops-for-rent-in-fort-mumbai",
+   "https://www.squareyards.com/rent/shops-for-rent-in-baner-pune",
+   "https://www.squareyards.com/rent/shops-for-rent-in-kalyan-west-thane",
+   "https://www.squareyards.com/rent/shops-for-rent-in-koregaon-park-pune",
+   "https://www.jagaha.com/Property/28509-commercial-shop-for-rent-in-bandra-west-facing-main-linking-road",
+   "https://www.realestateindia.com/property-detail/commercial-shops-for-rent-in-kalyan-west-thane-240-sq-ft-22-000-1083869.htm",
+   "https://aksfacilities.in/pest-control-cost-in-mumbai-complete-price-guide-2025/",
+   "https://servyn.in/guides/petpooja-software-price-comparison/",
+   "https://www.dineopen.com/blog/petpooja-pricing-plans-2026.html",
+   "https://www.businesstoday.in/personal-finance/story/upi-mdr-vs-cards-is-upi-still-cheaper-for-merchants-despite-the-new-charges-on-rs2000-payments-556078-2026-09-17",
+   "https://financialservices.gov.in/sites/default/files/2026-09/FAQs---Merchant-Discount-Rate--MDR--on-Select-UPI--P2M--Transactions_0.pdf",
+   "https://myfssai.in/fssai-license-fees-structure-2026-complete-cost-breakdown/",
+   "https://velcolegalindia.com/blog/fssai-state-license-step-by-step-guide",
+   "https://www.mcgm.gov.in/irj/portal/anonymous/qltabmohlic?guest_user=english",
+   "https://dir.indiamart.com/impcat/shawarma-machine.html"
+  ]
+ },
+ "verify": {
+  "corrections": [
+   {
+    "item": "MSEDCL LT-II(A) tariff (Kalyan, Pune) - source and legal status",
+    "was": "Cited MERC review order dated 25-Jun-2025 in Case 75 of 2025 as the governing order (FY25-26 10.37/kWh from 1-Jul-2025, fixed Rs 520; FY26-27 10.11/kWh, fixed Rs 540).",
+    "now": "Numbers STAND but the cited order does not: Bombay HC quashed the 25-Jun-2025 review order (HC order 3-Nov-2025; reported HT/TOI 5-6 Nov 2025), the Supreme Court remanded it (orders 17-Nov-2025 and 9-Feb-2026), and MERC issued a fresh order in Case 75 of 2025 dated 25-Mar-2026. I read the fresh order (pdftotext): FY25-26 (from 1-Jul-2025) LT-II(A) 0-20 kW fixed Rs 520, energy 8.90 + wheeling 1.47 = 10.37; FY26-27 (from 1-Apr-2026) fixed Rs 540, 8.51 + 1.60 = 10.11; 20-50 kW Rs 550/kVA + 13.92/kVAh. Cite the 25-Mar-2026 order. A further SC challenge was reported in Feb 2026, so treat as litigated.",
+    "reason": "Primary source re-read; original citation was set aside by the High Court. Tariff values were re-approved unchanged for this category.",
+    "source_url": "https://www.mahadiscom.in/wp-content/uploads/2026/07/Tariff-Order_Case-No.-75-of-2025-dated-25th-March-2026.pdf"
+   },
+   {
+    "item": "Tax on Sale of Electricity (ToSE) rates",
+    "was": "34.04 paise/unit in Mumbai licensee areas; 19.04 paise/unit in MSEDCL city areas (researcher noted a 15-Apr-2026 circular existed but did not read it).",
+    "now": "Revised w.e.f. 1-Dec-2025 by GoM notification dated 19-Dec-2025 (MSEDCL Commercial Circular 354 dated 15-Apr-2026): Tata Power / AEML / BEST / Torrent areas, industrial or commercial = 43.94 paise/unit (other consumers 35.94); MSEDCL city areas industrial/commercial = 28.94 (was 19.04); other MSEDCL areas = 27.90 (was 18.00). The 9.90 paise increase is billed under a separate head (PM-KUSUM-B / Magel Tyala Saur Krushi Pump).",
+    "reason": "Primary source read; researcher's figures are the pre-Dec-2025 rates (their FPJ source is dated July 2021).",
+    "source_url": "https://www.mahadiscom.in/wp-content/uploads/2026/04/Commercial-Circular-354_Revision-in-Rate-of-ToSE_15-04-2026-F.Rv_.pdf"
+   },
+   {
+    "item": "All-in electricity cost per kWh (derived)",
+    "was": "Mumbai approx Rs 10-10.5/kWh; MSEDCL approx Rs 12-12.7/kWh (FY26-27).",
+    "now": "Mumbai (AEML/BEST LT-II(a)): 7.98-8.00 x 1.21 duty + 0.44 ToSE = approx Rs 10.1, plus FAC => use Rs 10.1-10.9/kWh. MSEDCL: 10.11 x 1.21 + 0.29 = approx Rs 12.5, plus FAC => use Rs 12.5-13.3/kWh. FAC is live: TOI (14-Aug-2026) reported MERC approved a FAC hike for BEST. Typical monthly bill line (Rs 18-55k, typical 32k) still holds.",
+    "reason": "ToSE update plus FAC evidence; duty rate itself (21%) not verified on a primary source - medium confidence.",
+    "source_url": "https://news.google.com/rss/search?q=Adani+Electricity+Tata+Power+BEST+Mumbai+tariff+April+2026+commercial+consumers&hl=en-IN&gl=IN&ceid=IN:en"
+   },
+   {
+    "item": "Electricity duty conflict (21% vs 16%)",
+    "was": "21% commercial per secondary sources; one site says 16% - conflict.",
+    "now": "Keep 21% for commercial (medium confidence). The 16% comes from thediscombill.com, which I fetched and found unreliable: it shows MSEDCL LT-II(A) energy charge Rs 6.44/unit and fixed Rs 525 for FY26-27, contradicting the MERC order (8.51 + 1.60, fixed Rs 540). Drop thediscombill.com as a source. 16% is the residential duty rate (general knowledge).",
+    "reason": "Source quality check against the primary MERC order.",
+    "source_url": "https://thediscombill.com/tariffs/maharashtra/msedcl/"
+   },
+   {
+    "item": "AEML / BEST LT-II(a) and AEML LT-III tariffs",
+    "was": "AEML FY25-26 8.65 (5.72+2.93), FY26-27 7.98 (5.70+2.28), fixed Rs 475; BEST FY26-27 7.99 (6.17+1.82); AEML LT-III(a) 8.53 -> 7.83, LT-III(b) Rs 400/kVA + 8.27 -> 7.65.",
+    "now": "CONFIRMED from the MERC press-note PDFs (AEML Case 211 of 2024; BEST). HT reported the reduced FY26-27 tariffs took effect 1-Apr-2026. Tata Power figures (8.68 / 8.00) NOT independently verified (press-note URL guess returned 404) - medium confidence.",
+    "reason": "Primary source re-read via pdftotext.",
+    "source_url": "https://merc.gov.in/wp-content/uploads/2025/03/Press-Note_MYT-Order_AEML_English.pdf"
+   },
+   {
+    "item": "POS subscription (Petpooja) per outlet",
+    "was": "\"Petpooja does not publish prices\"; low 10,000 / typical 25,000 / high 40,000 per year from user reports.",
+    "now": "Petpooja DOES publish indicative pricing at petpooja.com/pricing (ex-tax, 'indicative and subject to change'): Base plan Rs 12,000 (billing, inventory, menu, reports, aggregator integrations, purchase manager); Operations Manager Growth Rs 20,000 / Scale Rs 30,000 (Captain App, KDS, API + Tally integration); Marketing Manager Core/Growth/Scale Rs 20,000/30,000/40,000. The page text does not state the billing period; per-outlet per-year is the market understanding (unverified). Suggested line: low 12,000, typical 32,000 (Base + Ops Growth), high 82,000, all + 18% GST non-creditable.",
+    "reason": "Official page contradicts the claim; typical was understated for a chain that needs KDS/API/Tally.",
+    "source_url": "https://www.petpooja.com/pricing"
+   },
+   {
+    "item": "Employer statutory add-ons (staffing note)",
+    "was": "\"works out to roughly 13-17% on top of gross for Rs 15-21k staff\" while also listing EPF 13%, ESIC 3.25%, bonus 8.33%, gratuity 4.81%.",
+    "now": "Internally inconsistent. For a Rs 16,000 employee on the Zone I minimum wage: EPF+EDLI/admin approx Rs 1,908-1,950, ESIC Rs 520, statutory bonus 8.33% x 14,676 = Rs 1,222, gratuity accrual 4.81% = Rs 706 => approx Rs 4,400 = 27% of gross. PF+ESIC alone = approx 15-16%. Use 15-16% if bonus/gratuity are modelled as separate lines (as in cost_lines), or 23-27% fully loaded. Staff above Rs 21,000 (manager, senior cooks): no ESIC/bonus, PF capped at Rs 1,950. On a Rs 2.1 L payroll this is approx Rs 0.5 L/month, not Rs 0.29 L - worth about 1 point of EBITDA.",
+    "reason": "Arithmetic check using the researcher's own statutory rates; minimum wage table verified exactly on WageIndicator (valid 1-Jul-2026 to 31-Dec-2026).",
+    "source_url": "https://wageindicator.org/salary/minimum-wage/india/18640-maharashtra/18894-hotels-and-restaurants"
+   },
+   {
+    "item": "Missing cost line: Zomato long-distance service fee",
+    "was": "Not included.",
+    "now": "Add optional line under aggregator fees: Zomato introduced a restaurant-borne 'long distance service fee' for deliveries beyond 4 km (Economic Times and Business Standard, 22-May-2025; MediaNama 9-Jul-2025: up to Rs 40 per order). Model as Rs 0-40 on the minority of Zomato orders beyond 4 km (approx 0.3-1.0% of Zomato sales - my assumption). A reported 30% cap on commission + this fee is UNVERIFIED. Do not model an equivalent Swiggy line without evidence.",
+    "reason": "Documented deduction since mid-2025; omission understates Zomato cost for wide-radius outlets.",
+    "source_url": "https://news.google.com/rss/search?q=Zomato+long+distance+service+fee+restaurants+4+km&hl=en-IN&gl=IN&ceid=IN:en"
+   },
+   {
+    "item": "Commission, PG fee and fee lines NOT to be modelled",
+    "was": "Zomato 18-28% (typical 23), Swiggy 17-28% (typical 23), PG 1.8-2.5%; note that 'Zomato computes on subtotal+packaging ex-GST while Swiggy includes GST in base'.",
+    "now": "Ranges CORROBORATED by three independent secondary sources (MenuManager: Zomato 18-28, Swiggy 17-25; RestaurantDaily 18-28; SpiceAdvisors 18-28; PG 1.8-2.5 or 2-3). No public primary source exists (contracts are private) so keep medium confidence and label rates as 'contracted rate - configurable'. The commission-base difference claim is NOT on the MenuManager page I fetched - drop it. Also do NOT treat as restaurant costs: the customer-side platform fee (Rs 14.90 + GST, listed by MenuManager) or SpiceAdvisors' 'platform delivery cut 5-8%' - neither is a standard restaurant payout deduction. MenuManager lists both a 2% collection fee and a 2-3% PG fee for Swiggy - likely double counting; use one line at approx 2%.",
+    "reason": "Default to doubt on anything that would appear as a channel deduction in the mock.",
+    "source_url": "https://menumanager.in/zomato-swiggy-commission-rates-2026-complete-breakdown/"
+   },
+   {
+    "item": "Aggregator ads citation",
+    "was": "4-9% of aggregator revenue, min budgets Rs 400/500 per day, CPC, CPO, ROAS all cited to creatorcity.in.",
+    "now": "Numbers stand but are mis-attributed: '4-9% of aggregator revenue' is from restaurantdaily.ai; minimum budgets Rs 400/day (Zomato) and Rs 500/day (Swiggy) are from spiceadvisors.in; creatorcity.in supports only CPC (Zomato Rs 4-18, Swiggy Rs 3-15), CPO Rs 40-65 for QSR/biryani, and ROAS 4-6x.",
+    "reason": "Fetched all three pages.",
+    "source_url": "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india"
+   },
+   {
+    "item": "Food cost line when a factory supplies outlets",
+    "was": "Food cost 28/33/38% 'incl. factory transfers' - transfer-price basis undefined; factory roles 'no sourced data'.",
+    "now": "28-35% benchmark CONFIRMED (Petpooja blog: 28-35%, QSR/cloud kitchens nearer 28%, above 38% a problem). But the mock must fix ONE transfer-pricing convention or the outlet and factory P&Ls will not reconcile: (a) transfer at raw-material cost => outlet food cost 30-33% and a separate factory conversion cost pool of roughly 5-7% of brand sales (rent, 10-14 staff, cold-room power, vehicle) shown as a cost centre; or (b) transfer at full standard cost => outlet COGS 35-38% with leaner outlet labour (10-12%). All factory numbers are ASSUMPTIONS with no source - label them so.",
+    "reason": "Internal-consistency requirement from the user ('data should be meaningful, not disconnected'); no benchmark found for central-kitchen cost share."
+   },
+   {
+    "item": "Suggested sales spread per outlet",
+    "was": "Kalyan 9-11 L, Baner 11-14 L, Fort 12-15 L, Koregaon Park 14-18 L, Andheri W 18-22 L, Bandra W 20-26 L (six areas).",
+    "now": "User brief specifies 5 outlets; pick 5. With the researcher's own typical fixed costs (payroll Rs 2.1 L + add-ons, staff meals/accommodation, rent) an outlet below approx Rs 14-15 L/month is at or below break-even (my Kalyan case at Rs 10 L: approx +1% EBITDA even with a lean 6-7 staff roster). Either lift the spread to approx Rs 14-26 L (brand total approx Rs 95-105 L/month) or scale staffing to 6-7 heads (Rs 1.2-1.5 L payroll) for small outlets and let one outlet be deliberately marginal (Fort: rent approx 15% of sales).",
+    "reason": "P&L arithmetic; avoids a mock in which most outlets lose money by construction."
+   },
+   {
+    "item": "Listed-QSR benchmark statements",
+    "was": "'Sapphire KFC gross margin 74.4%'; 'Corporate-level margin is ~10 pts lower than store-level (27% vs 17%)'; DineOpen net profit by format (QSR 15-25%, cloud kitchen 20-30%).",
+    "now": "74.4% is what the inve.money blog says (verified) but it conflicts with my recollection of Sapphire/Devyani disclosures (KFC gross margin approx 68-69%; approx 75% is Pizza Hut) - do not use as a target for a meat-heavy menu; aim for 62-66% after food + packaging. The '27% vs 17%' gap most likely reflects post- vs pre-Ind AS 116 EBITDA (rent moved below EBITDA), not store vs corporate - drop it; use HO overhead of approx 4-7% of sales between outlet EBITDA and company EBITDA (assumption). DineOpen's format margins are POS-vendor marketing - do not display. Verified anchors: KFC restaurant EBITDA 16.8-16.9%, Pizza Hut approx 0.8% to -3.3%, Devyani KFC ADS approx Rs 90-98k, Pizza Hut approx Rs 31-35k.",
+    "reason": "Source quality and likely misreading; could not verify company filings (search budget exhausted).",
+    "source_url": "https://inve.money/blog/how-to-analyse-a-qsr-restaurant-company"
+   },
+   {
+    "item": "FSSAI licence",
+    "was": "State licence Rs 2,000-5,000; revised thresholds from 1-Apr-2026 (Rs 1.5-50 crore), perpetual licences - cited to myfssai.in.",
+    "now": "The cited myfssai.in page shows the OLD structure (registration under Rs 12 lakh Rs 100/yr; state licence Rs 12 lakh-20 crore Rs 2,000-5,000/yr; central Rs 7,500/yr) and says nothing about 1-Apr-2026 changes or perpetual licences. Only velcolegalindia.com (private consultancy) states the Rs 1.5-50 crore band. Fee of Rs 2,000-5,000/yr per outlet stands either way (immaterial); mark threshold/perpetual claims LOW confidence and do not display them.",
+    "reason": "Citation does not support the claim.",
+    "source_url": "https://myfssai.in/fssai-license-fees-structure-2026-complete-cost-breakdown/"
+   },
+   {
+    "item": "Cashier salary data point",
+    "was": "Indeed Mumbai cashier average Rs 18,861.",
+    "now": "Indeed page shows Rs 17,934/month (44 salaries, last updated 11-Apr-2024); Indeed 'Chef' Mumbai average Rs 20,073 (70 salaries, Feb-2024). Both stale; the binding floor is the Jul-Dec 2026 semi-skilled minimum wage Rs 15,176. Range Rs 15,200-20,000 is fine.",
+    "reason": "Re-fetched.",
+    "source_url": "https://in.indeed.com/career/cashier/salaries/Mumbai--Maharashtra"
+   },
+   {
+    "item": "Commercial LPG 19 kg - Mumbai",
+    "was": "Sep-2026 approx Rs 2,701; history 1,531.5 (Sep/Dec-25) to 3,067.5 (Jun-26); cited to BankBazaar.",
+    "now": "CONFIRMED. Goodreturns: Sep-2026 Rs 2,701.00 (+9.50), Aug 2,691.50, Jul 2,885.50, Jun 3,067.50, May 3,024.00 (+993), Apr 2,031.00, Mar 1,836.00, Feb 1,692.00, Jan 1,642.50, Dec-25 1,531.50, Nov-25 1,542.00. BankBazaar history matches but its headline 'current price' is stale (shows Rs 2,885.50) - cite Goodreturns for the latest month.",
+    "reason": "Second source agrees.",
+    "source_url": "https://www.goodreturns.in/lpg-price-in-mumbai.html"
+   },
+   {
+    "item": "Area rents",
+    "was": "C&W prime asking rents: Linking Road 850, Fort 560, Lokhandwala 430, Thane 300 (Q1-2024); Koregaon Park 280-350, Baner-Balewadi 160-220 (Q3-2023); plus Sept-2026 portal listings.",
+    "now": "CONFIRMED from the C&W MarketBeat PDFs (Linking Road 850 +9.7% YoY, Fort 560 +17.9%, Lokhandwala 430 +7.5%, Thane 300 +9.1%; Pune KP 280-350, Baner-Balewadi 160-220, Aundh 180-230). Portal re-check (Sept-2026): Bandra W Rs 320-706/sf, Lokhandwala Rs 400-611, other Andheri W Rs 120-300, Kalyan W Rs 80-140 (ignore outliers at Rs 30 and Rs 560). Caveats to carry: C&W figures are PRIME ground-floor ASKING rents on carpet area and are 2.5-3 years old (no 2025-26 C&W data obtained); a kebab QSR with seating typically needs 400-800 sq ft, not 250-500. 'Typical' rent Rs 1.4 L is reasonable for Andheri W; Bandra W 500 sq ft at Rs 450-550 = Rs 2.25-2.75 L + 18% GST.",
+    "reason": "Primary PDFs read; listings re-fetched.",
+    "source_url": "https://www.scai.in/wp-content/uploads/2024/05/india-mumbai-retail-q1-2024-final.pdf"
+   },
+   {
+    "item": "GST on packaging inputs",
+    "was": "'18% on ... most packaging'.",
+    "now": "Soften: after the 22-Sep-2025 rate rationalisation paper-based cartons/boxes/bags are generally at 5% while plastic containers and aluminium foil are at 18% (general knowledge, not re-verified). Since no ITC is available, simply model packaging cost per order GROSS of GST and do not show a packaging GST rate in the UI.",
+    "reason": "Over-generalisation; low materiality."
+   }
+  ],
+  "red_flags": [
+   "WebSearch budget was already exhausted (200/200) when this review started; verification was done with WebFetch on primary PDFs (MERC orders, MSEDCL circular, C&W reports), official pages (Petpooja pricing, WageIndicator), secondary blogs and Google News RSS headlines. News items are cited via RSS query URLs because publisher links could not be resolved.",
+   "The researcher's MSEDCL citation (25-Jun-2025 review order) was QUASHED by the Bombay High Court in Nov 2025; the values survive only because MERC re-issued them on 25-Mar-2026. The matter is still being litigated (SC petition reported Feb 2026), so any tariff shown should be a configurable rate, not a hard-coded fact.",
+   "ToSE figures in the research were out of date (pre-1-Dec-2025). Electricity duty % (21%) remains unverified on a primary source.",
+   "Roughly a third of cost lines are explicit ASSUMPTIONS with no source: CAM, charcoal, staff meals, staff accommodation, consumables, waste disposal, internet, insurance, music licence, other licences, factory-to-outlet logistics, in-store packaging, refund %, and ALL factory/central-kitchen economics. They are plausible but must be presented as illustrative, never as benchmarks.",
+   "With 'typical' values on every line simultaneously, an outlet at Rs 18-25 L/month earns only approx 6-13% EBITDA, below the 12-22% healthy band; the band is reachable only by tuning aggregator share (<=50-55%), restaurant-funded discounts (<=8%), food cost (30-32%) and ads (<=4%). Outlets under approx Rs 14-15 L are break-even or loss-making with the stated staffing.",
+   "Employer statutory cost was understated (13-17% vs 23-27% fully loaded) - risk of double counting or omission depending on how the mock combines the 'add-on' note with the separate bonus/gratuity line.",
+   "Transfer-pricing basis between factory and outlets is undefined; without it outlet food cost %, factory P&L and consolidated margin cannot reconcile.",
+   "Several benchmark sources are vendor marketing blogs (DineOpen, RestaurantDaily, MenuManager, SpiceAdvisors, CreatorCity). Commission/PG/ads ranges agree across them but there is no public primary source; actual rates are contract-specific.",
+   "Items that must NOT be modelled as restaurant costs or revenue in the unit economics: customer-side platform fee (approx Rs 14.90 + GST), customer delivery fee, rider tips, and the 5% GST on aggregator orders (collected and paid by the platform under s.9(5)); GST liability tile should arise only on Petpooja in-store sales. TDS u/s 194-O (0.1%) is a receivable, not an expense; its exact base (with/without GST) was not verified.",
+   "C&W rent anchors are Q1-2024 (Mumbai) and Q3-2023 (Pune) prime asking rents; no 2025-26 professional data was obtained. Portal listings are asking rents with wide dispersion and occasional data errors (e.g. a Kalyan listing at Rs 560/sf).",
+   "Commercial LPG is extremely volatile in the mock window (Rs 1,531.5 in Dec-2025 to Rs 3,067.5 in Jun-2026, Rs 2,701 in Sep-2026); any 12-month utilities trend must reflect this or it will look wrong to an operator. PNG commercial rate (Rs 60/SCM) remains low confidence - MGL page returned no data.",
+   "Calendar note (general knowledge, not web-verified): 'today' (18-Sep-2026) falls inside Ganeshotsav (14-25 Sep 2026) immediately after Shravan, so the most recent weeks of mock sales for a non-veg brand should show the seasonal dip, not a peak.",
+   "Sapphire KFC gross margin 74.4% and the '27% vs 17%' store-vs-corporate statement look wrong or misread; could not check company filings.",
+   "UPI MDR regime from 15-Oct-2026 (0.40% above Rs 2,000) confirmed only via Business Today (17-Sep-2026); DFS FAQ PDF not read. It is post-dated relative to the mock's 'today' - do not show it as a current charge."
+  ],
+  "confidence_overall": "medium",
+  "internal_consistency_check": "Reviewer's own P&L using the (corrected) typical values, Mumbai outlet, 60% aggregator / 40% Petpooja, all figures INR lakh per month, revenue = net sales ex-GST after restaurant-funded discounts (aggregator GMV before 10% discount = 13.3; discounts 1.33 already netted off).\n\nNet sales 20.00 (aggregator 12.00, in-store 8.00)\n- Food/COGS 33%: 6.60\n- Packaging (approx 3,160 delivery orders x Rs 16 + 3,200 in-store x Rs 7): 0.73 (3.6%)\n=> Gross margin after food + packaging: 12.67 = 63.4%\n- Aggregator costs: commission 23% 2.76 + PG 2% 0.24 + 18% GST on both 0.54 + ads 5% 0.60 + GST on ads 0.11 + refunds 0.8% 0.10 = 4.34 (21.7% of total sales; 36.2% of aggregator net sales; implies net realisation approx 57% of menu price after discount and packaging - inside the 52-62% 'healthy' band)\n- Occupancy: rent 1.40 + 18% GST 0.25 + CAM 0.06 = 1.71 (8.6%)\n- Utilities: electricity 0.32 + LPG 0.27 (10 cyl x Rs 2,701) + charcoal 0.15 + water 0.03 = 0.77 (3.8%)\n- People: gross payroll 2.10 + PF/ESIC approx 15% 0.30 + bonus/gratuity accrual approx 10% 0.20 + staff meals 0.18 + accommodation 0.20 = 2.98 (14.9%)\n- Other opex: consumables 0.12, local marketing 1.5% 0.30, R&M 1.5% 0.30, pest + waste 0.05, POS/internet/MDR 0.07, licences + insurance 0.05, petty cash 0.08, factory logistics 0.20 = 1.17 (5.9%)\nTotal costs 18.30 => Outlet EBITDA 1.70 = 8.5%. Depreciation approx 0.18 => EBIT approx 7.6%. Prime cost (food + people) = 47.9%, well under the 60-65% ceiling because aggregator fees, not labour, are the second-largest line.\n\nSensitivity with the same cost structure: at Rs 18 L net sales EBITDA approx 1.08 = 6.0%; at Rs 25 L approx 3.27 = 13.1% (rent and most labour fixed). 'Star outlet' case at Rs 22 L with 50% aggregator share, food 31%, commission 22%, ads 4%, discounts 8%: costs approx 18.07 => EBITDA approx 3.93 = 17.9%. Small-outlet case at Rs 10 L (70% aggregator, lean 6-7 staff, Kalyan rent 0.47 incl. GST): approx +1% i.e. break-even. The researcher's own check (break-even at Rs 15 L menu sales; 6-8% at Rs 20 L) reproduces within 1 point, so their arithmetic is sound; the only material understatement is employer statutory cost (approx 1 pt).\n\nVerdict: plausible and consistent with listed peers (KFC India restaurant EBITDA 16.8-16.9%, Pizza Hut approx 0% to -3%), but typical-on-every-line lands at 6-13% for an Rs 18-25 L outlet, i.e. at or below the bottom of the 12-22% 'healthy' band. A believable 5-outlet portfolio: one star 16-18%, two or three at 9-14%, one marginal 2-6% (high rent/sales such as Fort at approx 15%, or heavy discounting). After factory under-absorption (if transfers are at raw-material cost, factory conversion approx 5-7% of brand sales - assumption) and HO overhead (approx 4-7% - assumption), company-level EBITDA of roughly 4-9% is the defensible range for the consolidated dashboard.",
+  "notes": "WHAT STANDS (verified this session): Maharashtra Hotels & Restaurants minimum wages Jul-Dec 2026, Zone I 14,676 / 15,176 / 15,876 (basic 6,500/7,000/7,700 + special allowance 8,176) - exact match on WageIndicator; Mumbai, Pune and Kalyan-Dombivli are municipal corporations so Zone I applies. AEML and BEST LT-II(a) tariffs, fixed Rs 475, and AEML LT-III values - exact match in MERC press notes. MSEDCL LT-II values - exact match in the fresh 25-Mar-2026 order. Commercial LPG history - two sources agree. C&W main-street rents - exact match. Aggregator economics: commission 18-28%, PG approx 2%, 18% GST on fees, ads 4-9% for active bidders, packaging Rs 8-22/order, net realisation 52-62% healthy / under 50% loss-making, RestaurantDaily worked examples (Rs 500 order -> Rs 161 net; Rs 8 L GMV month -> 53.5%) - all reproduced from the cited pages. Food cost 28-35% with >38% red flag - confirmed (Petpooja blog, DineOpen). TDS 194-O 0.1% from 1-Oct-2024 and s.9(5) treatment - confirmed (HelloBooks). DineOpen cost-benchmark table (labour 20-30, rent 8-15, utilities 3-5, marketing 2-5, repairs 1-2, misc 3-5) and the Bandra vs Jaipur rent example - confirmed as quoted, but it is a vendor blog. UPI MDR from 15-Oct-2026 - confirmed via Business Today only.\n\nWHAT IS STILL UNVERIFIED (treat as assumption / low confidence): Tata Power LT-II numbers; electricity duty 21%; FAC magnitudes; PNG commercial Rs 60/SCM; Glassdoor manager pay, WorkIndia/Quikr cook postings (403 or not re-fetched) - ranges are nonetheless plausible against the minimum-wage floor; all lines the researcher marked ASSUMPTION; factory staffing and cost; Zomato long-distance-fee cap; FSSAI April-2026 changes; Sapphire KFC gross margin.\n\nGUIDANCE FOR THE MOCK (unit-economics screens): (1) Show aggregator cost lines only as they appear in payout statements - commission, PG/collection fee, GST on fees, ads, long-distance fee (Zomato only), refund/complaint adjustments, TDS as receivable - with rates labelled as configurable contract rates. (2) Never show customer-paid delivery fee, platform fee, tips or aggregator-order GST inside outlet revenue or cost. (3) Model rent, aggregator fees, POS, pest control, LPG gross of 18% GST (5%-without-ITC restaurant). (4) Keep electricity as kWh x configurable all-in rate (Mumbai approx Rs 10.1-10.9; Kalyan/Pune approx Rs 12.5-13.3) and LPG as cylinders x monthly price so the 2026 LPG spike flows through automatically. (5) Put an 'illustrative assumption' tag on every unsourced line and on all factory figures. (6) Decide and document the factory transfer-price convention before generating data. (7) Tune per-outlet levers (aggregator share, discount depth, rent/sales, food cost) rather than using typical values everywhere, to land a portfolio of roughly 17% / 9-14% / 2-6% outlet EBITDA.\n\nLocal working copies of the PDFs I parsed are under C:\\Users\\Admin\\.claude\\projects\\D--work-Jan-Pro-apps-Financera-CFO-Dashboard\\52b6b8ba-85c5-4f18-93c3-f88493749966\\tool-results\\ (webfetch-1789734490401-uzljba.pdf = AEML press note; webfetch-1789734779844-rmkb3h.pdf = MERC 25-Mar-2026 MSEDCL order; webfetch-1789734718516-api2co.pdf = ToSE circular; webfetch-1789734860308-7wddoa.pdf = C&W Mumbai Q1-2024; webfetch-1789734860999-zw7t70.pdf = C&W Pune Q3-2023; webfetch-1789734808548-kpv4fh.pdf = BEST press note). Two pdftotext scratch outputs (msedcl.txt, msedcl2026.txt, best.txt) were written alongside them in that tool-results folder; no project files were created or edited."
+ }
+}

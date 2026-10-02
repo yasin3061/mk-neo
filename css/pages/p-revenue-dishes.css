@@ -1,0 +1,80 @@
+/* Page styles: revenue-dishes (Dishes). Tokens only (css/tokens.css); every selector is prefixed .pg-revenue-dishes */
+
+/* one-line purpose under the title: what the page answers and the period */
+.pg-revenue-dishes .ds-intro {
+  margin: 0;
+  max-width: 120ch;
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.pg-revenue-dishes .ds-intro__period { color: var(--ink); font-weight: 600; }
+
+/* KPI row: all tiles on one line at desktop widths (the kit's auto-fit row would orphan the last one at 1280px) */
+.pg-revenue-dishes .ds-kpiblock { min-width: 0; }
+.pg-revenue-dishes .ds-kpis {
+  display: grid;
+  gap: var(--sp-3);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.pg-revenue-dishes .ds-kpis[data-count="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pg-revenue-dishes .ds-kpis[data-count="5"] { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.pg-revenue-dishes .ds-kpis > * { min-width: 0; }
+@media (max-width: 1180px) {
+  .pg-revenue-dishes .ds-kpis,
+  .pg-revenue-dishes .ds-kpis[data-count="5"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pg-revenue-dishes .ds-kpis[data-count="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .pg-revenue-dishes .ds-kpis,
+  .pg-revenue-dishes .ds-kpis[data-count="5"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* the scatter and the quadrant playbook share one height */
+.pg-revenue-dishes .ds-cell { display: flex; flex-direction: column; min-width: 0; }
+.pg-revenue-dishes .ds-cell > * { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 1180px) {
+  .pg-revenue-dishes .ds-menugrid > .ds-cell { grid-column: 1 / -1; }
+}
+
+/* quadrant playbook: one block per menu class */
+.pg-revenue-dishes .ds-classes { display: flex; flex-direction: column; }
+.pg-revenue-dishes .ds-class { padding: var(--sp-3) 0; border-top: 1px solid var(--grid); }
+.pg-revenue-dishes .ds-class:first-child { padding-top: 0; border-top: 0; }
+.pg-revenue-dishes .ds-class:last-child { padding-bottom: 0; }
+.pg-revenue-dishes .ds-class__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); }
+.pg-revenue-dishes .ds-class__count { color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-revenue-dishes .ds-class__shares { margin-left: auto; color: var(--ink-2); font-size: var(--fs-sm); }
+.pg-revenue-dishes .ds-class__dishes { margin-top: var(--sp-2); color: var(--ink); font-size: var(--fs-md); font-weight: 600; line-height: 1.4; }
+.pg-revenue-dishes .ds-class__action { margin-top: var(--sp-1); color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5; }
+.pg-revenue-dishes .ds-class.is-empty .ds-class__action { margin-top: var(--sp-2); }
+
+/* below a flush table: reading note and source tag */
+.pg-revenue-dishes .ds-tablefoot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-2) var(--sp-5) var(--sp-4);
+  box-shadow: inset 0 1px 0 var(--grid);
+}
+.pg-revenue-dishes .ds-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  margin: var(--sp-1) 0 0;
+  max-width: 140ch;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.pg-revenue-dishes .ds-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+
+/* two-line column header (measure on top, basis below) so the wide tables fit the page without sideways scroll */
+.pg-revenue-dishes .ds-th2 { display: inline-block; padding: var(--sp-1) 0; line-height: 1.25; text-align: inherit; }
+.pg-revenue-dishes .ds-th2__sub { font-weight: 400; }
+
+/* the price section: the anomaly callout sits on top of its table; the anchor is the scroll target of the KPI tile */
+.pg-revenue-dishes .ds-anchor { scroll-margin-top: var(--sp-4); }
+
+/* a figure with its basis on a muted second line (total under per-portion, portions under shortfall) */
+.pg-revenue-dishes .ds-stacked { line-height: 1.3; }

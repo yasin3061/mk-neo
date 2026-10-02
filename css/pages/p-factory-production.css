@@ -1,0 +1,63 @@
+/*
+ * Production and dispatch (#/factory/production). Tokens only (css/tokens.css); every selector is
+ * prefixed .pg-factory-production. Page-owned classes start with "fp-"; mk-* component classes are
+ * used as they are and never restyled here.
+ */
+
+/* ---- header: purpose, period strip, exception callout */
+.pg-factory-production .fp-head { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.pg-factory-production .fp-intro { margin: 0; max-width: 980px; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; }
+
+.pg-factory-production .fp-period {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-6);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius); background: var(--surface); box-shadow: 0 0 0 1px var(--ring);
+}
+.pg-factory-production .fp-period__label { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); min-width: 0; font-size: var(--fs-md); }
+.pg-factory-production .fp-period__label svg { flex: none; color: var(--ink-3); }
+.pg-factory-production .fp-period__label strong { font-weight: 600; }
+
+.pg-factory-production .fp-note {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 18px;
+}
+.pg-factory-production .fp-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.pg-factory-production .fp-note > span { min-width: 0; }
+
+/* ---- KPI tiles: two even rows of four */
+.pg-factory-production .fp-kpiblock { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.pg-factory-production .fp-kpiblock .mk-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1180px) {
+  .pg-factory-production .fp-kpiblock .mk-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .pg-factory-production .fp-kpiblock .mk-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.pg-factory-production .fp-kpinote { margin: 0; }
+
+/* ---- rows of paired cards share a height; the cell wrapper carries the column span */
+.pg-factory-production .fp-row { align-items: stretch; }
+.pg-factory-production .fp-row > * { min-width: 0; }
+.pg-factory-production .fp-cell { display: flex; flex-direction: column; min-width: 0; }
+.pg-factory-production .fp-cell > * { flex: 1 1 auto; min-width: 0; }
+.pg-factory-production .fp-source-end { margin-top: auto; padding-top: var(--sp-3); }
+
+/* ---- fill-rate meter inside a table cell: the wrapper is page-owned, the meter keeps the kit's look */
+/* 104px: the meter still reads clearly and the five columns of the fill-rate table stay inside the
+   seven-column card at 1280 even when a full-year filter widens the kilogram columns to five digits. */
+.pg-factory-production .fp-fill { width: 104px; margin-left: auto; }
+.pg-factory-production .fp-fill .mk-meter__label { display: none; }
+
+/* ---- diverging inline bar for the yield variance column (the kit has bars and heat cells, not a signed bar) */
+.pg-factory-production .fp-divbar { display: flex; align-items: center; gap: var(--sp-2); justify-content: flex-end; }
+.pg-factory-production .fp-divbar__track {
+  position: relative; flex: 1 1 auto; min-width: 40px; height: 8px;
+  border-radius: 2px; background: var(--surface-2);
+}
+.pg-factory-production .fp-divbar__track::before {
+  content: ""; position: absolute; top: -2px; bottom: -2px; left: 50%; width: 1px; background: var(--axis);
+}
+.pg-factory-production .fp-divbar__fill { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+.pg-factory-production .fp-divbar__fill.is-pos { background: var(--div-pos-2); }
+.pg-factory-production .fp-divbar__fill.is-neg { background: var(--div-neg-2); }
+.pg-factory-production .fp-divbar__value { flex: none; min-width: 46px; text-align: right; font-variant-numeric: tabular-nums; }

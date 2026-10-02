@@ -1,0 +1,48 @@
+/* Page styles: revenue-sales (Sales explorer). Tokens only (css/tokens.css); every selector is prefixed .pg-revenue-sales */
+
+/* one-line purpose under the title: what the page answers, the period and the comparison basis */
+.pg-revenue-sales .rs-intro {
+  margin: 0;
+  max-width: 120ch;
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.pg-revenue-sales .rs-intro__period { color: var(--ink); font-weight: 600; }
+
+/* KPI row: six tiles on one line at desktop widths (the kit's auto-fit row would orphan the sixth at 1280px) */
+.pg-revenue-sales .rs-kpiblock { min-width: 0; }
+.pg-revenue-sales .rs-kpis {
+  display: grid;
+  gap: var(--sp-3);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+@media (max-width: 1180px) {
+  .pg-revenue-sales .rs-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .pg-revenue-sales .rs-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* slot in a card header that holds a control only for some measures */
+.pg-revenue-sales .rs-slot { display: inline-flex; }
+.pg-revenue-sales .rs-slot:empty { display: none; }
+
+/* below a flush table: reading note, capability note, source tag */
+.pg-revenue-sales .rs-tablefoot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-2) var(--sp-5) var(--sp-4);
+  box-shadow: inset 0 1px 0 var(--grid);
+}
+.pg-revenue-sales .rs-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  margin: var(--sp-1) 0 0;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.pg-revenue-sales .rs-note > svg { flex: none; margin-top: 2px; color: var(--ink-3); }

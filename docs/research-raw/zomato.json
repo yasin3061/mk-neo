@@ -1,0 +1,1185 @@
+{
+ "key": "zomato",
+ "research": {
+  "channel": "Zomato (food delivery, India; parent Eternal Ltd) - restaurant partner data availability",
+  "data_points": [
+   {
+    "name": "Zomato order ID, restaurant/outlet ID (res_id), restaurant name, order placed timestamp",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay (Zomato Order Relay Webhook -> Petpooja)",
+    "granularity": "per order",
+    "confidence": "high",
+    "notes": "Public sample payload on the QR/Bar code guide page shows order_id, restaurant_id, restaurant_name, scan_text. Full schema is behind a login-gated API reference.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/qr-bar-code"
+   },
+   {
+    "name": "Order status lifecycle with timestamps (placed, confirmed, ready, rider-assigned, pickedup, delivered, reject, timedout)",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay: confirm/reject/ready/pickedup/delivered endpoints + Order Status Update and Delivery Partner Status Update webhooks",
+    "granularity": "per order, per status event",
+    "confidence": "high",
+    "notes": "Timestamps are those the POS records when it sends/receives each event. Zomato auto-rejects (timedout) if the outlet does not act within the window (approx 5 min in the guide).",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/order-management"
+   },
+   {
+    "name": "Fulfilment mode: Zomato logistics vs self logistics; delivery vs takeaway",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay / outlet logistics status APIs",
+    "granularity": "per order, per outlet",
+    "confidence": "medium",
+    "notes": "Separate documented flows for Zomato-logistics and self-logistics orders; outlet-level logistics status is readable via API.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/outlet-management"
+   },
+   {
+    "name": "Order tags and instructions (cooking instruction, no-cutlery, PURE_VEG, mandatory/skippable item checklist)",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay (order_tags)",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/missing-item-checklist"
+   },
+   {
+    "name": "Order totals: item subtotal, total charges, total taxes, total discount, customer payable",
+    "group": "order",
+    "availability": "available",
+    "via": "POS order relay",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Field-level names for Zomato are gated; UrbanPiper's normalised relay exposes order_subtotal, total_taxes, total_charges, total_external_discount, order_total, payable_amount.",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md"
+   },
+   {
+    "name": "Order history / sales report export from partner dashboard",
+    "group": "order",
+    "availability": "partial",
+    "via": "partner dashboard export (Reporting > business reports)",
+    "granularity": "per order / per day (exact columns unverified)",
+    "confidence": "low",
+    "notes": "A reporting section exists at zomato.com/partners/onlineordering/reporting (login required). I could not verify the export column list; rely on POS data + settlement report for order-level mock data.",
+    "source_url": "https://www.zomato.com/partners/onlineordering/reporting/"
+   },
+   {
+    "name": "Item-level name, quantity, unit price, variants and add-ons",
+    "group": "item",
+    "availability": "available",
+    "via": "POS order relay",
+    "granularity": "per item per order",
+    "confidence": "high",
+    "notes": "Zomato's critical feature list requires POS to show item name, description and add-ons selected; variants have separate prices.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/critical-feature-list"
+   },
+   {
+    "name": "Item-level taxes, charges and item-level discount",
+    "group": "item",
+    "availability": "available",
+    "via": "POS order relay",
+    "granularity": "per item per order",
+    "confidence": "medium",
+    "notes": "UrbanPiper confirms order-level and item-level discount, charge and tax info is relayed for Zomato.",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/zomato/manage-your-orders"
+   },
+   {
+    "name": "Dish trends / menu performance (bestsellers, underperformers)",
+    "group": "item",
+    "availability": "partial",
+    "via": "partner dashboard / partner app (aggregate insight only)",
+    "granularity": "aggregate per outlet per period",
+    "confidence": "medium",
+    "notes": "Play Store listing snippet mentions 'dish trends'. Item sales can anyway be computed from POS relay data, which is the safer source for the mock.",
+    "source_url": "https://play.google.com/store/apps/details?id=com.application.services.partner"
+   },
+   {
+    "name": "Dish-level ratings",
+    "group": "item",
+    "availability": "unclear",
+    "via": "partner dashboard (unverified)",
+    "confidence": "low",
+    "notes": "No source verified. Do not show in the mock."
+   },
+   {
+    "name": "Packaging charge (restaurant-set, fixed PC_D_F or percentage PC_D_P)",
+    "group": "charges_taxes",
+    "availability": "available",
+    "via": "POS order relay; also a column in the settlement report",
+    "granularity": "per order (and item)",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/developer/integration/docs/glossary/charges"
+   },
+   {
+    "name": "GST on food per order/item (tax groups GST_D_P_5.00 = CGST 2.5 + SGST 2.5, etc.) with 9(5) goods/services bifurcation",
+    "group": "charges_taxes",
+    "availability": "available",
+    "via": "POS order relay; 'Total GST collected from customers' in settlement report",
+    "granularity": "per item / per order",
+    "confidence": "high",
+    "notes": "The tax is shown on the order but liability sits with Zomato under s.9(5); UrbanPiper models this as liability_on = aggregator. Critical feature list includes 'GST 9(5) item level bifurcation of goods and services'.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/glossary/taxes"
+   },
+   {
+    "name": "Delivery charge paid by customer",
+    "group": "charges_taxes",
+    "availability": "partial",
+    "via": "POS order relay (self-logistics outlets set it via delivery-charge API); settlement report has a Delivery charge column",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "For Zomato-logistics orders the delivery fee belongs to Zomato/delivery partner, not restaurant revenue. Do not count it as outlet sales.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/outlet-management"
+   },
+   {
+    "name": "Customer-side platform fee, COD 'Pay on Delivery' fee, surge/rain fee, rider tip",
+    "group": "charges_taxes",
+    "availability": "unclear",
+    "via": "not exposed (not restaurant revenue)",
+    "confidence": "low",
+    "notes": "T&C defines fee base as order value 'less any charge not levied by Restaurant but collected by Zomato', implying these are outside the restaurant's view of sales. COD fee launched Sept 2026 is customer-side. Do not show.",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "name": "Restaurant-funded discount amount (PROMO, GOLD, freebies/BOGO)",
+    "group": "discount",
+    "availability": "available",
+    "via": "POS order relay (discount category) and settlement report columns 'Restaurant discount [Promo]' and 'Restaurant discount [Flat offs, Freebies, Gold & others]'",
+    "granularity": "per order (item-level where applicable)",
+    "confidence": "high",
+    "notes": "Promotions under Zomato Promotion Terms are 'completely funded by the Restaurant Partner'; Gold discount is restaurant-funded and deducted via settlement.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/glossary/order-discount-categories"
+   },
+   {
+    "name": "Zomato-funded discount amount (ZOMATO_VOUCHER, PEPPER = Zomato share of a co-funded promo)",
+    "group": "discount",
+    "availability": "partial",
+    "via": "POS order relay discount categories; NOT stated in the settlement report",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Relay categorises discounts by funder (PROMO = restaurant, ZOMATO_VOUCHER / PEPPER = Zomato). An analysis of real payout files found Zomato's settlement workbook never states who funded each discount and its 'Offers and Discounts Summary' tab is broken. Whether Petpooja stores the category is implementation-dependent.",
+    "source_url": "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b"
+   },
+   {
+    "name": "Discount category/type (PROMO, ZOMATO_VOUCHER, PEPPER, DELIVERY_CHARGE, GOLD, REFERRAL)",
+    "group": "discount",
+    "availability": "available",
+    "via": "POS order relay",
+    "granularity": "per order per discount line",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/developer/integration/docs/glossary/order-discount-categories"
+   },
+   {
+    "name": "Coupon / promo code text",
+    "group": "discount",
+    "availability": "partial",
+    "via": "POS order relay (middleware field discount_code; aggregator applicability varies)",
+    "granularity": "per order",
+    "confidence": "low",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md"
+   },
+   {
+    "name": "Offer performance / discount ROI (orders and sales attributable to an offer)",
+    "group": "discount",
+    "availability": "unclear",
+    "via": "partner dashboard (unverified)",
+    "granularity": "aggregate",
+    "confidence": "low",
+    "notes": "Can be derived in the ERP from relay data (orders carrying PROMO). Do not present as a Zomato-supplied metric."
+   },
+   {
+    "name": "Order-level settlement rows (order-level earnings, deductions, order-level payout)",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report - weekly xlsx from partner dashboard Payouts/Finance section",
+    "granularity": "per order, per weekly payout cycle",
+    "confidence": "medium",
+    "notes": "Workbook has order-level tabs, an 'Addition Deductions Details' tab, 'Offers and Discounts Summary' and a Glossary. Column names taken from search snippets of real reports on Scribd (site not directly fetchable).",
+    "source_url": "https://www.scribd.com/document/914859609/Zomato-Settlement-Report-22029785-04-Aug-2025-10-Aug-2025-1"
+   },
+   {
+    "name": "Service fee (commission) % and amount per order",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report only - 'Service fee %' and 'Service fee' columns; not in POS relay",
+    "granularity": "per order, visible only after the weekly cycle closes",
+    "confidence": "medium",
+    "notes": "Commission is visible per order but only in the periodic settlement report, not in real time with the order. For days not yet settled the ERP must estimate using the contracted rate and label it 'estimated'.",
+    "source_url": "https://www.scribd.com/document/750015148/Zomato-Settlement-Format-Copy"
+   },
+   {
+    "name": "Payment mechanism fee per order",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report only",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Defined in T&C as a % of order value incl. taxes less charges not levied by restaurant.",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "name": "GST (18%) on service fee + payment mechanism fee",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report ('Taxes on service & payment mechanism fees'); monthly tax invoice from Zomato",
+    "granularity": "per order in report; monthly invoice",
+    "confidence": "medium",
+    "notes": "Monthly invoice issued within 7 days of month end (T&C). ITC eligibility depends on the restaurant's GST scheme (5% without ITC restaurants generally cannot claim).",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "name": "TDS on e-commerce sales (s.194-O; now s.393(1) of Income-tax Act 2025) amount",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report line 'TDS 194O amount'; quarterly TDS certificate; Form 26AS",
+    "granularity": "per order in report; quarterly certificate",
+    "confidence": "high",
+    "notes": "Zomato T&C now cite s.393(1) ITA 2025. Applied on Gross Sales less taxes. Rate 0.1% since 1 Oct 2024.",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "name": "GST under s.9(5) collected from customer and deposited by Zomato",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report line 'GST paid by Zomato on behalf of restaurant - under section 9(5)' and 'Applicable amount for 9(5)'",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Shown as collected then deducted; it never reaches the restaurant's bank. Restaurant still reports these supplies in GSTR-1/3B but pays no tax on them.",
+    "source_url": "https://www.scribd.com/document/914859609/Zomato-Settlement-Report-22029785-04-Aug-2025-10-Aug-2025-1"
+   },
+   {
+    "name": "TCS under s.52 CGST",
+    "group": "settlement_payout",
+    "availability": "partial",
+    "via": "payout (settlement) report lines 'Applicable amount for TCS', 'Tax collected at source', 'TCS IGST amount'; monthly TCS statement",
+    "granularity": "per order; monthly statement",
+    "confidence": "medium",
+    "notes": "TCS does NOT apply to restaurant services taxed under 9(5) (CBIC Circular 167/23/2021). It only arises on non-restaurant-service supplies. For a kebab QSR this line should be zero or negligible in the mock.",
+    "source_url": "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf"
+   },
+   {
+    "name": "Net payout amount, settlement date, bank UTR, settlement status, unsettled amount",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report; partner app Payout section; bank statement credit",
+    "granularity": "per payout cycle, with order-level mapping to UTR",
+    "confidence": "medium",
+    "source_url": "https://www.scribd.com/document/914859609/Zomato-Settlement-Report-22029785-04-Aug-2025-10-Aug-2025-1"
+   },
+   {
+    "name": "Payout-level additions and deductions (ADS, Hyperpure purchases, other deductions, adjustments from previous weeks, cancellation compensation credits)",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report tab 'Addition Deductions Details' with 'Total amount' vs 'Adjusted amount' columns",
+    "granularity": "per payout cycle (some lines order-level, e.g. 'Extra Inventory Ads (Order Level Deduction)')",
+    "confidence": "medium",
+    "notes": "Sections: Addition Type; Deduction Type A) Investments in growth services, B) Investments in Hyperpure, C) Other deductions, D) Adjustments from previous weeks. 'Adjusted amount' is what actually left the payout.",
+    "source_url": "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b"
+   },
+   {
+    "name": "Long-distance service fee per order (Rs 20 for 4-6 km, Rs 40 beyond 6 km)",
+    "group": "settlement_payout",
+    "availability": "unclear",
+    "via": "payout (settlement) report (exact column unverified; may be folded into service fee / logistics charge)",
+    "granularity": "per order",
+    "confidence": "low",
+    "source_url": "https://www.medianama.com/2025/07/223-zomato-long-distance-delivery-fee-restaurants/"
+   },
+   {
+    "name": "Settlement / payout data via API into POS or ERP",
+    "group": "settlement_payout",
+    "availability": "not_available",
+    "via": "not exposed - public POS API has only menu, order, outlet, rating, complaint endpoints",
+    "granularity": "n/a",
+    "confidence": "medium",
+    "notes": "Petpooja's own reconciliation module requires the restaurant to share/upload Zomato payout reports. The mock should show settlement data as 'imported from weekly settlement report', not as a live feed.",
+    "source_url": "https://www.petpooja.com/poss/online-order-reconciliation"
+   },
+   {
+    "name": "Commission / fee amount delivered in real time with each order",
+    "group": "settlement_payout",
+    "availability": "not_available",
+    "via": "not exposed in POS relay",
+    "confidence": "medium",
+    "notes": "No fee or commission field is documented in the relay; fees appear only in the settlement report and monthly invoice.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/order-management"
+   },
+   {
+    "name": "Monthly tax invoice for fees, monthly TCS statement, quarterly TDS certificate",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "documents from Zomato (dashboard/email)",
+    "granularity": "monthly / quarterly per legal entity (PAN/GSTIN)",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "name": "Customer name",
+    "group": "customer",
+    "availability": "partial",
+    "via": "POS order relay / KOT (first name or display name for fulfilment)",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Sources conflict: UrbanPiper says customer information is shared when the restaurant handles its own delivery; a 2025 guide says name remains unavailable for marketing. Contract forbids using Customer Data for anything but fulfilment. Do not build customer-level analytics on it.",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/zomato/integration-overview"
+   },
+   {
+    "name": "Customer real phone number",
+    "group": "customer",
+    "availability": "partial",
+    "via": "order details in partner app, only for customers who opt in (pilot since Nov 2025); otherwise masked",
+    "granularity": "per order, opted-in customers only",
+    "confidence": "low",
+    "notes": "Default is masked. Zomato CEO: only the phone number is shared and only with consent; described as early-stage. Rollout status in Sept 2026 not verified. Safest for the mock: show no Zomato customer phone numbers.",
+    "source_url": "https://www.medianama.com/2025/11/223-zomato-swiggy-share-customer-data-restaurants/"
+   },
+   {
+    "name": "Masked / proxy contact number for customer and rider on a live order",
+    "group": "customer",
+    "availability": "available",
+    "via": "POS API 'Get Contact Details' (/online-ordering/v1/order/get-contact-details) - call masking on demand",
+    "granularity": "per live order, temporary",
+    "confidence": "high",
+    "notes": "Not usable for CRM; number is a temporary masked bridge.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/order-management"
+   },
+   {
+    "name": "Customer delivery address / lat-long",
+    "group": "customer",
+    "availability": "partial",
+    "via": "POS order relay, for self-delivery orders only",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "For Zomato-logistics orders (the normal case for a QSR chain) the address is not needed by the restaurant and should be assumed not shared.",
+    "source_url": "https://help.urbanpiper.com/ordering-channels/zomato/integration-overview"
+   },
+   {
+    "name": "Customer email",
+    "group": "customer",
+    "availability": "not_available",
+    "via": "not exposed",
+    "confidence": "medium",
+    "source_url": "https://reelo.io/blog/zomatos-new-customer-data-sharing-update-2025-complete-guide-for-restaurant-owners/"
+   },
+   {
+    "name": "Stable customer identifier across orders (identity resolution, order history per customer, LTV)",
+    "group": "customer",
+    "availability": "unclear",
+    "via": "not documented publicly",
+    "confidence": "low",
+    "notes": "No public source shows a persistent customer ID in the relay. Treat as not available: no customer-level cohort, LTV or RFM for Zomato in the mock."
+   },
+   {
+    "name": "New vs repeat customer flag on an individual order",
+    "group": "customer",
+    "availability": "unclear",
+    "via": "partner app order card (unverified)",
+    "confidence": "low",
+    "notes": "Could not verify from any source."
+   },
+   {
+    "name": "Aggregate new / repeat / lapsed customer mix",
+    "group": "customer",
+    "availability": "partial",
+    "via": "partner dashboard / app business insights (aggregate only)",
+    "granularity": "aggregate per outlet per period",
+    "confidence": "low",
+    "notes": "App listing mentions 'customer funnel'; ads guides mention repeat-order rate on ad-acquired customers. Exact metric names unverified; show only as an aggregate percentage sourced 'from Zomato dashboard', never per customer.",
+    "source_url": "https://play.google.com/store/apps/details?id=com.application.services.partner"
+   },
+   {
+    "name": "Order-origin heat (orders by area / pin code)",
+    "group": "customer",
+    "availability": "unclear",
+    "via": "partner dashboard (single secondary source)",
+    "granularity": "aggregate",
+    "confidence": "low",
+    "source_url": "https://chuk.in/5-zomato-insights-to-increase-your-restaurant-sales/"
+   },
+   {
+    "name": "Rider assignment and movement statuses (rider-assigned, arrived/at-store, pickedup, delivered) with timestamps",
+    "group": "delivery_logistics",
+    "availability": "available",
+    "via": "POS: Delivery Partner Status Update Webhook",
+    "granularity": "per order per event",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/restaurant-confirms-order/zomato-logistics/"
+   },
+   {
+    "name": "Rider name and phone",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "POS rider webhook; phone is a masked contact",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "UrbanPiper's rider payload has name, phone, alt_phone; Zomato's own endpoint describes contact details of delivery partners as masked.",
+    "source_url": "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/rider-status-update.md"
+   },
+   {
+    "name": "Order/rider OTP, bag-return and order-return OTP, QR scan_text",
+    "group": "delivery_logistics",
+    "availability": "available",
+    "via": "POS order relay / rider webhook",
+    "granularity": "per order",
+    "confidence": "medium",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/qr-bar-code"
+   },
+   {
+    "name": "Delivery distance in km per order",
+    "group": "delivery_logistics",
+    "availability": "unclear",
+    "via": "not documented publicly",
+    "confidence": "low",
+    "notes": "Zomato bills a distance-banded fee, so the band is known to Zomato, but I found no source confirming the restaurant sees km per order. Avoid in the mock, or show only the fee band if at all."
+   },
+   {
+    "name": "Delivered timestamp / total order-to-delivery time",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "POS rider webhook 'delivered' status",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Delivered event is relayed; promised ETA to customer, rider route and last-mile delays are not documented as shared."
+   },
+   {
+    "name": "Rider wait time at outlet",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "derived from rider arrived vs pickedup timestamps in POS",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Depends on the 'arrived' status being relayed and stored by Petpooja."
+   },
+   {
+    "name": "Rider payout / actual delivery cost borne by Zomato",
+    "group": "delivery_logistics",
+    "availability": "not_available",
+    "via": "not exposed",
+    "confidence": "medium"
+   },
+   {
+    "name": "Order rating (star rating per order)",
+    "group": "ratings_feedback",
+    "availability": "available",
+    "via": "POS API Get Orders Rating (per order or per date) + Order Rating Update Webhook; also partner dashboard",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/order-management"
+   },
+   {
+    "name": "Review text, rating trend, complaint categories",
+    "group": "ratings_feedback",
+    "availability": "partial",
+    "via": "partner dashboard / app; public listing reviews",
+    "granularity": "per review; aggregate trend",
+    "confidence": "low",
+    "notes": "Whether review text comes through the rating webhook is not verifiable (gated schema)."
+   },
+   {
+    "name": "Ad spend charged",
+    "group": "marketing_ads",
+    "availability": "available",
+    "via": "payout (settlement) report ('ADS' under Investments in growth services), weekly statement of account, monthly ad invoice",
+    "granularity": "per weekly payout; monthly invoice; per campaign in dashboard",
+    "confidence": "high",
+    "notes": "Zomato ad terms: spends are recovered by reduction from weekly payouts and shown separately on the statement of account.",
+    "source_url": "https://www.zomato.com/policies/ads/grow-max-policy/"
+   },
+   {
+    "name": "Ad impressions, clicks, CTR, CPC",
+    "group": "marketing_ads",
+    "availability": "partial",
+    "via": "partner dashboard / app Ads section only",
+    "granularity": "per campaign per day (aggregate)",
+    "confidence": "low",
+    "notes": "Based on secondary ad-agency guides; no official metric list was accessible.",
+    "source_url": "https://digitalcatapult.in/blog/zomato-ads-complete-guide-2026"
+   },
+   {
+    "name": "Ad-attributed orders, sales (Total CV) and ROI/ROAS",
+    "group": "marketing_ads",
+    "availability": "partial",
+    "via": "partner dashboard / app Ads section only",
+    "granularity": "per campaign (aggregate); no order-level attribution in POS relay",
+    "confidence": "medium",
+    "notes": "Zomato ad terms define 'Total CV' = order value generated through advertisement orders, used for guaranteed-ROI programs. An individual relayed order is not flagged as ad-driven.",
+    "source_url": "https://www.zomato.com/policies/ads/grow-max-policy/"
+   },
+   {
+    "name": "Ads performance data via API or bulk export to ERP",
+    "group": "marketing_ads",
+    "availability": "unclear",
+    "via": "no public API; export capability unverified",
+    "confidence": "low",
+    "notes": "Mock should present ads metrics as manually keyed / dashboard-sourced weekly aggregates."
+   },
+   {
+    "name": "Discovery funnel: impressions -> menu opens -> cart -> orders",
+    "group": "funnel",
+    "availability": "partial",
+    "via": "partner dashboard / app business insights only",
+    "granularity": "aggregate per outlet per day/week",
+    "confidence": "medium",
+    "notes": "Not in the POS API. Stage names vary by source (impression, listing view, menu view, order; menu-to-cart, cart-to-order). Show as outlet-level aggregates only.",
+    "source_url": "https://chuk.in/improve-zomato-restaurant-listing-9-fixes-15-minutes/"
+   },
+   {
+    "name": "Item-level cart abandonment",
+    "group": "funnel",
+    "availability": "unclear",
+    "via": "partner dashboard (single secondary claim)",
+    "confidence": "low",
+    "source_url": "https://chuk.in/5-zomato-insights-to-increase-your-restaurant-sales/"
+   },
+   {
+    "name": "Kitchen preparation time (KPT) slot attached to the order",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS order relay; KPT must be shown on POS",
+    "granularity": "per order (5-minute slots 0to5min ... 60+min)",
+    "confidence": "medium",
+    "source_url": "https://www.zomato.com/developer/integration/docs/glossary/preparation-time"
+   },
+   {
+    "name": "Actual prep time (accepted -> food ready)",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "derived in POS/ERP from confirm and ready events",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Depends on staff pressing Food Ready honestly; Zomato itself judges accuracy against rider arrival/pickup."
+   },
+   {
+    "name": "Food-Order-Ready marking accuracy %",
+    "group": "operations_quality",
+    "availability": "unclear",
+    "via": "computed by Zomato weekly (80% threshold drives cancellation compensation); dashboard visibility unverified",
+    "granularity": "per outlet per week",
+    "confidence": "low",
+    "source_url": "https://www.zomato.com/o2termscompensationpolicy/india"
+   },
+   {
+    "name": "Rejections and timeouts with reason (items out of stock, kitchen full, outlet closed, no delivery partner, etc.)",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS order relay / status webhooks (rejection_message_id)",
+    "granularity": "per order",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/developer/integration/docs/glossary/rejection-messages"
+   },
+   {
+    "name": "Customer-initiated cancellation requests (Merchant Agreed Cancellation) and outcome",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS MAC Relay webhook + MAC update API",
+    "granularity": "per order",
+    "confidence": "high",
+    "notes": "If the restaurant accepts the cancellation it receives no order value.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/merchant-agreed-cancellation"
+   },
+   {
+    "name": "Cancellation compensation paid to restaurant",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "payout (settlement) report additions",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Policy: full value if cancelled after pickup; 80% of net order value if marked ready accurately (and 80%+ weekly accuracy); otherwise 40%; nil if cancelled within 60 seconds or attributable to restaurant.",
+    "source_url": "https://www.zomato.com/o2termscompensationpolicy/india"
+   },
+   {
+    "name": "Customer complaints (order, issue, refund requested) and restaurant's accept/reject decision with reason",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS Complaint Relay webhook + complaints update API; partner dashboard Customer Issues",
+    "granularity": "per complaint per order",
+    "confidence": "high",
+    "notes": "No-refund reasons: need clearer photos, complaint invalid, any other reason.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/post-order-flow/order-complaints"
+   },
+   {
+    "name": "Refund amounts recovered from restaurant (customer compensation / recoupment)",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "payout (settlement) report",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "A mandatory 50:50 refund-sharing scheme was paused in May 2025; current status unverified.",
+    "source_url": "https://www.outlookbusiness.com/start-up/e-commerce/zomato-pauses-50-refund-cost-sharing-policy-after-restaurant-partner-backlash"
+   },
+   {
+    "name": "Penalties / additional charges for frequent rejections, timeouts, delays, poor quality",
+    "group": "operations_quality",
+    "availability": "partial",
+    "via": "payout (settlement) report 'other deductions' / periodic reports",
+    "granularity": "per order or per cycle (unverified)",
+    "confidence": "low",
+    "notes": "T&C reserves the right to charge additional amounts 'as may be communicated in the periodic reports'; exact line items not verified.",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "name": "Outlet online/offline status, offline reason, delivery timings, surge prep time",
+    "group": "operations_quality",
+    "availability": "available",
+    "via": "POS outlet management APIs + Outlet Serviceability Status webhook",
+    "granularity": "per outlet per event",
+    "confidence": "high",
+    "notes": "Online-time % can be derived in ERP if Petpooja logs the events.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/outlet-management"
+   },
+   {
+    "name": "'Bad orders' metric (rejected / poorly rated / complaint orders)",
+    "group": "operations_quality",
+    "availability": "partial",
+    "via": "partner app business reports (aggregate)",
+    "granularity": "aggregate per outlet per period",
+    "confidence": "low",
+    "source_url": "https://play.google.com/store/apps/details?id=com.application.services.partner"
+   },
+   {
+    "name": "Prepaid (online) vs cash-on-delivery flag",
+    "group": "payments",
+    "availability": "available",
+    "via": "POS order relay payment mode; settlement report",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "T&C charges service fee on both COD and online paid orders. For Zomato-logistics COD the rider collects cash and Zomato settles; 'Amount received in cash (on self delivery orders)' is a settlement deduction only for self-delivery.",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "name": "Payment instrument (UPI / card / wallet) and gateway transaction reference",
+    "group": "payments",
+    "availability": "unclear",
+    "via": "not documented as exposed",
+    "confidence": "low",
+    "notes": "Treat as not available; do not show UPI/card split for Zomato orders."
+   },
+   {
+    "name": "Item / variant / category in-stock vs out-of-stock toggle with auto turn-on time",
+    "group": "inventory",
+    "availability": "available",
+    "via": "POS API Update Stock Status (catalogueVendorEntityIds, variantVendorEntityIds, autoTurnOnTime 2hours/4hours/nextBusinessDay/custom/indefinite)",
+    "granularity": "per item/variant per outlet",
+    "confidence": "high",
+    "notes": "This is a push from POS to Zomato; the ERP can log toggles and compute out-of-stock hours per item.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/menu-integration-flow/item-stock-update"
+   },
+   {
+    "name": "Stock quantities / ingredient inventory on Zomato",
+    "group": "inventory",
+    "availability": "not_available",
+    "via": "not exposed via API (Zomato holds only availability booleans)",
+    "confidence": "medium",
+    "notes": "Partner app v6.15 advertises an in-app 'Inventory Management' feature, but no API is documented; quantities must come from the ERP/Petpooja.",
+    "source_url": "https://apps.apple.com/in/app/zomato-restaurant-partner/id1515073489"
+   },
+   {
+    "name": "Menu sync processing status and menu moderation status",
+    "group": "other",
+    "availability": "available",
+    "via": "POS webhooks (Menu Processing Status, Menu Moderation Status)",
+    "granularity": "per menu push per outlet",
+    "confidence": "high",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/menu-management"
+   },
+   {
+    "name": "Hyperpure (Zomato B2B supplies) purchase recoveries",
+    "group": "other",
+    "availability": "available",
+    "via": "payout (settlement) report section 'Investments in Hyperpure'",
+    "granularity": "per payout cycle",
+    "confidence": "medium",
+    "notes": "Only relevant if Miya Kebabs buys from Hyperpure.",
+    "source_url": "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b"
+   }
+  ],
+  "access_routes": [
+   {
+    "route": "POS order relay via Zomato POS Integration API (Zomato -> Petpooja)",
+    "what_it_gives": "Real-time order header, items, variants/add-ons, packaging charge, taxes, discounts by category (restaurant vs Zomato funded), payment mode, KPT, order tags, status events, rider status events, MAC cancellation requests, complaints relay, per-order ratings (API + webhook), masked contact on demand, item stock toggles, outlet on/off and timings, menu sync/moderation status. No fees, commission, payout, funnel or ads data.",
+    "prerequisites": "Each outlet's Zomato res_id mapped in Petpooja with Zomato integration enabled. The field-level API reference is login-gated to integration partners (organisation email); what the ERP actually receives is whatever Petpooja stores and exposes from the relay."
+   },
+   {
+    "route": "Zomato Restaurant Partner dashboard (web, zomato.com/partners) and Restaurant Partner app",
+    "what_it_gives": "Business reports (delivered orders, sales, AOV, bad orders, customer funnel, marketing, dish trends), ads campaign setup and performance, offers, customer issues/complaints, reviews, payouts and statement of account, multi-outlet switching.",
+    "prerequisites": "Owner/manager login per outlet or brand account. Aggregate, view-first data; no documented API. For the ERP this means manual keying, periodic export or screenshots, so show such metrics as weekly aggregates 'sourced from Zomato dashboard'."
+   },
+   {
+    "route": "Weekly settlement (payout) report download",
+    "what_it_gives": "Order-level gross, packaging, delivery charge, restaurant discounts, GST collected, service fee % and amount, payment mechanism fee, GST on fees, TDS, TCS, 9(5) GST paid by Zomato, customer compensation, order-level payout, settlement status/date, bank UTR; plus payout-level additions/deductions (ads, Hyperpure, other, prior-week adjustments).",
+    "prerequisites": "Downloaded from Payouts/Finance section (xlsx) after the weekly cycle closes; one file per outlet (res_id) per cycle. Must be uploaded/imported into the ERP - no API."
+   },
+   {
+    "route": "Statutory and billing documents from Zomato",
+    "what_it_gives": "Monthly tax invoice for service fee / payment mechanism fee / other charges (within 7 days of month end), monthly ads invoice, monthly TCS statement, quarterly TDS certificate; cross-check in Form 26AS and GST portal.",
+    "prerequisites": "Correct PAN and GSTIN registered with Zomato per legal entity."
+   },
+   {
+    "route": "Petpooja Online Order Reconciliation (or third-party tools such as Cointab)",
+    "what_it_gives": "Order-by-order match of POS orders against Zomato payout rows: commissions, discounts, cancelled-vs-delivered mismatches, missing orders, amount variances.",
+    "prerequisites": "Paid add-on; restaurant shares/uploads the Zomato payout reports - confirms there is no direct payout feed."
+   },
+   {
+    "route": "Bank statement",
+    "what_it_gives": "Single net credit per payout cycle from Zomato, matched to settlement report via UTR.",
+    "prerequisites": "Bank feed or statement import into the ERP."
+   }
+  ],
+  "settlement_mechanics": "Cycle: Zomato T&C clause 9 - orders serviced Monday to Sunday are settled on or before Thursday of the following week (next working day if a bank holiday), i.e. a 4 to 10 day lag from order date; secondary sources report 10-14 days in stressed periods. Options: settlement within 3 bank working days if opted in the enrolment form; 'daily payouts' (launched Jan 2024, no extra cost, based on sales from three days prior) only for outlets with 100 or fewer orders a month - not applicable to a busy QSR outlet. One net bank credit per outlet per cycle, traceable by UTR in the settlement report.\n\nDeductions per T&C: (a) service fee (commission) on both COD and online orders, (b) payment mechanism fee, (c) tax collected by Zomato on restaurant service, (d) any other amounts due with consent (ads, Hyperpure, Gold/brand packs, etc.). Zomato may also set off dues to any group company. The settlement workbook shows, per order: subtotal, packaging charge, delivery charge, restaurant discount [Promo], restaurant discount [flat offs, freebies, Gold and others], total GST collected from customers, service fee % and amount, payment mechanism fee, logistics charge, taxes (18% GST) on service and payment mechanism fees, applicable amount for 9(5), GST paid by Zomato on behalf of restaurant under s.9(5), applicable amount for TCS, TCS, TDS 194O amount, customer compensation/recoupment, other order-level deductions (cash received on self-delivery orders, credit/debit note adjustment, promo recovery adjustment, extra inventory ads), net additions, net deductions, order-level payout, settlement status/date, bank UTR, unsettled amount. A separate 'Addition Deductions Details' tab lists additions (e.g. cancellation compensation) and deductions A) growth services incl. ADS, B) Hyperpure, C) other, D) adjustments from previous weeks, with 'Total amount' vs 'Adjusted amount' (what actually left this payout).\n\nGST s.9(5): since 1 Jan 2022 Zomato is the deemed supplier for restaurant service; it charges 5% GST to the customer, collects it and deposits it itself. In the payout the GST is shown as collected and then fully deducted ('GST paid by Zomato on behalf of restaurant'), so restaurant revenue from Zomato should be modelled net of GST and no output GST liability arises for the outlet on these orders (they are still reported in GSTR-1/3B as ECO supplies). TCS u/s 52 is not collected on 9(5) restaurant services (CBIC Circular 167/23/2021); it applies only to any non-restaurant-service supplies, at 0.5% since 10 Jul 2024.\n\nTDS: deducted by Zomato on gross sales less taxes, 0.1% since 1 Oct 2024 (s.194-O; re-codified as s.393(1) of the Income-tax Act 2025 from 1 Apr 2026, which Zomato's T&C now cite). Appears per order in the settlement report; quarterly TDS certificate; creditable via Form 26AS. Separately, the restaurant may have to deduct TDS on Zomato's service fee/ads and claim reimbursement from Zomato against a certificate.\n\nAds: Zomato ad terms state spends are recovered by reduction from weekly payouts and shown separately on the statement of account, with a monthly invoice. Refunds/complaints: amounts refunded to customers for restaurant-attributable issues are recouped from payouts (Problem Order clause); a mandatory 50:50 refund share was paused in May 2025. Cancellations not attributable to the restaurant are compensated at 100% / 80% / 40% per the compensation policy and appear as additions. Monthly tax invoice for all fees is issued within 7 days of month end.",
+  "typical_rates": [
+   {
+    "item": "Service fee (commission) on order value",
+    "value": "Reported range 10-28% (Sept 2025); typical 25-27% for single outlets, 18-22% negotiated for chains with scale (2026 blog); another CA source quotes 18-35%. Set in each restaurant's enrolment form - not public. A 5-outlet Mumbai QSR chain at roughly 20-24% is a defensible mock assumption.",
+    "source_url": "https://www.verdictfoodservice.com/news/eternal-explores-changes-zomato/"
+   },
+   {
+    "item": "Cap on total Zomato fees including long-distance fee",
+    "value": "Zomato stated total commissions inclusive of the long-distance fee are capped at 30% of order value",
+    "source_url": "https://www.medianama.com/2025/07/223-zomato-long-distance-delivery-fee-restaurants/"
+   },
+   {
+    "item": "Long-distance service fee charged to restaurant",
+    "value": "Rs 20 per order for 4-6 km (order value above Rs 150); Rs 40 per order beyond 6 km (mid-2025)",
+    "source_url": "https://www.medianama.com/2025/07/223-zomato-long-distance-delivery-fee-restaurants/"
+   },
+   {
+    "item": "Payment mechanism (collection / gateway) fee",
+    "value": "1.84% of order value incl. taxes in an older enrolment form (search snippet of a Scribd copy; low confidence for 2026); 2026 secondary source gives 1.8-2.5%",
+    "source_url": "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india"
+   },
+   {
+    "item": "GST on service fee, payment mechanism fee and ads",
+    "value": "18%",
+    "source_url": "https://www.terra-insight.com/insights/zomato-restaurant-settlement-reconciliation/"
+   },
+   {
+    "item": "TDS on e-commerce sales (s.194-O, now s.393(1) ITA 2025)",
+    "value": "0.1% of gross sales less taxes, effective 1 Oct 2024 (was 1%); many blogs still wrongly say 1%",
+    "source_url": "https://inc42.com/buzz/budget-2024-tds-rate-for-ecommerce-operators-cut-to-0-1-from-1/"
+   },
+   {
+    "item": "GST TCS u/s 52",
+    "value": "0.5% (0.25% CGST + 0.25% SGST) since 10 Jul 2024; not applicable to restaurant services under s.9(5)",
+    "source_url": "https://taxguru.in/goods-and-service-tax/cgst-e-commerce-operator-tcs-collection-rate-reduced-0-25-percent.html"
+   },
+   {
+    "item": "GST on restaurant service collected and paid by Zomato under s.9(5)",
+    "value": "5% (CGST 2.5% + SGST 2.5%), in force since 1 Jan 2022",
+    "source_url": "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf"
+   },
+   {
+    "item": "Payout cycle",
+    "value": "Weekly: Mon-Sun orders paid on or before Thursday of the following week. Daily payout option only for outlets with 100 or fewer orders per month (sales from three days prior). 3-bank-working-day option if chosen in the form.",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "item": "Cancellation compensation to restaurant",
+    "value": "100% of a successful order if cancelled after rider pickup; 80% of net order value if marked ready accurately and weekly FOR accuracy is 80% or more; otherwise 40%; nil if cancelled within 60 seconds or if restaurant-attributable",
+    "source_url": "https://www.zomato.com/o2termscompensationpolicy/india"
+   },
+   {
+    "item": "Ads cost benchmarks",
+    "value": "CPC roughly Rs 4-18 (another source Rs 5-15); starter budgets Rs 15,000-40,000 per outlet per month; target cost per order Rs 40-65 for QSR/biryani; ads typically 4-9% of aggregator revenue",
+    "source_url": "https://digitalcatapult.in/blog/zomato-ads-complete-guide-2026"
+   },
+   {
+    "item": "Net realisation after all deductions",
+    "value": "About 62-70% of gross sales per CA source; 52-62% of menu price is described as the healthy band once restaurant-funded discounts and ads are included",
+    "source_url": "https://www.terra-insight.com/insights/zomato-restaurant-settlement-reconciliation/"
+   },
+   {
+    "item": "Monthly tax invoice timing",
+    "value": "Within 7 days from the last date of the preceding month",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "item": "Customer phone opt-in share (pilot)",
+    "value": "A CRM vendor blog estimates only 20-30% of customers opt in; unverified",
+    "source_url": "https://reelo.io/blog/zomatos-new-customer-data-sharing-update-2025-complete-guide-for-restaurant-owners/"
+   }
+  ],
+  "caveats": [
+   "Zomato's field-level API reference (api-reference/v1/endpoints and /webhooks) is login-gated ('Please login with your organization email ID first'). I did not bypass it. Relay field claims rest on Zomato's public guide/glossary pages plus UrbanPiper's normalised payload docs, so exact Zomato field names are not verified.",
+   "What the ERP can actually use from the relay depends on what Petpooja persists and exposes (e.g. whether it stores the Zomato discount category PROMO vs ZOMATO_VOUCHER/PEPPER). Confirm with Petpooja before promising a restaurant-vs-platform discount split.",
+   "Commission and payment mechanism fee ARE visible per order, but only in the weekly settlement report after the cycle closes - not with the live order and not via API. In the mock, show actual fees only for settled weeks and label current-week fees as estimates from the contracted rate.",
+   "Scribd copies of real Zomato settlement reports could not be fetched (connection refused); column names quoted come from search-result snippets of those documents and from a DEV Community analysis of real payout files. Treat exact column labels as medium confidence.",
+   "The DEV analysis found that Zomato's settlement workbook does not state who funded each discount and that its 'Offers and Discounts Summary' tab is broken; the restaurant-funded amounts do appear as 'Restaurant discount' columns. The platform-funded portion is therefore only inferable from the POS relay categories.",
+   "Customer PII: default is masked. Phone sharing is an opt-in pilot announced Nov 2025 (phone number only, consent irrevocable); I could not verify its rollout status as of Sept 2026. Zomato T&C prohibit using Customer Data for marketing, list enhancement or feedback. Safest for the mock: no Zomato customer names/phones, no customer-level cohorts or LTV; at most aggregate new/repeat percentages labelled as dashboard-sourced.",
+   "Partner-dashboard metrics (funnel, customer mix, ads impressions/clicks/ROI, dish trends, bad orders) are supported only by app-store descriptions and secondary marketing blogs; exact metric names, granularity and export options are unverified. Present them as outlet-level weekly aggregates entered/imported from the dashboard, never as order-level or API data.",
+   "TDS section reference changed: Zomato's current T&C cite s.393(1) of the Income-tax Act 2025 (effective 1 Apr 2026) instead of s.194-O; settlement report labels seen in 2025 files still read 'TDS 194O'. Suggest labelling 'TDS u/s 393(1) (formerly 194-O)' at 0.1%. Several 2026 blogs still quote the obsolete 1% rate.",
+   "TCS should be zero or negligible for a kebab/biryani QSR because 9(5) restaurant services are excluded from TCS; do not model a 1% TCS deduction as some blogs suggest.",
+   "Commission rates are contractual and confidential; all percentages are reported ranges. The payment mechanism fee figure (1.84%) comes from an older enrolment form snippet.",
+   "The 50:50 mandatory refund cost-sharing scheme was paused in May 2025 with a stated intent to relaunch; current status not verified. Penalty line items for rejections/timeouts are permitted by T&C but their exact appearance in reports is unverified.",
+   "Per-order delivery distance, payment instrument (UPI/card), customer-side platform/COD fees, rider payout and a persistent customer ID were not found in any source; treat as not available in the mock.",
+   "Zomato introduced a customer-side 'Pay on Delivery' fee in Sept 2026; this is charged to customers, not a restaurant deduction, and should not appear in outlet economics.",
+   "UrbanPiper's old Helpjuice knowledge base (source of the 'phone and email are masked; last 4 digits of relayed phone are the Zomato rider OTP' statement) is now offline; that detail survives only in search snippets."
+  ],
+  "sources": [
+   "https://www.zomato.com/developer/integration/docs/api-documentation/order-management",
+   "https://www.zomato.com/developer/integration/docs/api-documentation/menu-management",
+   "https://www.zomato.com/developer/integration/docs/api-documentation/outlet-management",
+   "https://www.zomato.com/developer/integration/docs/overview",
+   "https://www.zomato.com/developer/integration/docs/getting-started/critical-feature-list",
+   "https://www.zomato.com/developer/integration/docs/glossary/order-discount-categories",
+   "https://www.zomato.com/developer/integration/docs/glossary/charges",
+   "https://www.zomato.com/developer/integration/docs/glossary/taxes",
+   "https://www.zomato.com/developer/integration/docs/glossary/tax-group",
+   "https://www.zomato.com/developer/integration/docs/glossary/delivery-charge-taxes",
+   "https://www.zomato.com/developer/integration/docs/glossary/preparation-time",
+   "https://www.zomato.com/developer/integration/docs/glossary/rejection-messages",
+   "https://www.zomato.com/developer/integration/docs/glossary/no-refund-reason",
+   "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/menu-integration-flow/item-stock-update",
+   "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/restaurant-confirms-order/zomato-logistics/",
+   "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/order-inaction",
+   "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/zomato-rejects-order",
+   "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/merchant-agreed-cancellation",
+   "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/missing-item-checklist",
+   "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/qr-bar-code",
+   "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/post-order-flow/order-complaints",
+   "https://www.zomato.com/developer/integration/api-reference/v1/webhooks",
+   "https://www.zomato.com/policies/online-ordering/",
+   "https://www.zomato.com/o2termscompensationpolicy/india",
+   "https://www.zomato.com/policies/ads/grow-max-policy/",
+   "https://www.zomato.com/blog/turbocharging-restaurant-partners-with-daily-payouts/",
+   "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/order-relay.md",
+   "https://api-docs.urbanpiper.com/downstream/api/endpoints/order-management/rider-status-update.md",
+   "https://help.urbanpiper.com/ordering-channels/zomato",
+   "https://help.urbanpiper.com/ordering-channels/zomato/integration-overview",
+   "https://help.urbanpiper.com/ordering-channels/zomato/manage-your-orders",
+   "https://www.petpooja.com/poss/online-order-reconciliation",
+   "https://dev.to/shivang7020/i-parsed-24-real-food-delivery-payout-files-three-of-them-disagree-with-their-own-totals-3g8b",
+   "https://www.scribd.com/document/914859609/Zomato-Settlement-Report-22029785-04-Aug-2025-10-Aug-2025-1",
+   "https://www.scribd.com/document/750015148/Zomato-Settlement-Format-Copy",
+   "https://www.scribd.com/document/893184619/Zomato-Settlement-Report-21245781-30-Jun-2025-06-Jul-2025",
+   "https://www.terra-insight.com/insights/zomato-restaurant-settlement-reconciliation/",
+   "https://hellobooks.ai/guides/swiggy-zomato-reconciliation",
+   "https://www.menuhelper.in/blog/reconciling-swiggy-zomato-payouts-2026",
+   "https://inc42.com/buzz/budget-2024-tds-rate-for-ecommerce-operators-cut-to-0-1-from-1/",
+   "https://blog.tdsman.com/2026/07/tds-on-e-commerce-transactions-section-3931-194o/",
+   "https://cbic-gst.gov.in/pdf/Circular-167-17-12-2021-GST.pdf",
+   "https://taxguru.in/goods-and-service-tax/cgst-e-commerce-operator-tcs-collection-rate-reduced-0-25-percent.html",
+   "https://www.medianama.com/2025/11/223-zomato-swiggy-share-customer-data-restaurants/",
+   "https://www.entrepreneurindia.com/blog/en/news/zomato-introduces-customer-data-access-for-restaurant-partners.57894",
+   "https://reelo.io/blog/zomatos-new-customer-data-sharing-update-2025-complete-guide-for-restaurant-owners/",
+   "https://www.outlookbusiness.com/start-up/e-commerce/zomato-pauses-50-refund-cost-sharing-policy-after-restaurant-partner-backlash",
+   "https://www.medianama.com/2025/07/223-zomato-long-distance-delivery-fee-restaurants/",
+   "https://www.verdictfoodservice.com/news/eternal-explores-changes-zomato/",
+   "https://restaurantcoach.in/zomato-swiggy-commission-rates-2026/",
+   "https://restaurantdaily.ai/blog/discount-cost-analysis-swiggy-zomato-india",
+   "https://digitalcatapult.in/blog/zomato-ads-complete-guide-2026",
+   "https://www.restaurantindia.in/article/zomato-ads-cost-is-restaurant-advertising-worth-it.16009",
+   "https://chuk.in/5-zomato-insights-to-increase-your-restaurant-sales/",
+   "https://chuk.in/improve-zomato-restaurant-listing-9-fixes-15-minutes/",
+   "https://apps.apple.com/in/app/zomato-restaurant-partner/id1515073489",
+   "https://play.google.com/store/apps/details?id=com.application.services.partner",
+   "https://www.business-standard.com/companies/news/zomato-cash-on-delivery-orders-additional-fee-cod-platform-fee-126091200470_1.html"
+  ]
+ },
+ "verify": {
+  "corrections": [
+   {
+    "name": "Rider assignment and movement statuses (rider-assigned, arrived/at-store, pickedup, delivered)",
+    "was": "available, high confidence, including an 'arrived/at-store' status",
+    "now": "available for three statuses only: rider-assigned, pickedup, delivered. No 'arrived' status is documented.",
+    "reason": "Zomato's public Zomato-logistics flow page names exactly three delivery-partner webhook statuses: 'rider-assigned', 'pickedup', 'delivered'. The 'arrived' status comes from UrbanPiper's normalised payload, not from Zomato's documentation.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/development-for-integration/live-order-flow/restaurant-confirms-order/zomato-logistics/"
+   },
+   {
+    "name": "Rider wait time at outlet",
+    "was": "partial (derived from arrived vs pickedup timestamps)",
+    "now": "unclear - treat as not available for Zomato",
+    "reason": "Depends on an 'arrived' event that Zomato's public docs do not list. Zomato itself measures arrival for Food-Order-Ready accuracy, but nothing shows the restaurant/POS receives that timestamp.",
+    "source_url": "https://www.zomato.com/o2termscompensationpolicy/india"
+   },
+   {
+    "name": "Delivery distance in km per order",
+    "was": "unclear / not documented; 'avoid in the mock'",
+    "now": "partial - visible per order in the weekly settlement report (columns 'Actual order distance', 'Fulfilment fee calculation distance', 'Fulfilment fee per km', 'Fulfilment fee'); NOT in the POS relay",
+    "reason": "Google snippets of several real Zomato settlement reports hosted on Scribd (Jul 2024, Jun 2025) show these numbered columns. UrbanPiper's relay payload has no distance field. Only applies to outlets on a distance-linked (fulfilment fee / long-distance fee) contract; Scribd itself could not be opened, so medium confidence.",
+    "source_url": "https://www.scribd.com/document/883155973/Zomato-Settlement-Report-21854027-09-Jun-2025-15-Jun-2025"
+   },
+   {
+    "name": "Long-distance service fee per order",
+    "was": "unclear - exact column unverified, may be folded into service fee",
+    "now": "partial/available in settlement report only: a separate order-level line whose glossary reads 'Amount payable to Zomato for facilitating long distance orders, charged per order basis delivery distance' (Oct 2025 report), plus 'Discount on service fee due to 30% capping'",
+    "reason": "Snippets of Oct 2025 and Sep 2025 settlement reports show the line and the 30% cap discount line; Medianama confirms Rs 20 / Rs 40 bands and the 30% cap.",
+    "source_url": "https://www.medianama.com/2025/07/223-zomato-long-distance-delivery-fee-restaurants/"
+   },
+   {
+    "name": "Service fee (commission) % and amount per order",
+    "was": "available via settlement report columns 'Service fee %' and 'Service fee' (medium)",
+    "now": "available via settlement report only (medium-high); but the structure is richer: 'Commissionable value', 'Base service fee %', 'Base service fee', fulfilment/long-distance fee, 'Discount due to 30% service fee capping', 'Service fee', 'Payment mechanism fee', 'Taxes on service & payment mechanism fees'. Older format shows 'Service fees %' / 'Service fees'.",
+    "reason": "Multiple independent real reports (Jul 2024 to Oct 2025) surfaced in search snippets show these numbered lines; glossary text: 'Derived value after multiplying commissionable value with base service fee %'. UrbanPiper relay docs confirm no commission field in the live order. Still never real-time and never via API.",
+    "source_url": "https://www.scribd.com/document/879451957/Zomato-Settlement-Report-21841318-12-May-2025-18-May-2025"
+   },
+   {
+    "name": "Penalties / additional charges for rejections, timeouts",
+    "was": "partial, low confidence, exact line items unverified",
+    "now": "available in settlement report (medium): summary lines 'Rejection Penalty', 'Delivery Charges Recovery', 'Credit note/(Debit Note) adjustment', 'Promo recovery adjustment', 'Customer Compensation/Recoupment'",
+    "reason": "These exact labels appear in snippets of five separate real settlement reports (Jul 2024 - Sep 2025). T&C clause 10 reserves the right to charge for frequent rejection/time-out etc.",
+    "source_url": "https://www.zomato.com/policies/online-ordering/"
+   },
+   {
+    "name": "Stable customer identifier across orders",
+    "was": "unclear - 'no public source shows a persistent customer ID'",
+    "now": "unclear, but NOT absent: real settlement reports carry a 'Customer ID' column next to 'Unsettled Amount' in the order-level SETTLEMENT DETAILS block. Nature (stable, hashed, per-order) unverified.",
+    "reason": "Column header seen in snippets of three different real settlement reports (Aug 2024, Jul 2024, undated). Values not visible, so I cannot confirm it is persistent. T&C clause 14 also forbids using Customer Data to 'enhance any file or list'. Keep customer-level analytics out of the mock until a real Miya Kebabs file is inspected.",
+    "source_url": "https://www.scribd.com/document/750015148/Zomato-Settlement-Format-Copy"
+   },
+   {
+    "name": "Dish trends / menu performance, 'customer funnel', 'bad orders' attributed to the Play Store listing",
+    "was": "partial, citing the Google Play listing as mentioning 'dish trends', 'customer funnel', 'bad orders'",
+    "now": "citation does not hold. The current Play Store description (updated 7 Sep 2026) lists only order management, catalogue/stock management and scheduled leaves. The App Store listing (v6.15.0) names 'Business Reporting', 'Ads & Promotions ... track performance', 'Inventory', 'Multi-Outlet Access' - no funnel, dish trends or bad orders wording.",
+    "reason": "I read both listings directly. The funnel is instead corroborated by practitioner sources (see added data point); 'bad orders' and 'dish trends' remain single-source / unverified as Zomato-supplied metrics.",
+    "source_url": "https://play.google.com/store/apps/details?id=com.application.services.partner&hl=en_IN"
+   },
+   {
+    "name": "Discovery funnel",
+    "was": "partial, medium; stage names 'impressions -> menu opens -> cart -> orders' sourced from chuk.in",
+    "now": "partial, medium; stage names are Impressions -> Menu Opens -> Cart Builds -> Orders Placed, with ratios I2M, M2C, C2O, and organic vs ad ('inorganic') menu opens. Partner dashboard only, aggregate, no official API.",
+    "reason": "Corroborated by several independent practitioner sources: a Times of India column ('Zomato's dashboard says that a restaurant received 100 Menu Opens'), cloud-kitchen Facebook groups, agency posts, and a CloudRaft case study of a 100+ outlet QSR that had to use 'APIs and controlled scraping jobs' to extract it - which itself shows there is no sanctioned data feed.",
+    "source_url": "https://www.cloudraft.io/agentic-ai-for-qsr"
+   },
+   {
+    "name": "Item-level cart abandonment",
+    "was": "unclear, citing chuk.in '5 Zomato insights'",
+    "now": "not_available - do not show",
+    "reason": "The cited article does not mention cart abandonment at all (it names only Order Timing, Menu Performance, Review Analytics, Overview) and has no screenshots. No other source found.",
+    "source_url": "https://chuk.in/5-zomato-insights-to-increase-your-restaurant-sales/"
+   },
+   {
+    "name": "Order-origin heat (orders by area / pin code)",
+    "was": "unclear, citing chuk.in",
+    "now": "not_available - do not show",
+    "reason": "The cited article mentions geography only conceptually, not as a named Zomato dashboard metric. Customer address is not shared on Zomato-logistics orders, so the ERP cannot derive it either.",
+    "source_url": "https://chuk.in/5-zomato-insights-to-increase-your-restaurant-sales/"
+   },
+   {
+    "name": "Ad impressions, clicks, CTR, CPC",
+    "was": "partial, low; metric names impressions/clicks/CTR/CPC",
+    "now": "partial, medium-low; Zomato's contractual ad unit is the 'Visit' priced at 'CPV / Cost Per Visit' (Visit Pack) or impressions (Impression Pack). Dashboard vocabulary used by practitioners: ad impressions, clicks utilised / ad menu opens, ad orders, ad spend, ROI. Label as CPV, not CPC.",
+    "reason": "Zomato Visit Pack terms define 'Visit' and 'CPV'. Practitioner posts refer to 'clicks utilized' vs 'menu opens'. No official metric list is public.",
+    "source_url": "https://www.zomato.com/policies/ads/visit-pack-policy/"
+   },
+   {
+    "name": "Order rating and complaints via POS relay",
+    "was": "available, high confidence, via POS API/webhooks",
+    "now": "available in Zomato's API (high) but availability inside Petpooja is unverified (medium-low): ratings and complaints endpoints are NOT on Zomato's 'Critical Feature List' that POS vendors must implement.",
+    "reason": "Critical feature list covers order relay, rejection reasons, KPT, mark ready, MAC, call masking, item OOS, outlet on/off - not ratings or complaints. In the mock attribute ratings/complaints to 'Zomato partner dashboard' unless Petpooja confirms it ingests them.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/getting-started/critical-feature-list"
+   },
+   {
+    "name": "Zomato-funded discount amount (ZOMATO_VOUCHER, PEPPER)",
+    "was": "partial, medium",
+    "now": "partial, medium - keep, with a firmer basis: Zomato glossary confirms funder by category; UrbanPiper exposes 'is_merchant_discount' and 'total_external_discount' and report columns 'Aggregator Discount' / 'Merchant Discount'. Settlement report only has restaurant-funded columns plus a 'Discount Construct' descriptor. Whether Petpooja persists the split remains unverified.",
+    "reason": "Verified glossary text directly ('PEPPER: Zomato component of discount clubbed along with PROMO').",
+    "source_url": "https://www.zomato.com/developer/integration/docs/glossary/order-discount-categories"
+   },
+   {
+    "name": "Customer name",
+    "was": "partial, low",
+    "now": "partial, low - keep, and treat as unusable. UrbanPiper's own report docs say: 'Most of the DSP/Aggregators do not share the customer details. Data might be dummy.'",
+    "reason": "Confirms that whatever name lands in the POS for a Zomato order must not be treated as real CRM data.",
+    "source_url": "https://help.urbanpiper.com/data-and-reports/order-transactions-report"
+   }
+  ],
+  "added_data_points": [
+   {
+    "name": "Commissionable value, Base service fee %, Base service fee, Discount due to 30% service-fee capping",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report - order-level sheet; not in POS relay, no API",
+    "granularity": "per order, after the weekly cycle closes",
+    "confidence": "medium",
+    "notes": "Seen as numbered lines in snippets of several real reports (2024-2025). Report layout changed between versions (older: 'Service fees %'), so line numbers differ by period.",
+    "source_url": "https://www.scribd.com/document/879451957/Zomato-Settlement-Report-21841318-12-May-2025-18-May-2025"
+   },
+   {
+    "name": "Actual order distance / fulfilment fee calculation distance / fulfilment fee per km / fulfilment (long-distance) fee",
+    "group": "delivery_logistics",
+    "availability": "partial",
+    "via": "payout (settlement) report only",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Only meaningful for outlets on distance-linked fee constructs. Not available live with the order. Do not show rider route, ETA or customer location.",
+    "source_url": "https://www.scribd.com/document/883155973/Zomato-Settlement-Report-21854027-09-Jun-2025-15-Jun-2025"
+   },
+   {
+    "name": "Order-level descriptors in settlement sheet: Order ID, order date, res ID/name, Discount Construct, mode of payment, order status, cancellation policy, cancellation/rejection reason, cancelled/rejected state, delivery state",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report",
+    "granularity": "per order",
+    "confidence": "medium",
+    "notes": "Header words visible in snippets ('Discount Construct Mode of Order. Cancellation Cancellation/ Cancelled/ Order Delivery Subtotal'). Order ID is the join key to Petpooja's relayed order.",
+    "source_url": "https://www.scribd.com/document/879451957/Zomato-Settlement-Report-21841318-12-May-2025-18-May-2025"
+   },
+   {
+    "name": "Settlement summary lines: Customer Compensation/Recoupment, Rejection Penalty, Delivery Charges Recovery, Credit note/(Debit Note) adjustment, Promo recovery adjustment, Amount received in cash (self-delivery)",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "payout (settlement) report summary + order-level 'other order-level deductions'",
+    "granularity": "per order and per payout cycle",
+    "confidence": "medium",
+    "notes": "Glossary: 'Sum of all deductions at an order level other than the service fee, payment mechanism fee, and government charges.'",
+    "source_url": "https://www.scribd.com/document/844573537/Zomato-Settlement-Report-20677366-26-Jan-2025-26-Jan-2025"
+   },
+   {
+    "name": "'Customer ID' column in settlement report",
+    "group": "customer",
+    "availability": "unclear",
+    "via": "payout (settlement) report - SETTLEMENT DETAILS block",
+    "granularity": "per order",
+    "confidence": "low",
+    "notes": "Header is real; whether the value is a persistent identifier is unverified. Contractually Customer Data may only be used for order fulfilment. Do not build repeat/LTV analytics on it in the mock.",
+    "source_url": "https://www.scribd.com/document/750015148/Zomato-Settlement-Format-Copy"
+   },
+   {
+    "name": "Funnel ratios I2M (impression-to-menu), M2C (menu-to-cart), C2O (cart-to-order); organic vs ad menu opens",
+    "group": "funnel",
+    "availability": "partial",
+    "via": "partner dashboard / partner app only; manual keying or unofficial scraping",
+    "granularity": "aggregate per outlet per day/week",
+    "confidence": "medium",
+    "notes": "No official API or documented export. Present as 'keyed from Zomato partner dashboard (weekly)'.",
+    "source_url": "https://www.cloudraft.io/agentic-ai-for-qsr"
+   },
+   {
+    "name": "Weekly statement of account on merchant dashboard",
+    "group": "settlement_payout",
+    "availability": "available",
+    "via": "partner dashboard",
+    "granularity": "weekly",
+    "confidence": "high",
+    "notes": "Ad terms: Zomato 'shall provide access to the Merchant to their statement of account(s) on the merchant dashboard ... on a weekly basis'; ad deductions 'reflect separately and identifiable'.",
+    "source_url": "https://www.zomato.com/policies/ads/grow-max-policy/"
+   },
+   {
+    "name": "Ad 'Visits' delivered and CPV (cost per visit)",
+    "group": "marketing_ads",
+    "availability": "partial",
+    "via": "partner dashboard Ads section; spend in settlement report/ad invoice",
+    "granularity": "per campaign (aggregate)",
+    "confidence": "medium",
+    "notes": "'Visit' = user opening the restaurant page by clicking the ad or within 24h of viewing it. No order-level ad attribution flag in the relay (confirmed absent in UrbanPiper payload).",
+    "source_url": "https://www.zomato.com/policies/ads/visit-pack-policy/"
+   },
+   {
+    "name": "Masked customer/rider contact on demand ('Call Masking on Demand')",
+    "group": "customer",
+    "availability": "available",
+    "via": "POS API /online-ordering/v1/order/get-contact-details (a critical feature POS vendors must implement)",
+    "granularity": "per live order, temporary",
+    "confidence": "high",
+    "notes": "Verified wording: 'Request masked contact details of customers and delivery partners.' Operational only; never show as a stored customer phone.",
+    "source_url": "https://www.zomato.com/developer/integration/docs/api-documentation/order-management"
+   }
+  ],
+  "rate_corrections": [
+   "Payment mechanism fee: upgrade from 'low confidence, older form' to medium-high. 1.84% of order value is corroborated by CNBC-TV18 (Feb 2023), enrolment forms dated 2020 and Mar 2024, a Sept 2026 CAclubindia worked example and a 2026 onboarding reel ('Base service fee 25%, 1.84% payment mechanism fee'). Use 1.84% in the mock; drop the 1.8-2.5% range. Note older forms say it applies to online-paid orders only. https://www.cnbctv18.com/business/ (search: 'payment mechanism fee 1.84 percent')",
+   "Ads 'typically 4-9% of aggregator revenue': NOT supported by the cited digitalcatapult guide (it gives CPC Rs 4-18, starter budget Rs 15,000-40,000/outlet/month, CPO Rs 40-65 for QSR/biryani, ROAS 4x-5x for QSR, but no percent-of-revenue figure). Remove the 4-9% claim or mark it as our own assumption. https://digitalcatapult.in/blog/zomato-ads-complete-guide-2026",
+   "Ad pricing unit: Zomato contracts on CPV (cost per visit), not CPC. Secondary sources quote Rs 5-15 per click (Restaurant India, May 2026) and Rs 4-18 (digitalcatapult). Label as 'cost per visit' in the mock. https://www.restaurantindia.in/article/zomato-ads-cost-is-restaurant-advertising-worth-it.16009",
+   "Service fee: 10-28% reported range confirmed (Verdict Foodservice, 1 Sep 2025). New-outlet base service fee of 25% seen in 2026 onboarding material. 20-24% for a 5-outlet chain remains a reasonable assumption, but it must be labelled 'assumed contract rate'. Total service fee incl. long-distance fee capped at 30% (Medianama) and the cap shows as its own discount line in the settlement report. https://www.verdictfoodservice.com/news/eternal-explores-changes-zomato/",
+   "Long-distance fee bands confirmed: Rs 20 (4-6 km, order > Rs 150), Rs 40 (> 6 km); additionally Rs 40 applies to orders under Rs 150 beyond 6 km, and no fee under Rs 150 within 6 km. https://www.medianama.com/2025/07/223-zomato-long-distance-delivery-fee-restaurants/",
+   "TDS: 0.1% confirmed (dineomai Sep 2026, hellobooks Jul 2026); T&C text verified to cite s.393(1) ITA 2025 on 'Gross Sales (less applicable taxes charged by the Restaurant)'. Settlement line label in real files is 'TDS 194O amount'. Terra-insight (1% TDS, 1% TCS) and menuhelper (1% TDS) are wrong/outdated - do not use them for rates. https://www.zomato.com/policies/online-ordering/",
+   "TCS: line label in real files is 'Tax collected at source + TCS IGST amount' and is Rs 0.00 in every restaurant report snippet seen - model as zero. https://dineomai.com/blog/zomato-payout-deductions",
+   "Payout cycle verified verbatim in T&C: Mon-Sun orders paid 'on or before Thursday of the following week'; 3-bank-working-day option if chosen in the Form; daily payouts only for outlets with 100 or fewer orders a month (Zomato blog, Jan 2024). menuhelper's '7-business-day' / '10-14 days' is anecdotal - do not use as the norm.",
+   "Net realisation: terra-insight's '~65% of gross' is from an article that gets TDS/TCS wrong; treat 62-70% as indicative only and let the mock's own arithmetic (commission + 1.84% + 18% GST on fees + 0.1% TDS + restaurant-funded discounts + ads) produce the figure.",
+   "Cancellation compensation verified verbatim: 100% after pickup; 80% of Net Order Value if marked ready accurately and previous-week accuracy >= 80%; else 40%; nil within 60 seconds or if restaurant-attributable; self-logistics: 100% if cancelled after 80% of estimated delivery time, else 40%. https://www.zomato.com/o2termscompensationpolicy/india",
+   "Customer-side Pay-on-Delivery fee confirmed (from about 11 Sep 2026; Rs 5 upward, reported up to 2% capped at Rs 30). Customer-side only; keep out of outlet economics."
+  ],
+  "safe_to_show": [
+   "Zomato order ID, outlet res_id/name, order placed timestamp (via Petpooja relay)",
+   "Order status events: placed, confirmed/accepted, food ready, rider-assigned, picked up, delivered, rejected, timed out (timestamps as recorded by Petpooja)",
+   "Item-level name, quantity, unit price, variants, add-ons",
+   "Item/order-level packaging charge, GST 5% (CGST 2.5 + SGST 2.5) shown on order with liability on Zomato under s.9(5)",
+   "Order totals: item subtotal, packaging, taxes, total discount, customer payable",
+   "Discount category per order (PROMO, ZOMATO_VOUCHER, PEPPER, GOLD, DELIVERY_CHARGE, REFERRAL) as defined in Zomato's glossary",
+   "Restaurant-funded discount amount per order (relay + settlement columns 'Restaurant discount [Promo]' and 'Restaurant discount [Flat offs, Freebies, Gold & others]')",
+   "Prepaid vs cash-on-delivery flag per order",
+   "KPT slot on the order (5-minute buckets) and actual prep time derived from accept -> ready",
+   "Rejections and timeouts with Zomato reason (items out of stock, kitchen is full, outlet closed, nearing closing time, merchant device issue, etc.)",
+   "Customer-initiated cancellation requests (MAC) and outcome",
+   "Item/variant in-stock vs out-of-stock toggles and derived out-of-stock hours; outlet online/offline events and offline reason",
+   "Weekly settlement report, imported after cycle close: per-order commissionable value, base service fee % and amount, service fee, payment mechanism fee (1.84%), 18% GST on fees, TDS 0.1% ('TDS 194O amount' / s.393(1)), GST paid by Zomato under s.9(5), TCS (zero), customer compensation/recoupment, rejection penalty, other order-level deductions, order-level payout, settlement status/date, bank UTR, unsettled amount",
+   "Payout-level additions/deductions from 'Addition Deductions Details': ADS (growth services), Hyperpure, other deductions, prior-week adjustments, cancellation compensation credits - using 'Adjusted amount'",
+   "Net payout per weekly cycle per outlet, matched to a single bank credit by UTR (Mon-Sun orders, paid by following Thursday)",
+   "Ad spend per week from settlement report / monthly ad invoice",
+   "Monthly tax invoice for fees, quarterly TDS certificate (document tracker)",
+   "ERP-derived analytics built only from the above (item mix, AOV, discount %, effective take rate for settled weeks, prep-time and rejection KPIs, reconciliation variances POS vs settlement)"
+  ],
+  "must_not_show": [
+   "Customer phone number (real) for Zomato orders",
+   "Customer email",
+   "Customer delivery address, lat-long, pin code or order-origin heat map for Zomato-logistics orders",
+   "Customer names used as CRM data, customer-level order history, cohorts, RFM, LTV or repeat-customer identification for Zomato",
+   "New-vs-repeat flag on an individual Zomato order",
+   "Commission / service fee / payment mechanism fee shown as an actual figure in real time with a live order or for an unsettled week",
+   "Any 'live API feed' of payouts, settlement, fees, funnel or ads data from Zomato into the ERP",
+   "Order-level ad attribution (flagging a specific order as ad-driven)",
+   "Item-level cart abandonment",
+   "Dish-level ratings",
+   "Rider wait time at outlet / rider arrival timestamp",
+   "Rider payout or Zomato's actual delivery cost; rider route / live GPS; promised customer ETA",
+   "Customer-side platform fee, Pay-on-Delivery (COD) fee, surge/rain fee, rider tip, customer delivery fee as outlet revenue",
+   "Payment instrument split (UPI / card / wallet) or gateway transaction reference for Zomato orders",
+   "Zomato-held stock quantities or ingredient inventory",
+   "Competitor benchmarks, market share or search-rank position attributed to Zomato data",
+   "TCS at 1% or TDS at 1% on Zomato restaurant orders",
+   "'Offers and Discounts Summary' tab figures as a reliable source (tab is broken with #REF! in real files)"
+  ],
+  "show_only_with_caveat": [
+   {
+    "name": "Estimated commission and net realisation for the current, unsettled week",
+    "caveat": "Label 'Estimated at contracted rate - actuals arrive with the weekly settlement report'. Switch to actuals only for settled weeks."
+   },
+   {
+    "name": "Zomato-funded vs restaurant-funded discount split",
+    "caveat": "Restaurant-funded portion is firm (relay + settlement). Zomato-funded portion comes only from relay categories ZOMATO_VOUCHER / PEPPER and only if Petpooja stores them - label 'subject to Petpooja exposing discount category'. Settlement report never states Zomato's share."
+   },
+   {
+    "name": "Funnel: Impressions -> Menu opens -> Cart builds -> Orders placed (I2M, M2C, C2O)",
+    "caveat": "Outlet-level weekly aggregates only, tagged 'keyed from Zomato partner dashboard - no API'. No item, customer or order drill-down."
+   },
+   {
+    "name": "Ads performance: ad impressions, visits / ad menu opens, ad orders, ad sales (Total CV), ROI, CPV",
+    "caveat": "Campaign or outlet-level aggregates keyed from the partner dashboard; use 'visits' and 'CPV', not clicks/CPC. Only ad spend is reconcilable to the settlement report."
+   },
+   {
+    "name": "Aggregate new / repeat / lapsed customer mix",
+    "caveat": "Single percentage split per outlet per period, tagged 'from Zomato partner dashboard'; metric names unverified. Never per customer."
+   },
+   {
+    "name": "Order ratings and customer complaints with refund decision",
+    "caveat": "Exists in Zomato's POS API, but ratings/complaints are not mandatory POS features; attribute to 'Zomato partner dashboard' unless Petpooja confirms ingestion. Show star rating and complaint category/refund amount only - no customer identity; review text unverified."
+   },
+   {
+    "name": "Delivery distance (km) and long-distance / fulfilment fee per order",
+    "caveat": "Only from the settlement report, only for settled weeks, only where the outlet's contract has a distance-linked fee. Do not show as a live order attribute."
+   },
+   {
+    "name": "Rider name",
+    "caveat": "Operational live-order display only; rider phone is masked/temporary. No rider analytics."
+   },
+   {
+    "name": "Delivered timestamp / order-to-delivery time",
+    "caveat": "Depends on Petpooja persisting the 'delivered' webhook; show as 'where available'."
+   },
+   {
+    "name": "Refund recoveries and rejection penalties",
+    "caveat": "Show as settlement-report lines that may land in a later cycle than the order; the 50:50 refund-sharing scheme was paused in May 2025 and its status is unverified - do not model it."
+   },
+   {
+    "name": "Cancellation compensation credits",
+    "caveat": "Appear as additions in a later settlement; amounts follow the 100% / 80% / 40% policy and depend on Food-Order-Ready accuracy, which the restaurant may not see as a metric."
+   },
+   {
+    "name": "Commission rate used in the mock (e.g. 22%)",
+    "caveat": "Label as 'assumed contract rate'; real rates are confidential per enrolment form (reported range 10-28%, cap 30% incl. long-distance fee)."
+   },
+   {
+    "name": "Monthly TCS statement",
+    "caveat": "Expected to be nil for a restaurant-service-only QSR; show only as a document placeholder."
+   }
+  ],
+  "notes": "The WebSearch budget was exhausted, so searches went through the browser pane (Google and Bing). Primary Zomato pages were read directly. Scribd is blocked in both the browser and WebFetch, so the settlement-report column evidence comes from Google snippets of about ten real reports dated Jul 2024 to Oct 2025. The labels agree across those files, but the evidence is second-hand, so treat it as medium confidence.\n\n**Verified directly on Zomato's own pages**\n- The discount category glossary.\n- The charges, KPT and rejection-reason glossaries.\n- The order-management endpoints, including the ratings, complaints, MAC and masked contact-details endpoints.\n- The critical feature list.\n- The Zomato-logistics rider statuses.\n- The field-level API reference is login-gated, so exact relay field names remain unverified. I did not try to get past the login.\n- The T&C clauses checked:\n  - Settlement cycle: Monday to Sunday, paid by Thursday.\n  - Deductions.\n  - TDS under s.393(1).\n  - Monthly invoice within 7 days.\n  - Customer Data restrictions in clause 14.\n  - Additional charges for rejections.\n- The compensation policy, the daily payouts blog, and the ad terms (Total CV, weekly statement of account, payout deduction, Visit and CPV definitions).\n\n**Headline verdicts**\n- **Commission per order:** It is visible per order, but only in the weekly settlement report after the cycle closes. It is never in the relay and never available through an API.\n  - The UrbanPiper payload confirms there is no fee field.\n  - Petpooja's own reconciliation product requires the restaurant to share its payout reports.\n  - The fee structure is richer than the researcher described. It has a commissionable value, a base fee, a distance or fulfilment fee, a 30% cap discount and a payment mechanism fee.\n- **Customer PII:** The researcher's conservative stance holds.\n  - Only masked contact on demand is available.\n  - The phone opt-in is a Nov 2025 early-stage feature, and I found no 2026 rollout evidence.\n  - UrbanPiper says aggregator customer data \"might be dummy\".\n  - One new finding: the settlement file has a \"Customer ID\" column whose nature is unknown. It stays out of the mock.\n- **Discount funding split:** The restaurant-funded portion is firm. The Zomato-funded portion comes only from relay categories and depends on what Petpooja stores. The settlement file never states Zomato's share.\n- **Funnel and ads:** These are real dashboard aggregates, corroborated by practitioners. There is no API. One large QSR had to scrape the dashboard to get them. The researcher's app-store citations for \"customer funnel\", \"dish trends\" and \"bad orders\" do not match the current listings.\n- **Payout columns:** Broadly corroborated and extended with distance and fulfilment-fee columns, penalty lines and the Discount Construct column.\n\n**Source reliability**\n- terra-insight and menuhelper quote obsolete 1% TDS and TCS rates. Do not use either for rates.\n- The dev.to analysis is a two-day-old single-author post. It is consistent with the other evidence but unaudited.\n- The digitalcatapult and chuk.in posts are marketing blogs with no screenshots.\n\nNo files were written."
+ }
+}

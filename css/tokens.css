@@ -1,0 +1,131 @@
+/*
+ * Design tokens. Light theme only.
+ * Data colours were checked with the dataviz palette validator (CVD separation, normal-vision
+ * floor, lightness band, contrast) - do not change a value without re-running it:
+ *   channels  blue / amber / red          all-pairs PASS (amber below 3:1 -> labels or table twin)
+ *   mediums   violet / aqua / orange      all-pairs PASS
+ *   outlets   slots 1-5 in fixed order    adjacent-pairs PASS
+ * Orange + red together FAIL, which is why Swiggy is amber rather than orange.
+ */
+:root {
+  color-scheme: light;
+
+  /* surfaces and ink */
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --surface-2: #f3f2ee;
+  --surface-3: #ebeae4;
+  --ring: rgba(11, 11, 11, 0.10);
+  --ring-strong: rgba(11, 11, 11, 0.18);
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #898781;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+
+  /* brand accent: UI only, never a data series */
+  --accent: #8a2f14;
+  --accent-hover: #6f2510;
+  --accent-soft: #f6e9e3;
+  --accent-ink: #ffffff;
+  --focus: #2a78d6;
+
+  /* sidebar: deep warm charcoal so the light content area carries the data */
+  --side-bg: #1d1b19;
+  --side-bg-2: #282523;
+  --side-ink: #f3f2ee;
+  --side-ink-2: #a8a59e;
+  --side-ring: rgba(255, 255, 255, 0.08);
+  --side-active: rgba(255, 255, 255, 0.09);
+  --side-marker: #e0683f;
+
+  /* entity colours: colour follows the entity, never its rank */
+  --ch-petpooja: #2a78d6;
+  --ch-swiggy: #eda100;
+  --ch-zomato: #e34948;
+
+  --md-dinein: #4a3aa7;
+  --md-takeaway: #1baf7a;
+  --md-delivery: #eb6834;
+
+  --ot-1: #2a78d6;
+  --ot-2: #eb6834;
+  --ot-3: #1baf7a;
+  --ot-4: #eda100;
+  --ot-5: #e87ba4;
+  --ot-factory: #4a3aa7;
+
+  /* generic categorical, fixed order, never cycled past 8 */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-6: #008300;
+  --series-7: #4a3aa7;
+  --series-8: #e34948;
+  --series-muted: #c3c2b7; /* de-emphasis grey for "the rest" */
+
+  /* sequential (magnitude): one hue, light to dark */
+  --seq-100: #cde2fb;
+  --seq-150: #b7d3f6;
+  --seq-200: #9ec5f4;
+  --seq-250: #86b6ef;
+  --seq-300: #6da7ec;
+  --seq-350: #5598e7;
+  --seq-400: #3987e5;
+  --seq-450: #2a78d6;
+  --seq-500: #256abf;
+  --seq-550: #1c5cab;
+  --seq-600: #184f95;
+  --seq-650: #104281;
+  --seq-700: #0d366b;
+
+  /* diverging (polarity): blue <-> red around a neutral grey */
+  --div-neg-2: #d03b3b;
+  --div-neg-1: #ee9c97;
+  --div-mid: #f0efec;
+  --div-pos-1: #86b6ef;
+  --div-pos-2: #256abf;
+
+  /* status: reserved, always shipped with an icon and a label */
+  --st-good: #0ca30c;
+  --st-warn: #fab219;
+  --st-serious: #ec835a;
+  --st-critical: #d03b3b;
+  --st-good-ink: #006300;
+  --st-warn-ink: #7a5200;
+  --st-serious-ink: #8f3b17;
+  --st-critical-ink: #a32222;
+  --st-good-soft: #e6f5e6;
+  --st-warn-soft: #fdf1d5;
+  --st-serious-soft: #fbe9e1;
+  --st-critical-soft: #f9e3e3;
+  --st-neutral-soft: #ebeae4;
+
+  /* type */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-md: 13px;
+  --fs-lg: 15px;
+  --fs-xl: 18px;
+  --fs-2xl: 24px;
+  --fs-hero: 52px;
+
+  /* space, radius, elevation */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow-pop: 0 8px 28px rgba(11, 11, 11, 0.14), 0 0 0 1px rgba(11, 11, 11, 0.08);
+
+  --sidebar-w: 232px;
+  --topbar-h: 56px;
+}
