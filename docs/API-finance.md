@@ -294,7 +294,8 @@ MK.finance.budget('2026-08', 'kalyan')
             used: 105950,                      // committed + pipeline + estimatedPart
             remaining: -74950, variance: 74950, utilisation: 3.4177, status: 'OVER',
             basis: 'bills',                    // 'bills' | 'bills+ledger' | 'ledger' - where committed comes from (NOT a source tag)
-            billCount: 3 }, ... ] }
+            billCount: 3,
+            paced: false }, ... ] }                // is the calendar a fair yardstick for this line in the open month? (see below)
 
 MK.finance.budget('2026-09', 'koregaon').rows.find(r => r.categoryId === 'agg_commission')
 { plan: 345000, planToDate: 184000, flexedPlan: 419265, comparedWith: 345000, committed: 117844 /* statements */, pipeline: 0,
@@ -314,7 +315,10 @@ the non-billable ledger lines of the category** (payroll, aggregator deductions,
 the open month with bills, `used >= 90%` (`budgetPolicy.warnAtPct`) on a category billed weekly or per delivery (more bills still to come)
 -> `WATCH`; else `OK`. `comparedWith` is the full-month plan, except on the ledger basis for the month to date, where accruals are
 compared with `planToDate`. In the open month a line billed in advance shows the full-month bill as `committed` against a pro-rata
-`actual` (Koregaon Park rent in September: `committed: 92000`, `actual: 49067`).
+`actual` (Koregaon Park rent in September: `committed: 92000`, `actual: 49067`). `paced` says whether the line is spent through the
+month - accruals, or bills more often than monthly (weekly, per delivery) - so that the share of the month gone is a fair yardstick for it;
+it is `false` for a line settled by one bill for the month (rent, society charges, subscriptions, utilities in arrears), which either
+carries the whole month already or has not been billed yet. The budget screen draws the calendar tick on its meter only where `paced`.
 
 Bill fields read (leniently, never throws): `unitId` (or `outletId`), `categoryId` (or `lines: [{ categoryId, amount }]` - the seed puts them on
 rent invoices so that the non-creditable GST lands on `rent_gst`), `amount` (else `total`) and `gstAmount`, `status`, `monthKey` (else the

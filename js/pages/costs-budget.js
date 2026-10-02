@@ -539,12 +539,32 @@
     return h('span', { 'class': v > 0 ? 'mk-bad' : '' }, signed(v));
   }
 
+  /* is the calendar a fair yardstick for this line in the open month? (MK.finance.budget: rows[].paced) */
+  function isPaced(row, period) { return !!(period && period.partial && isNum(period.prorata)) && row.paced !== false; }
+
+  /* The bar is the share of the full-month budget used. The tick is the share of the month gone, drawn only on a line that is
+     spent through the month (accruals, weekly bills): a line settled by one bill for the month has nothing to pace against. */
   function usedMeter(row, period) {
-    var partial = !!(period && period.partial);
-    return ui.meter({ size: 'sm', value: num(row.used), max: row.comparedWith > 0 ? row.comparedWith : 1, tone: STATUS_TONE[row.status] || 'neutral',
-      valueLabel: row.comparedWith > 0 ? fmt.pct(row.utilisation, 0) : '-',
-      target: partial && isNum(period.prorata) ? period.prorata : undefined,
-      targetLabel: partial && isNum(period.prorata) ? 'Month elapsed: ' + fmt.pct(period.prorata, 0) : undefined });
+    var partial = !!(period && period.partial), paced = isPaced(row, period);
+    var share = row.comparedWith > 0 ? fmt.pct(row.utilisation, 0) : '-';
+    var title = !partial ? share + ' of the budget used'
+      : paced ? share + ' of the month\'s budget used with ' + fmt.pct(period.prorata, 0) + ' of the month gone: ' + (row.utilisation > period.prorata ? 'spending faster than the calendar' : 'inside the calendar')
+      : (num(row.used) > 0 ? 'Settled by one bill for the month: ' + share + ' of the budget is already billed, so the calendar is no yardstick' : 'Settled by one bill for the month, which has not arrived yet');
+    return h('div', { 'class': 'bg-meter', title: title },
+      ui.meter({ size: 'sm', value: num(row.used), max: row.comparedWith > 0 ? row.comparedWith : 1, tone: STATUS_TONE[row.status] || 'neutral', valueLabel: share,
+        target: paced ? period.prorata : undefined, targetLabel: paced ? 'Month gone: ' + fmt.pct(period.prorata, 0) : undefined }));
+  }
+
+  /* what the meter means, said once above the table with a sample of it */
+  function meterLegend(period) {
+    if (!period || !period.partial || !isNum(period.prorata)) return null;
+    return h('div', { 'class': 'bg-legend' },
+      h('span', { 'class': 'bg-legend__sample', 'aria-hidden': 'true' }, ui.meter({ size: 'sm', value: 0.4, max: 1, tone: 'good', valueLabel: '', label: null, target: period.prorata })),
+      h('p', { 'class': 'bg-legend__text' },
+        h('strong', null, 'Bar'), ': the share of the month\'s budget used so far. ',
+        h('strong', null, 'Tick'), ': the share of the month gone (' + fmt.pct(period.prorata, 0) + ', ' + fmt.num(period.elapsedDays) + ' of ' + fmt.num(period.daysInMonth) + ' days). ' +
+        'A bar past the tick is spending faster than the calendar; a bar short of it is inside. ' +
+        'Lines settled by one bill for the month (rent, society charges, subscriptions) carry no tick: the whole month lands in one go, or has not been billed yet.'));
   }
 
   function categoryTable(env) {
@@ -566,7 +586,7 @@
         render: function (v) { return v > 0 ? h('span', { 'class': 'bg-est' }, fmt.inrFull(v), ui.estimateBadge('Est.')) : '-'; } });
     }
     columns.push({ key: 'variance', label: 'Variance', align: 'right', numeric: true, title: 'Used less budget: above zero is over budget', render: function (v) { return varianceNode(v); } });
-    columns.push({ key: 'utilisation', label: '% used', width: hasEst ? 120 : 150, render: function (v, r) { return usedMeter(r, b.period); } });
+    columns.push({ key: 'utilisation', label: '% used', width: hasEst ? 120 : 150, title: 'Approved, pipeline and estimated spend as a share of the full-month budget', render: function (v, r) { return usedMeter(r, b.period); } });
     columns.push({ key: 'status', label: 'Status', sortValue: function (r) { return -(STATUS_RANK[r.status] === undefined ? 3 : STATUS_RANK[r.status]); }, render: ui.cells.status() });
 
     var footer = { label: 'Total, ' + plural(all.length, 'line', 'lines'), plan: t.plan, committed: t.committed, pipeline: fmt.inrFull(t.pipeline), estimatedPart: hasEst ? fmt.inrFull(t.estimatedPart) : null,
@@ -594,9 +614,8 @@
             { key: 'pipeline', label: 'Pipeline' }, { key: 'estimatedPart', label: 'Estimated (not on a statement)' }, { key: 'used', label: 'Used' }, { key: 'variance', label: 'Variance' },
             { key: 'utilisation', label: 'Share of budget used' }, { key: 'status', label: 'Status' }, { key: 'billCount', label: 'Bills' }], all);
         } })],
-      body: table,
-      footer: [b.period && b.period.partial && isNum(b.period.prorata)
-        ? h('p', { 'class': 'bg-foot' }, 'The mark on each meter is the share of the month elapsed (' + fmt.pct(b.period.prorata, 0) + '): rent and other lines billed in advance run ahead of it by design.') : null,
+      body: [meterLegend(b.period), table],
+      footer: [
         hasEst ? h('p', { 'class': 'bg-foot' }, ui.estimateBadge(), ' ' + estimateCaption() + '. Shown apart, never added to committed.') : null,
         ui.sourceTag(sourcesOf(b))] });
   }
@@ -617,7 +636,12 @@
 
     body.push(ui.meter({ label: 'Used of the ' + (partial ? 'full-month ' : '') + 'budget', value: num(row.used), max: row.comparedWith > 0 ? row.comparedWith : 1, tone: STATUS_TONE[row.status] || 'neutral',
       valueLabel: (row.comparedWith > 0 ? fmt.pct(row.utilisation, 0) : '-') + ' of ' + fmt.inr(row.comparedWith),
-      target: partial && isNum(b.period.prorata) ? b.period.prorata : undefined, targetLabel: partial ? 'Month elapsed: ' + fmt.pct(b.period.prorata, 0) : undefined }));
+      target: isPaced(row, b.period) ? b.period.prorata : undefined, targetLabel: isPaced(row, b.period) ? 'Month gone: ' + fmt.pct(b.period.prorata, 0) : undefined }));
+    if (partial) {
+      body.push(h('p', { 'class': 'bg-foot' }, isPaced(row, b.period)
+        ? 'The tick is the share of the month gone (' + fmt.pct(b.period.prorata, 0) + '): this line is spent through the month, so a bar past the tick is spending faster than the calendar.'
+        : 'No tick on this line: it is settled by one bill for the month, so the calendar is no yardstick - the bill either carries the whole month or has not arrived yet.'));
+    }
 
     /* "over" is measured on USED (committed + pipeline + estimate), so the label has to say where the overrun comes from:
        a line whose committed spend is still inside the budget is not "over budget", it is over once the pipeline is approved. */

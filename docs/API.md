@@ -8,7 +8,7 @@ compute, cache or hard-code a figure. Details live in three companion documents:
 - [API-workflow.md](API-workflow.md) - `MK.workflow.bill / batch / vendor` and `MK.audit`
 
 This page adds the map, the rules every page must follow, `MK.seed`, `MK.insights` and ten recipes.
-`node tools/check-data.js` asserts everything stated here (679 assertions; run it after touching any data file - the last section fails when the samples quoted in these documents drift from the code).
+`node tools/check-data.js` asserts everything stated here (683 assertions; run it after touching any data file - the last section fails when the samples quoted in these documents drift from the code).
 
 ## 1. Map
 

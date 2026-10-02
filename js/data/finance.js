@@ -835,7 +835,10 @@
       var status = com + est > base * policy.overAtPct ? 'OVER' : (used > base * policy.overAtPct ? 'WATCH' : (useBills && info.partial && recurring[ci] && used >= base * policy.warnAtPct ? 'WATCH' : 'OK'));
       var row = { categoryId: cat.id, label: cat.label, group: cat.group, plan: plan[ci], planToDate: Math.round(plan[ci] * info.prorata), flexedPlan: Math.round(flex[ci]), comparedWith: base,
         committed: com, pipeline: pipe, estimatedPart: est, actual: actual[ci], used: used, remaining: base - used, variance: used - base, utilisation: ratio(used, base), status: status,
-        basis: useBills && actual[ci] !== nonBillable[ci] ? (nonBillable[ci] ? 'bills+ledger' : 'bills') : 'ledger', billCount: billCount[ci] };
+        basis: useBills && actual[ci] !== nonBillable[ci] ? (nonBillable[ci] ? 'bills+ledger' : 'bills') : 'ledger', billCount: billCount[ci],
+        /* spent through the month (accruals, bills more often than monthly), so the calendar is a fair yardstick; false for a line
+           settled by one bill for the month (rent, society charges, subscriptions), which lands in one go or has not been billed yet */
+        paced: !useBills || !!recurring[ci] || actual[ci] === nonBillable[ci] };
       out.rows.push(row); out.counts[status] += 1;
       out.totals.plan += row.plan; out.totals.planToDate += row.planToDate; out.totals.committed += com; out.totals.pipeline += pipe; out.totals.estimatedPart += est; out.totals.used += used;
       out.totals.actual += row.actual; out.totals.variance += row.variance;

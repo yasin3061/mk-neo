@@ -1315,6 +1315,20 @@ section('Rules catalogue (#/system/rules): every finding belongs to a rule, the 
   });
 })();
 
+/* ======================================================================== which budget lines the calendar can judge */
+
+section('Budget lines: which are paced through the month (the tick on the budget meter)');
+(function () {
+  const sep = MK.finance.budget('2026-09', 'all'), row = function (id) { return sep.rows.filter(function (r) { return r.categoryId === id; })[0]; };
+  check('every budget row says whether it is paced', sep.rows.concat(MK.finance.budget('2026-08', 'all').rows).every(function (r) { return typeof r.paced === 'boolean'; }));
+  eq('lines settled by one bill for the month are not paced (rent, its GST, society charges, POS, electricity)',
+    ['rent', 'rent_gst', 'cam', 'pos_internet', 'electricity'].map(function (id) { return row(id).paced; }).join(), 'false,false,false,false,false');
+  eq('lines spent through the month are paced (weekly food bills, gas per delivery, payroll and aggregator accruals)',
+    ['cogs_local', 'packaging', 'gas_lpg', 'salaries', 'agg_commission'].map(function (id) { return row(id).paced; }).join(), 'true,true,true,true,true');
+  check('a paced line sits near the calendar while a billed-in-advance line has run far past it - which is why only paced lines get the tick',
+    Math.abs(row('salaries').utilisation - sep.period.prorata) < 0.05 && row('rent').utilisation > sep.period.prorata + 0.3, row('salaries').utilisation + ' / ' + row('rent').utilisation + ' vs ' + sep.period.prorata);
+})();
+
 /* ===================================================== the API documents quote what the code does */
 
 section('API documents are in step with the code (docs/API*.md)');

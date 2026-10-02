@@ -50,6 +50,12 @@
 .pg-costs-budget .bg-tablecard .mk-meter { min-width: 120px; }
 .pg-costs-budget .bg-est { display: inline-flex; align-items: center; gap: var(--sp-2); }
 .pg-costs-budget .bg-foot { margin: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5; }
+/* what the meter in the table means: a sample of it and one sentence, above the table */
+.pg-costs-budget .bg-legend { display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-3) var(--sp-5); border-bottom: 1px solid var(--grid); }
+/* as wide as the meter in the table (its min-width on this page), so the sample is the real thing at its real size */
+.pg-costs-budget .bg-legend__sample { flex: none; width: 120px; margin-top: 7px; }
+.pg-costs-budget .bg-legend__text { margin: 0; max-width: 132ch; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.5; }
+.pg-costs-budget .bg-legend__text strong { color: var(--ink); font-weight: 600; }
 .pg-costs-budget .mk-card__foot .bg-foot + .bg-foot { margin-top: var(--sp-1); }
 
 /* ---- drawer: the bills behind a line (wrapper with the page class, mounted outside the page root) */
