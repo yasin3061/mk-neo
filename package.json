@@ -1,0 +1,14 @@
+{
+  "name": "mk-neo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Miya Kebabs ERP preview: a browser-only mockup on sample data, served as a static site",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node tools/serve.js",
+    "check": "node tools/check-data.js"
+  }
+}
